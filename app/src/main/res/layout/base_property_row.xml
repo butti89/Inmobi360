@@ -3,32 +3,42 @@
                 android:layout_width="match_parent"
                 android:layout_height="80dp">
 
-    <TextView
-        android:id="@+id/propertyTitle"
+    <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Large Text"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true"
-        android:textColor="#050303"/>
+        android:layout_centerVertical="true">
 
-    <TextView
-        android:layout_below="@+id/propertyTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/propertyAddress"
-        android:layout_alignParentStart="true"
-        android:textColor="#060505"/>
+        <TextView
+            android:id="@+id/propertyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Large Text"
+            android:layout_alignParentStart="true"
+            android:textColor="#050303"
+            android:layout_marginBottom="5dp"/>
+
+        <TextView
+            android:layout_below="@+id/propertyTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/propertyAddress"
+            android:layout_alignParentStart="true"
+            android:textColor="#060505"/>
+    </RelativeLayout>
 
     <CheckBox
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:id="@+id/isDownloadedCheckBox"
         android:layout_alignParentEnd="true"
         android:layout_centerVertical="true"
-        android:checked="false"/>
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:textColor="@android:color/black"
+        android:background="?android:attr/listChoiceIndicatorMultiple"
+        android:checked="false"
+        android:backgroundTint="@color/colorPrimary"
+        android:button="@null"/>
 
 </RelativeLayout>

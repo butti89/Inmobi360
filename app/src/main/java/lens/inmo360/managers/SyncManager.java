@@ -48,8 +48,6 @@ public class SyncManager {
 
         String fileDirectory = propertyAddress.replace(" ","_").toLowerCase();
 
-//        File directory = new File(ctx.getFilesDir()+"/"+fileDirectory);
-
         File directory = getAlbumStorageDir(ctx,fileDirectory);
 
         if(!directory.exists()) {
@@ -58,7 +56,7 @@ public class SyncManager {
 
         try {
             ResponseBody imageBody = call.execute().body();
-            File file = new File(directory, image.getTitle().toLowerCase());
+            File file = new File(directory, image.getTitle().toLowerCase()+".jpg");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             IOUtils.write(imageBody.bytes(), fileOutputStream);
 

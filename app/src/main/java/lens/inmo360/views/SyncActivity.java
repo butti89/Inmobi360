@@ -22,7 +22,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class SyncActivity extends AppCompatActivity {
-    public static final String BASE_URL = "http://inmobi360demo.azurewebsites.net/api/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
