@@ -1,4 +1,4 @@
-package lens.inmo360;
+package lens.inmo360.views;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +17,7 @@ import com.google.vrtoolkit.cardboard.Viewport;
 import java.util.Random;
 import javax.microedition.khronos.egl.EGLConfig;
 
+import lens.inmo360.R;
 import lens.inmo360.cardboard.CardboardOverlayView;
 import lens.inmo360.cardboard.UVSphere;
 
