@@ -70,7 +70,7 @@ public class SignupActivity extends AppCompatActivity {
         String email = _emailText.getText().toString();
         String password = _passwordText.getText().toString();
 
-       
+
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
