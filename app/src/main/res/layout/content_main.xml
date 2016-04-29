@@ -37,5 +37,14 @@
         android:scaleType="center"
         android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"/>
-
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:src="@drawable/ic_cardboard"
+        android:tint="#ffffff"
+        android:scaleType="center"
+        android:layout_above="@+id/fab"
+        android:layout_alignStart="@+id/fab" />
 </RelativeLayout>

@@ -17,6 +17,7 @@ public class User {
     private String LastName;
     private Integer CompanyId;
     private String Email;
+    private String Password;
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     /**
@@ -107,6 +108,20 @@ public class User {
      */
     public void setEmail(String Email) {
         this.Email = Email;
+    }
+
+
+    public String getPassword() {
+        return Password;
+    }
+
+    /**
+     *
+     * @param Email
+     * The password
+     */
+    public void setPassword(String Password) {
+        this.Password = Password;
     }
 
     public Map<String, Object> getAdditionalProperties() {

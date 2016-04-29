@@ -193,7 +193,9 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     public void onCardboardTrigger() {
         /* Flag to sync with onDrawEye */
         mIsCardboardTriggered = true;
-
+        Random randomGenerator = new Random();
+        int randomInt = randomGenerator.nextInt(100);
+        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
     }
 
     @Override
@@ -280,9 +282,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
         mTexture = thumbnail;
         loadTexture(mTexture);
-        Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(100);
-        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
+
 
 
     }
