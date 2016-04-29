@@ -1,4 +1,4 @@
-package lens.inmo360;
+package lens.inmo360.views;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -17,6 +17,7 @@ import com.google.vrtoolkit.cardboard.Viewport;
 import java.util.Random;
 import javax.microedition.khronos.egl.EGLConfig;
 
+import lens.inmo360.R;
 import lens.inmo360.cardboard.CardboardOverlayView;
 import lens.inmo360.cardboard.UVSphere;
 
@@ -194,7 +195,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         mIsCardboardTriggered = true;
         Random randomGenerator = new Random();
         int randomInt = randomGenerator.nextInt(100);
-        overlayView.show3DToast("Dimensiones: " + randomInt + " "+"mm2");
+        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
     }
 
     @Override
@@ -281,6 +282,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
         mTexture = thumbnail;
         loadTexture(mTexture);
+
 
 
     }

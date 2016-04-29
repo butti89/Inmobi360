@@ -1,0 +1,167 @@
+package lens.inmo360.model;
+
+/**
+ * Created by estebanbutti on 4/25/16.
+ */
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import javax.annotation.Generated;
+
+@Generated("org.jsonschema2pojo")
+public class Property {
+
+    private Integer Id;
+    private String Title;
+    private String Address;
+    private Integer CompanyId;
+    private String Description;
+    private String LastUpdate;
+    private ArrayList<PropertyImage> Images;
+    private boolean isDownloaded;
+    private Map<String, Object> additionalProperties;
+
+    /**
+     *
+     * @return
+     * The Id
+     */
+    public Integer getId() {
+        return Id;
+    }
+
+    /**
+     *
+     * @param Id
+     * The Id
+     */
+    public void setId(Integer Id) {
+        this.Id = Id;
+    }
+
+    /**
+     *
+     * @return
+     * The Title
+     */
+    public String getTitle() {
+        return Title;
+    }
+
+    /**
+     *
+     * @param Title
+     * The Title
+     */
+    public void setTitle(String Title) {
+        this.Title = Title;
+    }
+
+    /**
+     *
+     * @return
+     * The Address
+     */
+    public String getAddress() {
+        return Address;
+    }
+
+    /**
+     *
+     * @param Address
+     * The Address
+     */
+    public void setAddress(String Address) {
+        this.Address = Address;
+    }
+
+    /**
+     *
+     * @return
+     * The CompanyId
+     */
+    public Integer getCompanyId() {
+        return CompanyId;
+    }
+
+    /**
+     *
+     * @param CompanyId
+     * The CompanyId
+     */
+    public void setCompanyId(Integer CompanyId) {
+        this.CompanyId = CompanyId;
+    }
+
+    /**
+     *
+     * @return
+     * The Description
+     */
+    public String getDescription() {
+        return Description;
+    }
+
+    /**
+     *
+     * @param Description
+     * The Description
+     */
+    public void setDescription(String Description) {
+        this.Description = Description;
+    }
+
+    /**
+     *
+     * @return
+     * The LastUpdate
+     */
+    public String getLastUpdate() {
+        return LastUpdate;
+    }
+
+    /**
+     *
+     * @param LastUpdate
+     * The LastUpdate
+     */
+    public void setLastUpdate(String LastUpdate) {
+        this.LastUpdate = LastUpdate;
+    }
+
+    /**
+     *
+     * @return
+     * The Images
+     */
+    public ArrayList<PropertyImage> getImages() {
+        return Images;
+    }
+
+    /**
+     *
+     * @param Images
+     * The Images
+     */
+    public void setImages(ArrayList<PropertyImage> Images) {
+        this.Images = Images;
+    }
+
+    public boolean isDownloaded() {
+        return isDownloaded;
+    }
+
+    public void setIsDownloaded(boolean isDownloaded) {
+        this.isDownloaded = isDownloaded;
+    }
+
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+}
