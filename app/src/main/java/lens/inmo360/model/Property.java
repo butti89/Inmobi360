@@ -19,7 +19,7 @@ public class Property {
     private String Description;
     private String LastUpdate;
     private ArrayList<PropertyImage> Images;
-    private boolean isDownloaded;
+    private boolean isDownloaded = false;
     private Map<String, Object> additionalProperties;
 
     /**
@@ -150,6 +150,11 @@ public class Property {
 
     public boolean isDownloaded() {
         return isDownloaded;
+    }
+
+    public boolean toggleIsDownloaded() {
+        this.setIsDownloaded(!this.isDownloaded());
+        return this.isDownloaded;
     }
 
     public void setIsDownloaded(boolean isDownloaded) {

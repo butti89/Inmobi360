@@ -1,15 +1,13 @@
 package lens.inmo360.adapters;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.TextView;
 
-import java.util.List;
+import java.util.ArrayList;
 
 import lens.inmo360.R;
 import lens.inmo360.model.Property;
@@ -17,57 +15,64 @@ import lens.inmo360.model.Property;
 /**
  * Created by estebanbutti on 4/25/16.
  */
-public class BasePropertyAdapter extends ArrayAdapter<Property> {
-    private final Context context;
-    private final List<Property> mProperties;
+public class BasePropertyAdapter extends RecyclerView.Adapter<BasePropertyViewHolder> {
+    private Context context;
+    private ArrayList<Property> mProperties;
+    private BasePropertyViewHolder viewHolder;
 
-    public BasePropertyAdapter(Context context, List<Property> values) {
-        super(context, -1, values);
-        this.context = context;
-        this.mProperties = values;
+    public BasePropertyAdapter(ArrayList<Property> properties) {
+        this.mProperties = properties;
     }
 
-    static class ViewHolder {
-        protected TextView propertyTitle;
-        protected CheckBox isDownloadedCheckbox;
-        protected TextView propertyAddress;
+    // Create new views
+    @Override
+    public BasePropertyViewHolder onCreateViewHolder(ViewGroup parent,
+                                                             int viewType) {
+        // create a new view
+        View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
+                R.layout.base_property_row, null);
+
+        // create ViewHolder
+        BasePropertyViewHolder viewHolder = new BasePropertyViewHolder(itemLayoutView);
+
+        return viewHolder;
+    }
+
+    // method to access in activity after updating selection
+    public ArrayList<Property> getProperties() {
+        return mProperties;
+    }
+
+    // Return the size arraylist
+    @Override
+    public int getItemCount() {
+        return mProperties.size();
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View rowView = null;
-        if (convertView == null) {
-            LayoutInflater inflater = (LayoutInflater) context
-                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            rowView = inflater.inflate(R.layout.base_property_row, parent, false);
-            final ViewHolder viewHolder = new ViewHolder();
-            viewHolder.propertyTitle = (TextView) rowView.findViewById(R.id.propertyTitle);
-            viewHolder.propertyAddress = (TextView) rowView.findViewById(R.id.propertyAddress);
-            viewHolder.isDownloadedCheckbox = (CheckBox) rowView.findViewById(R.id.isDownloadedCheckBox);
+    public void onBindViewHolder(BasePropertyViewHolder viewHolder, int position) {
 
-            viewHolder.isDownloadedCheckbox
-                    .setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final int pos = position;
 
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView,
-                                                     boolean isChecked) {
-                            Property element = (Property) viewHolder.isDownloadedCheckbox.getTag();
-                            element.setIsDownloaded(buttonView.isChecked());
+        viewHolder.propertyTitle.setText(mProperties.get(position).getTitle());
 
-                        }
-                    });
-            rowView.setTag(viewHolder);
-            viewHolder.isDownloadedCheckbox.setTag(mProperties.get(position));
-        } else {
-            rowView = convertView;
-            ((ViewHolder) rowView.getTag()).isDownloadedCheckbox.setTag(mProperties.get(position));
-        }
+        viewHolder.propertyAddress.setText(mProperties.get(position).getAddress());
 
-        ViewHolder holder = (ViewHolder) rowView.getTag();
-        holder.propertyTitle.setText(mProperties.get(position).getTitle());
-        holder.propertyAddress.setText(mProperties.get(position).getAddress());
-        holder.isDownloadedCheckbox.setChecked(mProperties.get(position).isDownloaded());
+        viewHolder.isDownloadedCheckbox.setChecked(mProperties.get(position).isDownloaded());
 
-        return rowView;
+        viewHolder.isDownloadedCheckbox.setTag(mProperties.get(position));
+
+
+        viewHolder.isDownloadedCheckbox.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                CheckBox cb = (CheckBox) v;
+                Property property = (Property) cb.getTag();
+
+                property.setIsDownloaded(cb.isChecked());
+                mProperties.get(pos).setIsDownloaded(cb.isChecked());
+            }
+        });
+
     }
 }
+
