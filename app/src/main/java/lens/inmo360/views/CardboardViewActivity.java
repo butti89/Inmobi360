@@ -195,7 +195,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         mIsCardboardTriggered = true;
         Random randomGenerator = new Random();
         int randomInt = randomGenerator.nextInt(100);
-        overlayView.show3DToast("Dimensiones: " + randomInt + " "+"mm2");
+        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
     }
 
     @Override
@@ -282,6 +282,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
         mTexture = thumbnail;
         loadTexture(mTexture);
+
 
 
     }
