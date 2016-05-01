@@ -1,8 +1,5 @@
 package lens.inmo360.managers;
 
-import android.content.Context;
-
-import lens.inmo360.R;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -18,13 +15,13 @@ public class HttpManager {
         mRetrofit = retrofit;
     }
 
-    public synchronized static HttpManager getInstance(Context ctx) {
+    public synchronized static HttpManager getInstance() {
         if (instance == null) {
+            //todo Find a way to store URL in constant without passing Context.
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl(ctx.getString(R.string.base_url))
+                    .baseUrl("http://inmobi360demo.azurewebsites.net/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-
 
             instance = new HttpManager(retrofit);
         }
