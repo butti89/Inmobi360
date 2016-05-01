@@ -1,32 +1,31 @@
-package lens.inmo360.login;
+package lens.inmo360.views;
 
 import android.app.ProgressDialog;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.app.AlertDialog;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
 import butterknife.ButterKnife;
 import butterknife.Bind;
 import lens.inmo360.R;
-import lens.inmo360.adapters.BasePropertyAdapter;
 import lens.inmo360.managers.HttpManager;
-import lens.inmo360.model.Property;
 import lens.inmo360.model.PropertyAPIInterface;
 import lens.inmo360.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
+
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -38,8 +37,8 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     @Bind(R.id.btn_login)
     Button _loginButton;
-    @Bind(R.id.link_signup)
-    TextView _signupLink;
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,15 +54,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        _signupLink.setOnClickListener(new View.OnClickListener() {
 
+        _passwordText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
-            public void onClick(View v) {
-                // Start the Signup activity
-                Intent intent = new Intent(getApplicationContext(), SignupActivity.class);
-                startActivityForResult(intent, REQUEST_SIGNUP);
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    login();
+                }
+                return false;
             }
         });
+
     }
 
     public void login() {
@@ -79,21 +80,21 @@ public class LoginActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage("Authenticating...");
+        progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.show();
+        progressDialog.setCancelable(false);
+        final String email = _emailText.getText().toString();
+        final String password = _passwordText.getText().toString();
 
-        String email = _emailText.getText().toString();
-        String password = _passwordText.getText().toString();
-
-        User usuario = new User();
-        usuario.setEmail(email);
-        usuario.setPassword(password);
-        HttpManager httpManager = HttpManager.getInstance(this);
+        User user = new User();
+        user.setEmail(email);
+        user.setPassword(password);
+        HttpManager httpManager = HttpManager.getInstance();
 
         PropertyAPIInterface apiService =
                 httpManager.getRetrofit().create(PropertyAPIInterface.class);
 
-        Call<User> call = apiService.login(usuario);
+        Call<User> call = apiService.login(user);
 
         call.enqueue(new Callback<User>() {
             @Override
@@ -101,11 +102,16 @@ public class LoginActivity extends AppCompatActivity {
                 int statusCode = response.code();
                 User properties = response.body();
 
-                if (properties!=null){
+                if (statusCode==200){
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
                                     // On complete call either onLoginSuccess or onLoginFailed
+                                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                                    editor.putString("Email",email);
+                                    editor.putString("Password",password);
+                                    editor.commit();
                                     onLoginSuccess();
                                     // onLoginFailed();
                                     progressDialog.dismiss();
@@ -147,8 +153,6 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-
                 // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
@@ -159,15 +163,15 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
+
     }
 
     public void onLoginSuccess() {
-        _loginButton.setEnabled(true);
         finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), "Login failed", Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(),getString(R.string.login_failed), Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }
@@ -179,14 +183,14 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError(getString(R.string.enter_valid_address));
             valid = false;
         } else {
             _emailText.setError(null);
         }
 
         if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError("between 4 and 10 alphanumeric characters");
+            _passwordText.setError(getString(R.string.incorrect_password));
             valid = false;
         } else {
             _passwordText.setError(null);
