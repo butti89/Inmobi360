@@ -18,6 +18,7 @@ import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.Bind;
+import lens.inmo360.MainActivity;
 import lens.inmo360.R;
 import lens.inmo360.adapters.BasePropertyAdapter;
 import lens.inmo360.managers.HttpManager;
@@ -150,7 +151,10 @@ public class LoginActivity extends AppCompatActivity {
 
 
                 // By default we just finish the Activity and log them in automatically
-                this.finish();
+                //this.finish();
+
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
         }
     }
@@ -163,7 +167,10 @@ public class LoginActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         _loginButton.setEnabled(true);
-        finish();
+
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        //finish();
     }
 
     public void onLoginFailed() {
