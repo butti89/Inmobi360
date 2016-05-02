@@ -13,7 +13,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -38,7 +37,6 @@ import retrofit2.Response;
 public class SyncFragment extends android.support.v4.app.Fragment {
 
 //    @BindView(R.id.propertyBaseList)
-    ListView propertyBaseList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -56,7 +54,6 @@ public class SyncFragment extends android.support.v4.app.Fragment {
 //        ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
-//        propertyBaseList = (ListView) view.findViewById(R.id.propertyBaseList);
         mRecyclerView = (RecyclerView) view.findViewById(R.id.propertyBaseList);
 
         // use this setting to improve performance if you know that changes
@@ -218,12 +215,12 @@ public class SyncFragment extends android.support.v4.app.Fragment {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_sync_all) {
-
-            //SYNC ALL
-
-            return true;
-        }
+//        if (id == R.id.action_sync_all) {
+//
+//            //SYNC ALL
+//
+//            return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }

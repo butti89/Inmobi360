@@ -1,27 +1,20 @@
 package lens.inmo360.login;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
-import android.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.List;
-
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import lens.inmo360.R;
-import lens.inmo360.adapters.BasePropertyAdapter;
 import lens.inmo360.managers.HttpManager;
-import lens.inmo360.model.Property;
 import lens.inmo360.model.PropertyAPIInterface;
 import lens.inmo360.model.User;
 import retrofit2.Call;
@@ -80,6 +73,7 @@ public class LoginActivity extends AppCompatActivity {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage("Authenticating...");
+        progressDialog.setCancelable(false);
         progressDialog.show();
 
         String email = _emailText.getText().toString();
@@ -88,7 +82,7 @@ public class LoginActivity extends AppCompatActivity {
         User usuario = new User();
         usuario.setEmail(email);
         usuario.setPassword(password);
-        HttpManager httpManager = HttpManager.getInstance(this);
+        HttpManager httpManager = HttpManager.getInstance();
 
         PropertyAPIInterface apiService =
                 httpManager.getRetrofit().create(PropertyAPIInterface.class);
@@ -103,52 +97,37 @@ public class LoginActivity extends AppCompatActivity {
 
                 if (properties!=null){
                     new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    // On complete call either onLoginSuccess or onLoginFailed
-                                    onLoginSuccess();
-                                    // onLoginFailed();
-                                    progressDialog.dismiss();
-                                }
-                            }, 3000);
-                                    }
-
-
-                else {
-
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                onLoginSuccess();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
+                } else {
                     new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    // On complete call either onLoginSuccess or onLoginFailed
-
-                                    onLoginFailed();
-                                    progressDialog.dismiss();
-
-                                }
-                            }, 3000);
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
                 }
 
-                }
+            }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
-
             }
         });
-
-
-
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_SIGNUP) {
             if (resultCode == RESULT_OK) {
-
-
                 // By default we just finish the Activity and log them in automatically
                 this.finish();
             }
@@ -179,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError("enter a valid email address");
+            _emailText.setError("Enter a valid email address");
             valid = false;
         } else {
             _emailText.setError(null);

@@ -7,8 +7,17 @@ public class PropertyImage {
     String Title;
     String LastUpdate;
     String URL;
+    String LocalPath;
 
     public PropertyImage() {
+    }
+
+    public String getLocalPath() {
+        return LocalPath;
+    }
+
+    public void setLocalPath(String localPath) {
+        LocalPath = localPath;
     }
 
     public String getTitle() {
