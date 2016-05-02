@@ -18,4 +18,8 @@
     <string name="loadingMessage">Cargando&#8230;</string>
     <string name="please_wait">Por favor espere&#8230;</string>
     <string name="downloading">Descargando&#8230;</string>
+    <string name="authenticating">Autenticando&#8230;</string>
+    <string name="login_failed">Error de logueo</string>
+    <string name="enter_valid_address">Ingrese una dirección electrónica válida</string>
+    <string name="incorrect_password">Debe contener entre 4 y 10 caracteres</string>
 </resources>

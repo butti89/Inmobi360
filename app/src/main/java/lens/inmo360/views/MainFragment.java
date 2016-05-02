@@ -19,17 +19,17 @@ public class MainFragment extends android.support.v4.app.Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.content_main, container, false);
-
+//
+//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity().getApplicationContext(), SyncActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(), SyncActivity.class);
-                startActivity(intent);
-            }
-        });
-        FloatingActionButton fab2 = (FloatingActionButton) view.findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),CardboardViewActivity.class);
