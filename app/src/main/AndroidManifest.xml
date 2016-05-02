@@ -37,11 +37,10 @@
             <category android:name="com.google.intent.category.CARDBOARD"/>
         </intent-filter>
 
-        <activity android:name=".views.SyncActivity"
-                  android:label="Property Sync">
-        </activity>
-        <activity android:name=".login.LoginActivity" android:theme="@style/AppTheme.Dark" />
-        <activity android:name=".login.SignupActivity" android:theme="@style/AppTheme.Dark" />
+        <!--<activity android:name=".views.SyncActivity"-->
+                  <!--android:label="Property Sync">-->
+        <!--</activity>-->
+        <activity android:name=".views.LoginActivity" android:theme="@style/AppTheme.Dark" />
     </application>
 
 </manifest>
