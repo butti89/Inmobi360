@@ -75,8 +75,8 @@ public class MainFragment extends android.support.v4.app.Fragment{
 //                startActivity(intent);
 //            }
 //        });
-        FloatingActionButton fab2 = (FloatingActionButton) view.findViewById(R.id.fab2);
-        fab2.setOnClickListener(new View.OnClickListener() {
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity().getApplicationContext(),CardboardViewActivity.class);
