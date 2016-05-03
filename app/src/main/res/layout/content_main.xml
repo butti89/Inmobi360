@@ -20,12 +20,15 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"/>
 
-    <ListView
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/availablePropertiesList"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/houseList"
+        android:layout_height="0dp"
+        android:scrollbars="vertical"
+        android:layout_below="@+id/textView2"
         android:layout_alignParentStart="true"
-        android:layout_below="@id/textView2"/>
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

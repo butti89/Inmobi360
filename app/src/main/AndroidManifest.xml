@@ -28,18 +28,17 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+
         <activity
             android:name=".views.CardboardViewActivity"
             android:label="@string/title_activity_cardboard"
-            android:screenOrientation="landscape"/>
+            android:screenOrientation="landscape">
 
-        <intent-filter>
-            <category android:name="com.google.intent.category.CARDBOARD"/>
-        </intent-filter>
+            <intent-filter>
+                <category android:name="com.google.intent.category.CARDBOARD"/>
+            </intent-filter>
+        </activity>
 
-        <!--<activity android:name=".views.SyncActivity"-->
-                  <!--android:label="Property Sync">-->
-        <!--</activity>-->
         <activity android:name=".views.LoginActivity" android:theme="@style/AppTheme.Dark" />
     </application>
 
