@@ -1,13 +1,12 @@
 package lens.inmo360.views;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -81,8 +80,8 @@ public class LoginActivity extends AppCompatActivity {
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.authenticating));
-        progressDialog.show();
         progressDialog.setCancelable(false);
+        progressDialog.show();
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
 
@@ -123,31 +122,23 @@ public class LoginActivity extends AppCompatActivity {
                 else {
 
                     new android.os.Handler().postDelayed(
-                            new Runnable() {
-                                public void run() {
-                                    // On complete call either onLoginSuccess or onLoginFailed
-
-                                    onLoginFailed();
-                                    progressDialog.dismiss();
-
-                                }
-                            }, 3000);
+                        new Runnable() {
+                            public void run() {
+                                // On complete call either onLoginSuccess or onLoginFailed
+                                onLoginFailed();
+                                progressDialog.dismiss();
+                            }
+                        }, 3000);
                 }
 
-                }
+            }
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
-
             }
         });
-
-
-
-
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -163,7 +154,6 @@ public class LoginActivity extends AppCompatActivity {
     public void onBackPressed() {
         // Disable going back to the MainActivity
         moveTaskToBack(true);
-
     }
 
     public void onLoginSuccess() {
