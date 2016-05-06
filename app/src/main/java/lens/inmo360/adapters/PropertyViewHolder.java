@@ -21,8 +21,8 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
     public PropertyViewHolder(View itemLayoutView) {
         super(itemLayoutView);
 
-        propertyTitle = (TextView) itemLayoutView.findViewById(R.id.propertyTitle);
-        propertyAddress = (TextView) itemLayoutView.findViewById(R.id.propertyAddress);
+        propertyTitle = (TextView) itemLayoutView.findViewById(R.id.property_title);
+        propertyAddress = (TextView) itemLayoutView.findViewById(R.id.property_address);
         propertyImage = (ImageView) itemLayoutView.findViewById(R.id.property_image);
 
     }

@@ -27,6 +27,12 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
         this.mProperties = properties;
     }
 
+    @Override
+    public void onViewRecycled(PropertyViewHolder holder) {
+        super.onViewRecycled(holder);
+        Glide.clear(viewHolder.getPropertyImage());
+    }
+
     // Create new views
     @Override
     public PropertyViewHolder onCreateViewHolder(ViewGroup parent,
@@ -55,32 +61,18 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
     @Override
     public void onBindViewHolder(PropertyViewHolder viewHolder, int position) {
 
-        final int pos = position;
-
         viewHolder.propertyTitle.setText(mProperties.get(position).getTitle());
 
         viewHolder.propertyAddress.setText(mProperties.get(position).getAddress());
 
         String path = mProperties.get(position).getImages().get(0).getLocalPath();
         File pathFile = new File(path);
+
         Glide.with(mContext)
                 .load(pathFile)
+                .skipMemoryCache(true)
+                .override(1024,576)
         .into(viewHolder.propertyImage);
-
-//        viewHolder.propertyImage.(mProperties.get(position).getImages().get(0));
-
-//        viewHolder.isDownloadedCheckbox.setTag(mProperties.get(position));
-
-
-//        viewHolder.isDownloadedCheckbox.setOnClickListener(new View.OnClickListener() {
-//            public void onClick(View v) {
-//                CheckBox cb = (CheckBox) v;
-//                Property property = (Property) cb.getTag();
-//
-//                property.setIsDownloaded(cb.isChecked());
-//                mProperties.get(pos).setIsDownloaded(cb.isChecked());
-//            }
-//        });
 
     }
 }

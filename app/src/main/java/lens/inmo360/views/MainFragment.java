@@ -19,8 +19,10 @@ import java.util.ArrayList;
 
 import lens.inmo360.R;
 import lens.inmo360.adapters.BasePropertyAdapter;
+import lens.inmo360.adapters.PropertyAdapter;
 import lens.inmo360.managers.SyncManager;
 import lens.inmo360.model.Property;
+import lens.inmo360.model.PropertyImage;
 
 /**
  * Created by estebanbutti on 4/26/16.
@@ -57,24 +59,34 @@ public class MainFragment extends android.support.v4.app.Fragment{
         ArrayList<Property> properties = new ArrayList<Property>();
         String[] directories = externalFilesDir.list();
 
-        for (int i = 0; i < directories.length; i++) {
-            String directory = externalFilesDir.toString()+directories[i];
-//            for (int j = 0; j < directory.list().length; j++) {
-//                String  = directory.list()[j];
-//
-//            }
+        if (directories != null && directories.length > 0){
+            for (int i = 0; i < directories.length; i++) {
+                String houseDirectory = externalFilesDir.toString()+'/'+directories[i];
+                File houseDirectoryFile = new File(houseDirectory);
+                String[] houseImages = houseDirectoryFile.list();
+                ArrayList<PropertyImage> propertyImages = new ArrayList<>();
+                Property property = new Property();
+                property.setTitle("House "+ i);
+                property.setAddress("Address "+ i);
 
+                for (int j = 0; j < houseImages.length; j++) {
+                    String houseImageDirectory = houseDirectoryFile.toString()+'/'+houseImages[j];
+                    PropertyImage image = new PropertyImage();
+                    image.setTitle(houseImages[j]);
+                    image.setLocalPath(houseImageDirectory);
+                    propertyImages.add(image);
+                }
+                property.setImages(propertyImages);
+                properties.add(property);
+            }
         }
 
+        // create an Object for Adapter
+        mAdapter = new PropertyAdapter(getActivity().getApplicationContext(),properties);
 
-//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity().getApplicationContext(), SyncActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        // set the adapter object to the Recyclerview
+        mRecyclerView.setAdapter(mAdapter);
+
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
