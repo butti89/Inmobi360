@@ -203,7 +203,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         glViewport(0, 0, width, height);
         /** Setting the projection Matrix for the view **/
-        Matrix.perspectiveM(mProjectionMatrix2,0, 90, (float) width
+        Matrix.perspectiveM(mProjectionMatrix2,0, 100, (float) width
                 / (float) height, 1f, 10f);
 
     }
