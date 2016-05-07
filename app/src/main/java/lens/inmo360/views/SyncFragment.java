@@ -23,6 +23,8 @@ import java.util.List;
 
 import lens.inmo360.R;
 import lens.inmo360.adapters.BasePropertyAdapter;
+import lens.inmo360.helpers.ModelHelper;
+import lens.inmo360.managers.CouchBaseManager;
 import lens.inmo360.managers.HttpManager;
 import lens.inmo360.managers.SyncManager;
 import lens.inmo360.model.Property;
@@ -125,6 +127,11 @@ public class SyncFragment extends android.support.v4.app.Fragment {
                         }
 
                         mSyncManager.downloadProperties(getActivity(), selectedProperties);
+
+
+                        for (int i = 0; i < selectedProperties.size(); i++) {
+                            ModelHelper.save(CouchBaseManager.GetDataBase(),selectedProperties.get(i));
+                        }
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {

@@ -19,7 +19,7 @@ public class CouchBaseManager {
 
     //couch internals
     protected static Manager manager;
-    private Database database;
+    private static Database database;
 
     public void InitCBL(AndroidContext ac){
         try {
@@ -34,7 +34,7 @@ public class CouchBaseManager {
         }
 
         // create a name for the database and make sure the name is legal
-        String dbname = "inmobiCBL";
+        String dbname = "hello";
         if (!Manager.isValidDatabaseName(dbname)) {
             Log.e(TAG, "Bad database name");
             return;
@@ -49,6 +49,10 @@ public class CouchBaseManager {
             Log.e(TAG, "Cannot get database");
             return;
         }
+    }
+
+    public static Database GetDataBase(){
+        return database;
     }
 
     public Document CreateDocument(String id){
