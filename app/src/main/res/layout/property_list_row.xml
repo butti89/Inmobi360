@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/property_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    card_view:cardUseCompatPadding="true"
+    card_view:cardElevation="3dp"
+    card_view:cardCornerRadius="1dp"
+    >
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -14,10 +19,10 @@
         <ImageView
             android:id="@+id/property_image"
             android:layout_width="match_parent"
-            android:layout_height="220dp"
+            android:layout_height="210dp"
             android:layout_alignParentTop="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/photo_sphere_1" />
+            android:adjustViewBounds="true"/>
 
         <TextView
             android:id="@+id/property_title"
@@ -27,9 +32,9 @@
             android:maxLines="3"
             android:padding="8dp"
             android:text="Great house"
-            android:textColor="#222"
-            android:textStyle="bold"
-            android:textSize="22dp" />
+            android:fontFamily="sans-serif"
+            android:textColor="#333"
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/property_address"
@@ -39,7 +44,7 @@
             android:maxLines="3"
             android:text="344 Collins Street"
             android:textColor="#666"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:paddingTop="0dp"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
