@@ -85,6 +85,7 @@ public class SyncFragment extends android.support.v4.app.Fragment {
             public void onResponse(Call<List<Property>> call, Response<List<Property>> response) {
                 int statusCode = response.code();
                 ArrayList<Property> properties = (ArrayList<Property>) response.body();
+                markAlreadyDonwloaded(properties);
 
                 // create an Object for Adapter
                 mAdapter = new BasePropertyAdapter(properties);
@@ -231,5 +232,17 @@ public class SyncFragment extends android.support.v4.app.Fragment {
     public boolean isExternalStorageWritable() {
         String state = Environment.getExternalStorageState();
         return Environment.MEDIA_MOUNTED.equals(state);
+    }
+
+    private void markAlreadyDonwloaded(ArrayList<Property> propertiesFromServer){
+        ArrayList<Property> localProps = new ArrayList<>();
+        localProps = PropertiesDAO.GetAll();
+
+        for (int i = 0 ; i < localProps.size(); i++){
+            for (int j = 0; j < propertiesFromServer.size(); j++){
+                if (propertiesFromServer.get(j).getId() == localProps.get(i).getId())
+                    propertiesFromServer.get(j).setIsDownloaded(true);
+            }
+        }
     }
 }
