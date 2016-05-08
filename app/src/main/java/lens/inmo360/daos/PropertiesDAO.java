@@ -17,7 +17,7 @@ public class PropertiesDAO {
     public static ArrayList<Property> GetAll(){
 
         ArrayList<Property> res = new ArrayList<>();
-        ArrayList<Document> docs = cbManager.GetAllDocs();
+        ArrayList<Document> docs = cbManager.getAllDocs();
 
         for (int i = 0; i < docs.size(); i++) {
             res.add(ModelHelper.modelForDocument(docs.get(i),Property.class));

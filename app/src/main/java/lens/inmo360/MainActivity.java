@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        CBLManager.InitCBL(new AndroidContext(this));
+        CBLManager.initCBL(new AndroidContext(this));
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String  Email = sharedPreferences.getString("Email", "No Email") ;

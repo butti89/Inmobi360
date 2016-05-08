@@ -183,7 +183,8 @@ public class SyncManager {
                 property.setImages(pImages);
 
                 //Persist
-                ModelHelper.save(couchBaseManager.GetDataBase(),property);
+                property.save();
+                //ModelHelper.save(couchBaseManager.getDataBase(),property);
             }
 
             return success;

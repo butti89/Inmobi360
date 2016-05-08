@@ -28,7 +28,7 @@ public class CouchBaseManager {
     protected static Manager manager;
     private static Database database;
 
-    public void InitCBL(AndroidContext ac){
+    public void initCBL(AndroidContext ac){
         try {
 
             Log.d(TAG, "Begin CBL");
@@ -57,7 +57,7 @@ public class CouchBaseManager {
         }
     }
 
-    public static Database GetDataBase(){
+    public static Database getDataBase(){
         if(database != null)
             return database;
 
@@ -73,15 +73,15 @@ public class CouchBaseManager {
         return database;
     }
 
-    public Document CreateDocument(String id){
+    public Document createDocument(String id){
         return database.getDocument(id);
     }
 
-    public Document CreateDocument(){
+    public Document createDocument(){
         return database.createDocument();
     }
 
-    public Boolean WriteDocument(Document doc, Map properties){
+    public Boolean writeDocument(Document doc, Map properties){
         try {
             doc.putProperties(properties);
             Log.d(TAG, "updated retrievedDocument=" + String.valueOf(doc.getProperties()));
@@ -92,8 +92,12 @@ public class CouchBaseManager {
         return true;
     }
 
+    public Boolean writeDocument(String docId, Map properties){
+        return writeDocument(database.getExistingDocument(docId),properties);
+    }
+
     //Debug usage
-    public static void SeeAllDocs(){
+    public static void seeAllDocs(){
         Query query = database.createAllDocumentsQuery();
         query.setAllDocsMode(Query.AllDocsMode.ALL_DOCS);
         QueryEnumerator result = null;
@@ -110,7 +114,7 @@ public class CouchBaseManager {
         }
     }
 
-    public static ArrayList<Document>  GetAllDocs(){
+    public static ArrayList<Document>  getAllDocs(){
         ArrayList<Document> documents = new ArrayList<>();
 
         Query query = database.createAllDocumentsQuery();
@@ -128,16 +132,24 @@ public class CouchBaseManager {
         return documents;
     }
 
-    public Boolean WriteDocument(String docId, Map properties){
-        return WriteDocument(database.getExistingDocument(docId),properties);
-    }
-
-    public Map GetDocumentProperties(Document doc){
+    public Map getDocumentProperties(Document doc){
         return doc.getProperties();
     }
 
-    public Map GetDocumentProperties(String docId){
-        return GetDocumentProperties(database.getExistingDocument(docId));
+    public Map getDocumentProperties(String docId){
+        return getDocumentProperties(database.getExistingDocument(docId));
+    }
+
+    public void deleteDocument(String id){
+        deleteDocument(database.getExistingDocument(id));
+    }
+
+    public void deleteDocument(Document doc){
+        try {
+            doc.delete();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
     }
 
     //TODO: UPDATE PROPERTIES

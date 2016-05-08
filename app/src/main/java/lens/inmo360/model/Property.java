@@ -13,7 +13,7 @@ import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Property {
+public class Property extends PersistentObject{
 
     private Integer Id;
     private String Title;
@@ -172,4 +172,7 @@ public class Property {
         this.additionalProperties.put(name, value);
     }
 
+    public void delete() {
+        super.delete(this.Id.toString());
+    }
 }

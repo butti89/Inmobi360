@@ -32,7 +32,7 @@ public class ModelHelper {
             }
         }
 
-        boolean res = cbManager.WriteDocument(document,props);
+        boolean res = cbManager.writeDocument(document,props);
     }
 
     public static <T> T modelForDocument(Document document, Class<T> aClass) {

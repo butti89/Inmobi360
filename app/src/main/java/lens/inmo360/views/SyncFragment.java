@@ -128,15 +128,6 @@ public class SyncFragment extends android.support.v4.app.Fragment {
                         }
 
                         mSyncManager.downloadProperties(getActivity(), selectedProperties);
-
-                        //for (int i = 0; i < selectedProperties.size(); i++) {
-                        //    ModelHelper.save(CouchBaseManager.GetDataBase(),selectedProperties.get(i));
-                       // }
-
-                        //DEBUG
-                        //CouchBaseManager.SeeAllDocs();
-                        //ArrayList<Property> props = new ArrayList<>();
-                        //props = PropertiesDAO.GetAll();
                      }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
