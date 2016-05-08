@@ -16,8 +16,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.couchbase.lite.android.AndroidContext;
+
 import java.util.ArrayList;
 
+import lens.inmo360.daos.PropertiesDAO;
+import lens.inmo360.managers.CouchBaseManager;
+import lens.inmo360.model.Property;
 import lens.inmo360.views.LoginActivity;
 import lens.inmo360.model.House;
 import lens.inmo360.views.MainFragment;
@@ -27,11 +32,14 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout mDrawer;
+    private CouchBaseManager CBLManager = new CouchBaseManager();
 
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        CBLManager.initCBL(new AndroidContext(this));
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String  Email = sharedPreferences.getString("Email", "No Email") ;
@@ -60,8 +68,6 @@ public class MainActivity extends AppCompatActivity
 
         // MY CODE
         ArrayList<House> houseArray = new ArrayList<>();
-
-
     }
 
     @Override

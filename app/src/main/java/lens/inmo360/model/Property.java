@@ -4,13 +4,16 @@ package lens.inmo360.model;
  * Created by estebanbutti on 4/25/16.
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
-public class Property {
+@JsonIgnoreProperties(ignoreUnknown = true)
+public class Property extends PersistentObject{
 
     private Integer Id;
     private String Title;
@@ -169,4 +172,7 @@ public class Property {
         this.additionalProperties.put(name, value);
     }
 
+    public void delete() {
+        super.delete(this.Id.toString());
+    }
 }
