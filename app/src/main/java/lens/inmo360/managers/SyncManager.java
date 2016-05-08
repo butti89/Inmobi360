@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import lens.inmo360.R;
+import lens.inmo360.helpers.ModelHelper;
 import lens.inmo360.model.Property;
 import lens.inmo360.model.PropertyAPIInterface;
 import lens.inmo360.model.PropertyImage;
@@ -27,6 +28,7 @@ import retrofit2.Call;
 public class SyncManager {
     private MaterialDialog loadingDialog;
     private File externalFilesDir;
+    private CouchBaseManager couchBaseManager;
 
     public boolean downloadProperty(Context ctx, Property property){
         boolean success = true;
@@ -35,8 +37,8 @@ public class SyncManager {
 
         for (int i = 0; i < images.size(); i++) {
             PropertyImage propertyImage = images.get(i);
-            boolean imageSuccess = this.downloadPropertyImage(propertyImage, property.getAddress());
-            success = success && imageSuccess;
+            PropertyImage image = this.downloadPropertyImage(propertyImage, property.getAddress());
+            success = success && (image != null);
         }
 
         return success;
@@ -66,7 +68,7 @@ public class SyncManager {
         return null;
     }
 
-    public boolean downloadPropertyImage(final PropertyImage image, String propertyAddress){
+    public PropertyImage downloadPropertyImage( PropertyImage image, String propertyAddress){
         boolean success;
 
         HttpManager httpManager = HttpManager.getInstance();
@@ -90,6 +92,8 @@ public class SyncManager {
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             IOUtils.write(imageBody.bytes(), fileOutputStream);
 
+            image.setLocalPath(file.getAbsolutePath());
+
             Log.d("Downloaded", file.getAbsolutePath());
 
             success = true;
@@ -101,7 +105,7 @@ public class SyncManager {
             success = false;
         }
 
-        return success;
+        return image;
     }
 
     public boolean deletePropertyImage(final PropertyImage image, String propertyAddress){
@@ -166,14 +170,20 @@ public class SyncManager {
 
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
+                ArrayList<PropertyImage> pImages = new ArrayList<>();
 
                 ArrayList<PropertyImage> images = property.getImages();
 
                 for (int j = 0; j < images.size(); j++) {
-                    Boolean result = downloadPropertyImage(images.get(j), property.getAddress());
+                    PropertyImage result = downloadPropertyImage(images.get(j), property.getAddress());
+                    pImages.add(result);
 
-                    success = success && result;
+                    success = success && (result != null);
                 }
+                property.setImages(pImages);
+
+                //Persist
+                ModelHelper.save(couchBaseManager.GetDataBase(),property);
             }
 
             return success;

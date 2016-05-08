@@ -4,12 +4,15 @@ package lens.inmo360.model;
  * Created by estebanbutti on 4/25/16.
  */
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.ArrayList;
 import java.util.Map;
 
 import javax.annotation.Generated;
 
 @Generated("org.jsonschema2pojo")
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class Property {
 
     private Integer Id;

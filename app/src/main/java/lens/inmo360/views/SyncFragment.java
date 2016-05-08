@@ -23,6 +23,7 @@ import java.util.List;
 
 import lens.inmo360.R;
 import lens.inmo360.adapters.BasePropertyAdapter;
+import lens.inmo360.daos.PropertiesDAO;
 import lens.inmo360.helpers.ModelHelper;
 import lens.inmo360.managers.CouchBaseManager;
 import lens.inmo360.managers.HttpManager;
@@ -128,11 +129,15 @@ public class SyncFragment extends android.support.v4.app.Fragment {
 
                         mSyncManager.downloadProperties(getActivity(), selectedProperties);
 
+                        //for (int i = 0; i < selectedProperties.size(); i++) {
+                        //    ModelHelper.save(CouchBaseManager.GetDataBase(),selectedProperties.get(i));
+                       // }
 
-                        for (int i = 0; i < selectedProperties.size(); i++) {
-                            ModelHelper.save(CouchBaseManager.GetDataBase(),selectedProperties.get(i));
-                        }
-                    }
+                        //DEBUG
+                        //CouchBaseManager.SeeAllDocs();
+                        //ArrayList<Property> props = new ArrayList<>();
+                        //props = PropertiesDAO.GetAll();
+                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
                     @Override

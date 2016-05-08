@@ -7,6 +7,8 @@
     <string name="action_sync">Sync All</string>
     <string name="title_activity_cardboard">CardboardActivity</string>
 
+    <string name="db_name">inmobidb</string>
+
     <!--DIALOGS-->
     <string name="syncDialogTitle">Sincronización</string>
     <string name="downloadConfirmationContent">Esta seguro que desea descargar ahora las propiedades seleccionadas?</string>

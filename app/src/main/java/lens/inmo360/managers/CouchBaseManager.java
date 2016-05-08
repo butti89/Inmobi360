@@ -4,10 +4,16 @@ import com.couchbase.lite.CouchbaseLiteException;
 import com.couchbase.lite.Database;
 import com.couchbase.lite.Document;
 import com.couchbase.lite.Manager;
+import com.couchbase.lite.Query;
+import com.couchbase.lite.QueryEnumerator;
+import com.couchbase.lite.QueryRow;
 import com.couchbase.lite.android.AndroidContext;
 import com.couchbase.lite.util.Log;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -15,7 +21,8 @@ import java.util.Map;
  */
 public class CouchBaseManager {
 
-    final String TAG = "Inmobi360";
+    final static String TAG = "Inmobi360";
+    public static final String DB_NAME = "inmobidb";
 
     //couch internals
     protected static Manager manager;
@@ -33,16 +40,15 @@ public class CouchBaseManager {
             return;
         }
 
-        // create a name for the database and make sure the name is legal
-        String dbname = "hello";
-        if (!Manager.isValidDatabaseName(dbname)) {
+        // make sure the name is legal
+        if (!Manager.isValidDatabaseName(DB_NAME)) {
             Log.e(TAG, "Bad database name");
             return;
         }
 
         // create a new database
         try {
-            database = manager.getDatabase(dbname);
+            database = manager.getDatabase(DB_NAME);
             Log.d (TAG, "Database created");
 
         } catch (CouchbaseLiteException e) {
@@ -52,6 +58,18 @@ public class CouchBaseManager {
     }
 
     public static Database GetDataBase(){
+        if(database != null)
+            return database;
+
+        Manager manager = new Manager();
+        try {
+            database = manager.getDatabase(DB_NAME);
+            Log.d (TAG, "Database created");
+
+        } catch (CouchbaseLiteException e) {
+            Log.e(TAG, "Cannot get database");
+            return null;
+        }
         return database;
     }
 
@@ -72,6 +90,42 @@ public class CouchBaseManager {
             return false;
         }
         return true;
+    }
+
+    //Debug usage
+    public static void SeeAllDocs(){
+        Query query = database.createAllDocumentsQuery();
+        query.setAllDocsMode(Query.AllDocsMode.ALL_DOCS);
+        QueryEnumerator result = null;
+        try {
+             result = query.run();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        for (Iterator<QueryRow> it = result; it.hasNext(); ) {
+            QueryRow row = it.next();
+            if (row.getConflictingRevisions().size() > 0) {
+                Log.w("MYAPP", "Conflict in document: %s", row.getDocumentId());
+            }
+        }
+    }
+
+    public static ArrayList<Document>  GetAllDocs(){
+        ArrayList<Document> documents = new ArrayList<>();
+
+        Query query = database.createAllDocumentsQuery();
+        query.setAllDocsMode(Query.AllDocsMode.ALL_DOCS);
+        QueryEnumerator result = null;
+        try {
+            result = query.run();
+        } catch (CouchbaseLiteException e) {
+            e.printStackTrace();
+        }
+        for (Iterator<QueryRow> it = result; it.hasNext(); ) {
+            QueryRow row = it.next();
+            documents.add(row.getDocument());
+        }
+        return documents;
     }
 
     public Boolean WriteDocument(String docId, Map properties){
