@@ -6,6 +6,7 @@ package lens.inmo360.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -174,5 +175,28 @@ public class Property extends PersistentObject{
 
     public void delete() {
         super.delete(this.Id.toString());
+        deleteImages();
+    }
+
+    private boolean deleteImages(){
+        boolean success = true;
+
+        for (int j =0; j < this.Images.size(); j++){
+            File directory = new File(this.Images.get(j).getLocalPath());
+
+            if (directory.isDirectory())
+            {
+                String[] children = directory.list();
+                for (int i = 0; i < children.length; i++)
+                {
+                    success = success && new File(directory, children[i]).delete();
+                }
+                success = success && directory.delete();
+            }else{
+                success = directory.delete();
+            }
+        }
+
+        return success;
     }
 }
