@@ -8,7 +8,14 @@
     <string name="title_activity_cardboard">CardboardActivity</string>
 
     <string name="db_name">inmobidb</string>
-
+    <string-array
+        name="ambientes">
+        <item>Monoambiente</item>
+        <item>1 Ambiente</item>
+        <item>2 Ambientes</item>
+        <item>3 Ambientes</item>
+        <item>4 o mas Ambientes</item>
+    </string-array>
     <!--DIALOGS-->
     <string name="syncDialogTitle">Sincronización</string>
     <string name="downloadConfirmationContent">Esta seguro que desea descargar ahora las propiedades seleccionadas?</string>

@@ -2,6 +2,7 @@ package lens.inmo360;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -28,6 +29,8 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,7 +58,8 @@ public class MainActivity extends AppCompatActivity
     private Toast mToast;
     private ListView mainListView ;
     private CouchBaseManager CBLManager = new CouchBaseManager();
-
+    private SeekBar seekbar;
+    private TextView seekBarValue;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,7 +119,7 @@ public class MainActivity extends AppCompatActivity
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
+
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Filtro")
                 .customView(R.layout.dialog_filterview, true)
@@ -129,15 +133,54 @@ public class MainActivity extends AppCompatActivity
                 })
                 .build();
 
+            seekbar = (SeekBar)dialog.getCustomView().findViewById(R.id.seekbar);
+            seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
+
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Resources res = getResources();
+                String[] ambiente = res.getStringArray(R.array.ambientes);
+                seekBarValue.setText(ambiente[progress]);
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+
+
+
             dialog.show();
 
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
 
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
 
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.alquiler:
+                if (checked)
+                    // Pirates are the best
+                    break;
+            case R.id.venta:
+                if (checked)
+                    // Ninjas rule
+                    break;
+        }
+    }
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
