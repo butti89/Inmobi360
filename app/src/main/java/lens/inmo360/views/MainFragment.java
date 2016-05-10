@@ -10,17 +10,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import lens.inmo360.R;
-import lens.inmo360.adapters.BasePropertyAdapter;
 import lens.inmo360.adapters.PropertyAdapter;
-import lens.inmo360.managers.SyncManager;
 import lens.inmo360.model.Property;
 import lens.inmo360.model.PropertyImage;
 
@@ -29,15 +24,8 @@ import lens.inmo360.model.PropertyImage;
  */
 public class MainFragment extends android.support.v4.app.Fragment{
 
-    ListView propertyBaseList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private com.github.clans.fab.FloatingActionButton downloadFloatingButton;
-    private com.github.clans.fab.FloatingActionButton deleteFloatingButton;
-    BasePropertyAdapter adapter;
-    MaterialDialog loadingDialog;
-    SyncManager mSyncManager = new SyncManager();
 
     @Nullable
     @Override
