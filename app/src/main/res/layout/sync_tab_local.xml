@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="lens.inmo360.MainActivity">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/local_property_base_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp"
+        android:layout_marginTop="5dp"
+        android:scrollbars="vertical"
+        tools:listitem="@layout/base_property_row"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/delete_floating_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:scaleType="center"
+        app:backgroundTint="@color/colorPrimary"
+        android:src="@drawable/ic_delete_24dp"
+        android:tint="#ffffff"
+        android:layout_margin="@dimen/fab_margin"
+        app:layout_anchor="@id/local_property_base_recycler_view"
+        app:layout_anchorGravity="bottom|right|end"
+        />
+
+</android.support.design.widget.CoordinatorLayout>
+
+
+<!--<?xml version="1.0" encoding="utf-8"?>-->
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+              <!--xmlns:fab="http://schemas.android.com/apk/res-auto"-->
+              <!--android:layout_width="match_parent"-->
+              <!--android:layout_height="match_parent"-->
+              <!--xmlns:tools="http://schemas.android.com/tools"-->
+              <!--android:orientation="vertical">-->
+
+    <!--<android.support.v7.widget.RecyclerView-->
+        <!--android:id="@+id/local_property_base_list"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:layout_margin="5dp"-->
+        <!--android:layout_weight="1"-->
+        <!--android:scrollbars="vertical"-->
+        <!--tools:listitem="@layout/base_property_row"/>-->
+
+    <!--&lt;!&ndash;<com.github.clans.fab.FloatingActionMenu&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/sync_options_button"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentBottom="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginRight="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginBottom="16dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_marginLeft="10dp"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_labels_ellipsize="end"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_labels_singleLine="true"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_labels_style="@style/MenuLabelsStyle"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_labels_showAnimation="@anim/jump_from_down"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_labels_hideAnimation="@anim/jump_to_down"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_animationDelayPerItem="0"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_shadowColor="#444"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_colorNormal="@color/colorPrimary"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_colorPressed="@color/colorPrimaryDark"&ndash;&gt;-->
+        <!--&lt;!&ndash;fab:menu_colorRipple="@color/colorPrimaryMiddle">&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<com.github.clans.fab.FloatingActionButton&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/download_floating_button"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingBottom="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/ic_file_download_24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;style="@style/MenuButtonsStyle" />&ndash;&gt;-->
+
+        <!--&lt;!&ndash;<com.github.clans.fab.FloatingActionButton&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/delete_floating_button"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:paddingBottom="5dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:src="@drawable/ic_delete_24dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;style="@style/MenuButtonsStyle" />&ndash;&gt;-->
+
+    <!--&lt;!&ndash;</com.github.clans.fab.FloatingActionMenu>&ndash;&gt;-->
+<!--</LinearLayout>-->
