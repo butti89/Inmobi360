@@ -33,12 +33,6 @@ public class MainFragment extends android.support.v4.app.Fragment{
     ListView propertyBaseList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
-    private com.github.clans.fab.FloatingActionButton downloadFloatingButton;
-    private com.github.clans.fab.FloatingActionButton deleteFloatingButton;
-    BasePropertyAdapter adapter;
-    MaterialDialog loadingDialog;
-    SyncManager mSyncManager = new SyncManager();
 
     @Nullable
     @Override
