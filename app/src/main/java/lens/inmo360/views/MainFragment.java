@@ -10,12 +10,18 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import lens.inmo360.R;
+import lens.inmo360.adapters.BasePropertyAdapter;
 import lens.inmo360.adapters.PropertyAdapter;
+import lens.inmo360.daos.PropertiesDAO;
+import lens.inmo360.managers.SyncManager;
 import lens.inmo360.model.Property;
 import lens.inmo360.model.PropertyImage;
 
@@ -24,6 +30,7 @@ import lens.inmo360.model.PropertyImage;
  */
 public class MainFragment extends android.support.v4.app.Fragment{
 
+    ListView propertyBaseList;
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
@@ -44,8 +51,9 @@ public class MainFragment extends android.support.v4.app.Fragment{
 
         File externalFilesDir = getActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES);
 
-        ArrayList<Property> properties = new ArrayList<Property>();
-        String[] directories = externalFilesDir.list();
+        ArrayList<Property> properties = PropertiesDAO.GetAll();
+
+        /*String[] directories = externalFilesDir.list();
 
         if (directories != null && directories.length > 0){
             for (int i = 0; i < directories.length; i++) {
@@ -67,7 +75,7 @@ public class MainFragment extends android.support.v4.app.Fragment{
                 property.setImages(propertyImages);
                 properties.add(property);
             }
-        }
+        }*/
 
         // create an Object for Adapter
         mAdapter = new PropertyAdapter(getActivity().getApplicationContext(),properties);

@@ -116,8 +116,6 @@ public class SyncManager {
         PropertyAPIInterface apiService =
                 httpManager.getRetrofit().create(PropertyAPIInterface.class);
 
-        Call<ResponseBody> call = apiService.downloadImage(image.getURL());
-
         String fileDirectory = propertyAddress.replace(" ","_").toLowerCase();
 
         File directory = getAlbumStorageDir(externalFilesDir,fileDirectory);
@@ -184,7 +182,6 @@ public class SyncManager {
 
                 //Persist
                 property.save();
-                //ModelHelper.save(couchBaseManager.getDataBase(),property);
             }
 
             return success;
@@ -214,14 +211,14 @@ public class SyncManager {
 
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
-
-                ArrayList<PropertyImage> images = property.getImages();
-
-                for (int j = 0; j < images.size(); j++) {
-                    Boolean result = deletePropertyImage(images.get(j), property.getAddress());
-
-                    success = success && result;
-                }
+                property.delete();
+//                ArrayList<PropertyImage> images = property.getImages();
+//
+//                for (int j = 0; j < images.size(); j++) {
+//                    Boolean result = deletePropertyImage(images.get(j), property.getAddress());
+//
+//                    success = success && result;
+//                }
             }
             return success;
         }
