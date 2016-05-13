@@ -19,6 +19,7 @@ public class SyncFragment extends android.support.v4.app.Fragment {
 
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
+    public static SyncTabsAdapter mAdapter;
 
     @Nullable
     @Override
@@ -32,7 +33,9 @@ public class SyncFragment extends android.support.v4.app.Fragment {
         tabLayout = (TabLayout) view.findViewById(R.id.sync_tabs);
         viewPager = (ViewPager) view.findViewById(R.id.sync_viewpager);
 
-        viewPager.setAdapter(new SyncTabsAdapter(getChildFragmentManager()));
+        mAdapter = new SyncTabsAdapter(getChildFragmentManager());
+        viewPager.setAdapter(mAdapter);
+        viewPager.setOffscreenPageLimit(0);
 
         tabLayout.post(new Runnable() {
             @Override

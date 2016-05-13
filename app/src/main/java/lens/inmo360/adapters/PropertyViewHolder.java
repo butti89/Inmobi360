@@ -17,10 +17,12 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
     protected TextView propertyTitle;
     protected ImageView propertyImage;
     protected TextView propertyAddress;
+    protected View mView;
 
     public PropertyViewHolder(View itemLayoutView) {
         super(itemLayoutView);
 
+        mView = itemLayoutView;
         propertyTitle = (TextView) itemLayoutView.findViewById(R.id.property_title);
         propertyAddress = (TextView) itemLayoutView.findViewById(R.id.property_address);
         propertyImage = (ImageView) itemLayoutView.findViewById(R.id.property_image);

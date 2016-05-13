@@ -22,12 +22,17 @@ import java.util.ArrayList;
 
 import lens.inmo360.managers.CouchBaseManager;
 import lens.inmo360.model.House;
+import lens.inmo360.model.Property;
 import lens.inmo360.views.LoginActivity;
 import lens.inmo360.views.MainFragment;
 import lens.inmo360.views.SyncFragment;
+import lens.inmo360.views.SyncLocalDataFragment;
+import lens.inmo360.views.SyncServerDataFragment;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        SyncLocalDataFragment.FragmentUpdateListener,
+        SyncServerDataFragment.ServerFragmentUpdateListener{
 
     private DrawerLayout mDrawer;
     private CouchBaseManager CBLManager = new CouchBaseManager();
@@ -137,5 +142,15 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+
+    @Override
+    public void onPropertiesAdded() {
+
+    }
+
+    @Override
+    public void onPropertiesDeleted(ArrayList<Property> properties) {
+
     }
 }
