@@ -10,10 +10,12 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import lens.inmo360.R;
+
 /**
  * Simple adapter example for custom items in the dialog
  */
-class ButtonItemAdapter extends BaseAdapter implements View.OnClickListener {
+public class ButtonItemAdapter extends BaseAdapter implements View.OnClickListener {
 
     private Toast mToast;
     private final Context mContext;

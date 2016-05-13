@@ -1,8 +1,10 @@
 package lens.inmo360;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -23,11 +25,13 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.EditText;
+
+
+
+
+
+
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.SeekBar;
@@ -42,8 +46,9 @@ import com.afollestad.materialdialogs.internal.ThemeSingleton;
 import com.couchbase.lite.android.AndroidContext;
 
 import java.util.ArrayList;
-
+import lens.inmo360.adapters.ButtonItemAdapter;
 import lens.inmo360.managers.CouchBaseManager;
+import lens.inmo360.model.Filter;
 import lens.inmo360.model.House;
 import lens.inmo360.views.LoginActivity;
 import lens.inmo360.views.MainFragment;
@@ -58,6 +63,16 @@ public class MainActivity extends AppCompatActivity
     private CouchBaseManager CBLManager = new CouchBaseManager();
     private SeekBar seekbar;
     private TextView seekBarValue;
+    private LinearLayout province;
+    private LinearLayout region;
+    private LinearLayout property;
+    private LinearLayout antiquity;
+    private TextView province_filter;
+    private TextView region_filter;
+    private TextView property_filter;
+    private TextView antiquity_filer;
+    private Context context = this;
+    private Filter filter = new Filter();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -121,7 +136,7 @@ public class MainActivity extends AppCompatActivity
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Filtro")
                 .customView(R.layout.dialog_filterview, true)
-                .positiveText("Ok")
+                .positiveText("Aceptar")
                 .negativeText("Cancelar")
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
@@ -131,33 +146,114 @@ public class MainActivity extends AppCompatActivity
                 })
                 .build();
 
-            seekbar = (SeekBar)dialog.getCustomView().findViewById(R.id.seekbar);
-            seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
+        seekbar = (SeekBar)dialog.getCustomView().findViewById(R.id.seekbar);
+        seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
+        province = (LinearLayout) dialog.getCustomView().findViewById(R.id.province);
+        province_filter = (TextView) dialog.getCustomView().findViewById(R.id.province_filter);
+        region = (LinearLayout)dialog.getCustomView().findViewById(R.id.region);
+        region_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
+        property = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
+        property_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
+        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
+        antiquity_filer = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
 
-            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 Resources res = getResources();
-                String[] ambiente = res.getStringArray(R.array.ambientes);
-                seekBarValue.setText(ambiente[progress]);
+                String[] ambient = res.getStringArray(R.array.ambientes);
+                seekBarValue.setText(ambient[progress]);
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
-
             }
 
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
-
             }
         });
 
+        province.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View v) {
 
+                new MaterialDialog.Builder(context)
+                        .title(getString(R.string.Province))
+                        .items(R.array.Provinces)
+                        .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                showToast(text.toString());
+                                filter.setProvince(text.toString());
+                                return true; // allow selection
+                            }
+                        })
+                        .positiveText(R.string.md_choose_label)
+                        .show();
+            }
+        });
 
-            dialog.show();
+        region.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .title("Localidad")
+                        .items(R.array.socialNetworks)
+                        .itemsCallbackMultiChoice(new Integer[]{1, 3}, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                StringBuilder str = new StringBuilder();
+                                for (int i = 0; i < which.length; i++) {
+                                    if (i > 0) str.append('\n');
+                                    str.append(text[i]);
+                                }
+                                showToast(str.toString());
+                                filter.setRegions(text);
+                                return true; // allow selection
+                            }
+                        })
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.clearSelectedIndices();
+                            }
+                        })
+                        .alwaysCallMultiChoiceCallback()
+                        .positiveText(R.string.md_choose_label)
+                        .autoDismiss(false)
+                        .neutralText(R.string.clear_selection)
+                        .show();
+            }
+        });
+
+        property.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .content("hola")
+                        .positiveText("si")
+                        .negativeText("no")
+                        .show();
+            }
+        });
+
+        antiquity.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .content("hola")
+                        .positiveText("si")
+                        .negativeText("no")
+                        .show();
+            }
+        });
+
+        dialog.show();
 
 
         return super.onOptionsItemSelected(item);
@@ -169,11 +265,11 @@ public class MainActivity extends AppCompatActivity
 
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.alquiler:
+            case R.id.rental:
                 if (checked)
                     // Pirates are the best
                     break;
-            case R.id.venta:
+            case R.id.sales:
                 if (checked)
                     // Ninjas rule
                     break;

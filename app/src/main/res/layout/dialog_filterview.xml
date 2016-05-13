@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation = "vertical"
@@ -8,36 +9,41 @@
 
     <!--android:entries="@array/Entries"-->
     <LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="?attr/selectableItemBackground"
-    android:clickable="true"
-
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:id="@+id/province"
+        android:background="@drawable/ripple_effect"
+        android:clickable="true"
     >
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:text="Provincia"
-        android:id="@+id/provincia"
-        android:textColor="#000000"
-        android:textSize="16sp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:paddingBottom="20dp"
-        android:text="Seleccionar Filtro"
-        android:textColor="#80000000"
-        android:textSize="14sp" />
-</LinearLayout>
+            android:paddingTop="20dp"
+            android:text="@string/Province"
+            android:textColor="#000000"
+            android:textSize="16sp"
+
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingBottom="20dp"
+            android:text="@string/select_filter"
+            android:id="@+id/province_filter"
+            android:textColor="#80000000"
+            android:textSize="14sp" />
+    </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="?attr/selectableItemBackground"
+        android:id="@+id/region"
+        android:background="@drawable/ripple_effect"
         android:clickable="true"
         >
 
@@ -45,8 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:text="Localidad"
-            android:id="@+id/localidad"
+            android:text="@string/Region"
             android:textColor="#000000"
             android:textSize="16sp" />
 
@@ -54,7 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:text="Seleccionar Filtro"
+            android:id="@+id/region_filter"
+            android:text="@string/select_filter"
             android:textColor="#80000000"
             android:textSize="14sp" />
     </LinearLayout>
@@ -69,33 +75,34 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:text="Tipo de operacion"
+            android:text="@string/operation"
             android:textColor="#000000"
             android:textSize="16sp" />
-    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="20dp"
-        android:paddingBottom="20dp">
-        <RadioButton android:id="@+id/alquiler"
-            android:layout_width="wrap_content"
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:text="Alquiler"
-            android:onClick="onRadioButtonClicked"/>
-        <RadioButton android:id="@+id/venta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Venta"
-            android:onClick="onRadioButtonClicked"/>
-    </RadioGroup>
+            android:orientation="horizontal"
+            android:paddingTop="20dp"
+            android:paddingBottom="20dp">
+            <RadioButton android:id="@+id/rental"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/rental"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton android:id="@+id/sales"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sales"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="?attr/selectableItemBackground"
+        android:id="@+id/property"
+        android:background="@drawable/ripple_effect"
         android:clickable="true"
         >
 
@@ -103,8 +110,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:text="Tipo de inmueble"
-            android:id="@+id/inmueble"
+            android:text="@string/property"
             android:textColor="#000000"
             android:textSize="16sp" />
 
@@ -112,7 +118,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:text="Seleccionar Filtro"
+            android:id="@+id/property_filter"
+            android:text="@string/select_filter"
             android:textColor="#80000000"
             android:textSize="14sp" />
     </LinearLayout>
@@ -121,24 +128,23 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:text="Ambientes"
+            android:text="@string/ambient"
             android:textColor="#000000"
             android:textSize="16sp" />
 
-    <SeekBar
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/seekbar"
-        android:paddingTop="20dp"
-        android:paddingBottom="10dp"
-        android:max="4"/>
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekbar"
+            android:paddingTop="20dp"
+            android:paddingBottom="10dp"
+            android:max="4"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -153,7 +159,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="?attr/selectableItemBackground"
+        android:id="@+id/antiquity"
+        android:background="@drawable/ripple_effect"
         android:clickable="true"
         >
 
@@ -161,8 +168,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="20dp"
-            android:text="Antiguedad"
-            android:id="@+id/antiguedad"
+            android:text="@string/antiquity"
             android:textColor="#000000"
             android:textSize="16sp" />
 
@@ -170,8 +176,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="20dp"
-            android:id="@+id/antiguedad_filtro"
-            android:text="Seleccionar Filtro"
+            android:id="@+id/antiquity_filter"
+            android:text="@string/select_filter"
             android:textColor="#80000000"
             android:textSize="14sp" />
     </LinearLayout>

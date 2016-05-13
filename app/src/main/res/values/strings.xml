@@ -3,7 +3,6 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_sync">Sync All</string>
     <string name="title_activity_cardboard">CardboardActivity</string>
 
@@ -16,6 +15,39 @@
         <item>3 Ambientes</item>
         <item>4 o mas Ambientes</item>
     </string-array>
+    <string-array name="socialNetworks">
+    <item>Localidad</item>
+    <item>Operación</item>
+    <item>Tipo de inmueble</item>
+    <item>Habitaciones</item>
+</string-array>
+    <string-array name="Provinces">
+        <item>Buenos Aires</item>
+        <item>Buenos Aires-GBA</item>
+        <item>Capital Federal</item>
+        <item>Catamarca</item>
+        <item>Chaco</item>
+        <item>Chubut</item>
+        <item>Córdoba</item>
+        <item>Corrientes</item>
+        <item>Entre Ríos</item>
+        <item>Formosa</item>
+        <item>Jujuy</item>
+        <item>La Pampa</item>
+        <item>La Rioja</item>
+        <item>Mendoza</item>
+        <item>Misiones</item>
+        <item>Neuquén</item>
+        <item>Río Negro</item>
+        <item>Salta</item>
+        <item>San Juan</item>
+        <item>San Luis</item>
+        <item>Santa Cruz</item>
+        <item>Santa Fe</item>
+        <item>Santiago del Estero</item>
+        <item>Tierra del Fuego</item>
+        <item>Tucumán</item>
+    </string-array>
     <!--DIALOGS-->
     <string name="syncDialogTitle">Sincronización</string>
     <string name="downloadConfirmationContent">Esta seguro que desea descargar ahora las propiedades seleccionadas?</string>
@@ -23,7 +55,7 @@
     <string name="deleteConfirmationPositiveButton">ELIMINAR</string>
     <string name="downloadConfirmationPositiveButton">DESCARGAR</string>
     <string name="cancelNegativeButton">CANCELAR</string>
-
+    <string name="clear_selection">Clear</string>
     <string name="loadingMessage">Cargando&#8230;</string>
     <string name="please_wait">Por favor espere&#8230;</string>
     <string name="downloading">Descargando&#8230;</string>
@@ -31,4 +63,14 @@
     <string name="login_failed">Error de logueo</string>
     <string name="enter_valid_address">Ingrese una dirección electrónica válida</string>
     <string name="incorrect_password">Debe contener entre 4 y 10 caracteres</string>
+    <string name="Province">Provincia</string>
+    <string name="Region">Localidad</string>
+    <string name="property">Tipo de Inmueble</string>
+    <string name="ambient">Ambientes</string>
+    <string name="antiquity">Antiguedad</string>
+    <string name="operation">Operación</string>
+    <string name="select_filter">Seleccionar filtro</string>
+    <string name="rental">Alquiler</string>
+    <string name="sales">Venta</string>
+
 </resources>
