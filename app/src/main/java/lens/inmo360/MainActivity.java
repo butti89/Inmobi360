@@ -43,11 +43,9 @@ import com.couchbase.lite.android.AndroidContext;
 
 import java.util.ArrayList;
 
-import lens.inmo360.daos.PropertiesDAO;
 import lens.inmo360.managers.CouchBaseManager;
-import lens.inmo360.model.Property;
-import lens.inmo360.views.LoginActivity;
 import lens.inmo360.model.House;
+import lens.inmo360.views.LoginActivity;
 import lens.inmo360.views.MainFragment;
 import lens.inmo360.views.SyncFragment;
 

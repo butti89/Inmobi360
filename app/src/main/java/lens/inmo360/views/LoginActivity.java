@@ -7,14 +7,16 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import butterknife.ButterKnife;
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import lens.inmo360.R;
 import lens.inmo360.managers.HttpManager;
 import lens.inmo360.model.PropertyAPIInterface;
@@ -22,8 +24,6 @@ import lens.inmo360.model.User;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -36,8 +36,6 @@ public class LoginActivity extends AppCompatActivity {
     EditText _passwordText;
     @Bind(R.id.btn_login)
     Button _loginButton;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
