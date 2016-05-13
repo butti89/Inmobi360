@@ -8,6 +8,9 @@ import android.util.Log;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import org.apache.commons.io.IOUtils;
+import org.jdeferred.Deferred;
+import org.jdeferred.Promise;
+import org.jdeferred.impl.DeferredObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -15,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import lens.inmo360.R;
-import lens.inmo360.helpers.ModelHelper;
 import lens.inmo360.model.Property;
 import lens.inmo360.model.PropertyAPIInterface;
 import lens.inmo360.model.PropertyImage;
@@ -29,6 +31,7 @@ public class SyncManager {
     private MaterialDialog loadingDialog;
     private File externalFilesDir;
     private CouchBaseManager couchBaseManager;
+    private Deferred mDeferred;
 
     public boolean downloadProperty(Context ctx, Property property){
         boolean success = true;
@@ -44,7 +47,10 @@ public class SyncManager {
         return success;
     }
 
-    public Void downloadProperties(Context ctx, ArrayList<Property> properties){
+    public Promise downloadProperties(Context ctx, ArrayList<Property> properties){
+        mDeferred = new DeferredObject();
+        Promise promise = mDeferred.promise();
+
         loadingDialog = getLoadingDialog(ctx);
         loadingDialog.setCancelable(false);
 
@@ -53,10 +59,13 @@ public class SyncManager {
         DownloadPropertiesTask task = new DownloadPropertiesTask();
         task.execute(properties);
 
-        return null;
+        return promise;
     }
 
-    public Void deleteProperties(Context ctx, ArrayList<Property> properties){
+    public Promise deleteProperties(Context ctx, ArrayList<Property> properties){
+        mDeferred = new DeferredObject();
+        Promise promise = mDeferred.promise();
+
         loadingDialog = getLoadingDialog(ctx);
         loadingDialog.setCancelable(false);
 
@@ -65,7 +74,7 @@ public class SyncManager {
         DeletePropertiesTask task = new DeletePropertiesTask();
         task.execute(properties);
 
-        return null;
+        return promise;
     }
 
     public PropertyImage downloadPropertyImage( PropertyImage image, String propertyAddress){
@@ -191,6 +200,8 @@ public class SyncManager {
         protected void onPostExecute(Boolean success) {
             Log.d("Downloaded file: ", success.toString());
 
+            mDeferred.resolve(success);
+
             loadingDialog.dismiss();
         }
     }
@@ -212,13 +223,6 @@ public class SyncManager {
             for (int i = 0; i < properties.size(); i++) {
                 Property property = properties.get(i);
                 property.delete();
-//                ArrayList<PropertyImage> images = property.getImages();
-//
-//                for (int j = 0; j < images.size(); j++) {
-//                    Boolean result = deletePropertyImage(images.get(j), property.getAddress());
-//
-//                    success = success && result;
-//                }
             }
             return success;
         }
@@ -226,6 +230,8 @@ public class SyncManager {
         @Override
         protected void onPostExecute(Boolean success) {
             Log.d("Downloaded file: ", success.toString());
+
+            mDeferred.resolve(success);
 
             loadingDialog.dismiss();
         }

@@ -14,11 +14,16 @@ import android.view.ViewGroup;
 import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import org.jdeferred.DoneCallback;
+import org.jdeferred.Promise;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import lens.inmo360.R;
 import lens.inmo360.adapters.BasePropertyAdapter;
+import lens.inmo360.daos.PropertiesDAO;
 import lens.inmo360.managers.HttpManager;
 import lens.inmo360.managers.SyncManager;
 import lens.inmo360.model.Property;
@@ -35,16 +40,14 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private FloatingActionButton downloadFloatingButton;
-    private FloatingActionButton deleteFloatingButton;
     MaterialDialog loadingDialog;
     SyncManager mSyncManager = new SyncManager();
+    ArrayList<Property> mProperties;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sync_tab_server, container, false);
-
-//        ButterKnife.bind(this, view);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.server_property_base_recycler_view);
 
@@ -56,12 +59,64 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
         loadingDialog = new MaterialDialog.Builder(getActivity())
-                .title(R.string.downloading)
-                .content(R.string.please_wait)
-                .progress(true, 0)
-                .progressIndeterminateStyle(true)
-                .build();
+            .title(R.string.downloading)
+            .content(R.string.please_wait)
+            .progress(true, 0)
+            .cancelable(false)
+            .progressIndeterminateStyle(true)
+            .build();
         loadingDialog.show();
+
+        updateProperties();
+
+        downloadFloatingButton = (FloatingActionButton) view.findViewById(R.id.download_floating_button);
+        downloadFloatingButton.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+            new MaterialDialog.Builder(getActivity())
+                .title(R.string.syncDialogTitle)
+                .content(R.string.downloadConfirmationContent)
+                .positiveText(R.string.downloadConfirmationPositiveButton)
+                .negativeText(R.string.cancelNegativeButton)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    ArrayList<Property> selectedProperties = new ArrayList<>();
+                    ArrayList<Property> properties = ((BasePropertyAdapter) mAdapter).getProperties();
+
+                    for (int i = 0; i < properties.size(); i++) {
+                        Property property = properties.get(i);
+                        if (property.isDownloaded()) {
+                            selectedProperties.add(property);
+                        }
+                    }
+
+                    Promise promise = mSyncManager.downloadProperties(getActivity(), selectedProperties);
+                    promise.done(new DoneCallback() {
+                        @Override
+                        public void onDone(Object result) {
+                            if((Boolean) result){
+                                loadingDialog.show();
+                                updateProperties();
+                            }
+                        }
+                    });
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                    dialog.dismiss();
+                    }
+                }).show();
+            }
+        });
+        return view;
+    }
+
+    public void updateProperties(){
 
         HttpManager httpManager = HttpManager.getInstance();
         PropertyAPIInterface apiService =
@@ -73,10 +128,22 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
             @Override
             public void onResponse(Call<List<Property>> call, Response<List<Property>> response) {
                 int statusCode = response.code();
-                ArrayList<Property> properties = (ArrayList<Property>) response.body();
+                mProperties = (ArrayList<Property>) response.body();
 
-                // create an Object for Adapter
-                mAdapter = new BasePropertyAdapter(properties);
+                ArrayList<Property> downloadedProperties = PropertiesDAO.GetAll();
+
+                for (Iterator<Property> iterator = downloadedProperties.iterator(); iterator.hasNext();) {
+                    Property downloadedProperty = iterator.next();
+                    for (Iterator<Property> iterator2 = mProperties.iterator(); iterator2.hasNext();) {
+                        Property property = iterator2.next();
+                        if (downloadedProperty.getId().equals(property.getId())) {
+                            // Remove the current element from the iterator and the list.
+                            iterator2.remove();
+                        }
+                    }
+                }
+
+                mAdapter = new BasePropertyAdapter(mProperties);
 
                 // set the adapter object to the Recyclerview
                 mRecyclerView.setAdapter(mAdapter);
@@ -88,47 +155,23 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
             public void onFailure(Call<List<Property>> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
+                loadingDialog.dismiss();
             }
         });
+    }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        if (isVisibleToUser) {
+            updateProperties();
+        }else{
+            // fragment is no longer visible
+        }
+    }
 
-        downloadFloatingButton = (FloatingActionButton) view.findViewById(R.id.download_floating_button);
-        downloadFloatingButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-
-                new MaterialDialog.Builder(getActivity())
-                        .title(R.string.syncDialogTitle)
-                        .content(R.string.downloadConfirmationContent)
-                        .positiveText(R.string.downloadConfirmationPositiveButton)
-                        .negativeText(R.string.cancelNegativeButton)
-                        .onPositive(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                ArrayList<Property> selectedProperties = new ArrayList<>();
-                                ArrayList<Property> properties = ((BasePropertyAdapter) mAdapter)
-                                        .getProperties();
-
-                                for (int i = 0; i < properties.size(); i++) {
-                                    Property property = properties.get(i);
-                                    if (property.isDownloaded()) {
-                                        selectedProperties.add(property);
-                                    }
-                                }
-
-                                mSyncManager.downloadProperties(getActivity(), selectedProperties);
-                            }
-                        })
-                        .onNegative(new MaterialDialog.SingleButtonCallback() {
-                            @Override
-                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                dialog.dismiss();
-                            }
-                        }).show();
-            }
-        });
-
-        return view;
+    // Container Activity must implement this interface
+    public interface ServerFragmentUpdateListener {
+        public void onPropertiesAdded();
     }
 }

@@ -24,4 +24,5 @@
     <string name="login_failed">Error de logueo</string>
     <string name="enter_valid_address">Ingrese una dirección electrónica válida</string>
     <string name="incorrect_password">Debe contener entre 4 y 10 caracteres</string>
+    <string name="title_activity_house">HouseActivity</string>
 </resources>

@@ -1,6 +1,7 @@
 package lens.inmo360.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 import lens.inmo360.R;
 import lens.inmo360.model.Property;
+import lens.inmo360.views.HouseImagesActivity;
 
 /**
  * Created by estebanbutti on 4/25/16.
@@ -59,20 +61,33 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PropertyViewHolder viewHolder, int position) {
+    public void onBindViewHolder(PropertyViewHolder viewHolder, final int position) {
 
         viewHolder.propertyTitle.setText(mProperties.get(position).getTitle());
 
         viewHolder.propertyAddress.setText(mProperties.get(position).getAddress());
 
-        String path = mProperties.get(position).getImages().get(0).getLocalPath();
-        File pathFile = new File(path);
+        viewHolder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context context = v.getContext();
+                Intent intent = new Intent(context, HouseImagesActivity.class);
+                intent.putExtra(HouseImagesActivity.EXTRA_NAME, mProperties.get(position).getId());
 
-        Glide.with(mContext)
-                .load(pathFile)
-                .skipMemoryCache(true)
-                .override(1024,576)
-        .into(viewHolder.propertyImage);
+                context.startActivity(intent);
+            }
+        });
+
+        if(mProperties.get(position).getImages().size() > 0){
+            String path = mProperties.get(position).getImages().get(0).getLocalPath();
+            File pathFile = new File(path);
+
+            Glide.with(mContext)
+                    .load(pathFile)
+                    .skipMemoryCache(true)
+                    .override(1024,576)
+                    .into(viewHolder.propertyImage);
+        }
     }
 }
 

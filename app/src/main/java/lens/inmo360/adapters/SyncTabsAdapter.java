@@ -13,6 +13,7 @@ import lens.inmo360.views.SyncServerDataFragment;
 public class SyncTabsAdapter extends FragmentPagerAdapter {
 
     public static int int_items = 2 ;
+//    ArrayList<Property> propertiesToUpdate;
 
     public SyncTabsAdapter(FragmentManager fm) {
         super(fm);
