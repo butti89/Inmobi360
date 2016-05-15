@@ -1,5 +1,6 @@
 package lens.inmo360.views;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
@@ -14,12 +15,14 @@ import com.google.vrtoolkit.cardboard.Eye;
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
 
+import java.util.ArrayList;
 import java.util.Random;
 import javax.microedition.khronos.egl.EGLConfig;
 
 import lens.inmo360.R;
 import lens.inmo360.cardboard.CardboardOverlayView;
 import lens.inmo360.cardboard.UVSphere;
+import lens.inmo360.helpers.ImageHelper;
 
 import static android.opengl.GLES20.glViewport;
 
@@ -29,6 +32,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     final int TEXTURE_SHELL_RADIUS = 2;
     /** Number of sphere polygon partitions for photo, which must be an even number */
     final int SHELL_DIVIDES = 60;
+    public static final String EXTRA_IMAGES = "images_paths";
     private CardboardView mCardboardView;
     private final String VSHADER_SRC =
             "attribute vec4 aPosition;\n" +
@@ -71,17 +75,21 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     private int mUVHandle;
     private int mTexHandle;
     private int mModelMatrixHandle;
-    private int[] mResourceId = {R.drawable.photo_sphere_1, R.drawable.photo_sphere_2, R.drawable.photo_sphere_3,R.drawable.foto4,R.drawable.foto5,R.drawable.foto6,R.drawable.foto7,R.drawable.foto8,R.drawable.foto9};
+    //private int[] mResourceId = {R.drawable.photo_sphere_1, R.drawable.photo_sphere_2, R.drawable.photo_sphere_3,R.drawable.foto4,R.drawable.foto5,R.drawable.foto6,R.drawable.foto7,R.drawable.foto8,R.drawable.foto9};
+    private int[] mResourceId;
     private final float[] mProjectionMatrix2 = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
     private boolean mIsCardboardTriggered;
     private int mCurrentPhotoPos = 0;
+    private ArrayList<String> imagesPaths = new ArrayList<>();
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        imagesPaths = getIntent().getStringArrayListExtra(EXTRA_IMAGES);
 
         setContentView(R.layout.activity_cardboard);
         mCardboardView = (CardboardView) findViewById(R.id.cardboard_view);
@@ -94,7 +102,9 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         // Read in the resource
 
-        Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(), options);
+        //Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(), options);
+
+        Bitmap thumbnail = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(0),4);
 /*
         ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
         thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos2);
@@ -103,7 +113,6 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         Drawable thumbnail2 = BitmapDrawable.createFromStream(inputStreamThumbnail, null);
 */
         setTexture(thumbnail);
-
     }
 
 
@@ -191,9 +200,9 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     public void onCardboardTrigger() {
         /* Flag to sync with onDrawEye */
         mIsCardboardTriggered = true;
-        Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(100);
-        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
+//        Random randomGenerator = new Random();
+//        int randomInt = randomGenerator.nextInt(100);
+//        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
     }
 
     @Override
@@ -271,14 +280,19 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     }
 
     private int getPhotoIndex() {
-        return mResourceId[mCurrentPhotoPos++ % mResourceId.length];
+        mCurrentPhotoPos++;
+        if (mCurrentPhotoPos >= imagesPaths.size()){
+            mCurrentPhotoPos = 0;
+        }
+        return mCurrentPhotoPos;
     }
 
     private void resetTexture() {
         GLES20.glDeleteTextures(mTextures.length, mTextures, 0);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
+        //Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
+        Bitmap thumbnail = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(getPhotoIndex()),4);
         mTexture = thumbnail;
         loadTexture(mTexture);
     }

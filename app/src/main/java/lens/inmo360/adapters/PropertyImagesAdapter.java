@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import lens.inmo360.R;
 import lens.inmo360.model.PropertyImage;
 import lens.inmo360.views.CardboardViewActivity;
+import lens.inmo360.views.HouseImagesActivity;
 
 /**
  * Created by estebanbutti on 4/25/16.
@@ -71,9 +72,10 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<byte[]> imagesToShow =  reorderImagesList(position);
+                ArrayList<String> imagesToShow =  reorderImagesList(position);
                 Context context = v.getContext();
                 Intent intent = new Intent(context, CardboardViewActivity.class);
+                intent.putExtra(CardboardViewActivity.EXTRA_IMAGES, imagesToShow);
                 context.startActivity(intent);
             }
         });
@@ -90,10 +92,10 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
         }
     }
 
-    private ArrayList<byte[]> reorderImagesList(Integer ix){
+    private ArrayList<String> reorderImagesList(Integer ix){
         ArrayList<PropertyImage> newList = mImages;
         ArrayList<PropertyImage> auxList = new ArrayList<>();
-        ArrayList<byte[]> bytesList = new ArrayList<>();
+        ArrayList<String> pathsList = new ArrayList<>();
 
         for (int i = 0; i < ix; i++){
             auxList.add(newList.get(i));
@@ -103,39 +105,10 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
         newList.addAll(auxList);
 
         for (int i = 0; i < newList.size(); i++){
-            bytesList.add(bitmapToBytArray(getBitmapFromLocalPath(newList.get(i).getLocalPath(), 4)));
+            pathsList.add(newList.get(i).getLocalPath());
         }
 
-        return bytesList;
-    }
-
-
-    /**
-     *
-     * @param path
-     * @param sampleSize 1 = 100%, 2 = 50%(1/2), 4 = 25%(1/4), ...
-     * @return
-     */
-    private Bitmap getBitmapFromLocalPath(String path, int sampleSize)
-    {
-        try
-        {
-            BitmapFactory.Options options = new BitmapFactory.Options();
-            options.inSampleSize = sampleSize;
-            return BitmapFactory.decodeFile(path, options);
-        }
-        catch(Exception e)
-        {
-            //  Logger.e(e.toString());
-        }
-
-        return null;
-    }
-
-    private byte[] bitmapToBytArray(Bitmap bmp){
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
-        return stream.toByteArray();
+        return pathsList;
     }
 }
 

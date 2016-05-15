@@ -48,14 +48,14 @@ public class MainFragment extends android.support.v4.app.Fragment{
         // set the adapter object to the Recyclerview
         mRecyclerView.setAdapter(mAdapter);
 
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity().getApplicationContext(),CardboardViewActivity.class);
-                startActivity(intent);
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(getActivity().getApplicationContext(),CardboardViewActivity.class);
+//                startActivity(intent);
+//            }
+//        });
         return view;
     }
 }
