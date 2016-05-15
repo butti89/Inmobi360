@@ -97,7 +97,8 @@ public class CouchBaseManager {
     }
 
     public Document getDocument(String docId){
-        return database.getExistingDocument(docId);
+        Document doc = database.getExistingDocument(docId);
+        return doc;
     }
 
     //Debug usage

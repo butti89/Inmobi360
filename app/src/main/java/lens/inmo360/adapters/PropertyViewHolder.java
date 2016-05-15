@@ -26,7 +26,6 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
         propertyTitle = (TextView) itemLayoutView.findViewById(R.id.property_title);
         propertyAddress = (TextView) itemLayoutView.findViewById(R.id.property_address);
         propertyImage = (ImageView) itemLayoutView.findViewById(R.id.property_image);
-
     }
 
     public ImageView getPropertyImage() {
@@ -56,4 +55,5 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
     {
         this.propertyAddress = propertyAddress;
     }
+
 }

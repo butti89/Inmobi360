@@ -12,7 +12,7 @@ import lens.inmo360.model.Property;
  * Created by Nach on 5/7/2016.
  */
 public class PropertiesDAO {
-    private static CouchBaseManager cbManager;
+    private static CouchBaseManager cbManager = new CouchBaseManager();
 
     public static ArrayList<Property> GetAll(){
 
@@ -27,7 +27,9 @@ public class PropertiesDAO {
     }
 
     public static Property getById(String id){
-        return ModelHelper.modelForDocument(cbManager.getDocument(id), Property.class);
+        Document doc = cbManager.getDocument(id);
+        Property prop= ModelHelper.modelForDocument(doc, Property.class);
+        return prop;
     }
 
     public static Property getById(Integer id){

@@ -37,8 +37,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
 
     // Create new views
     @Override
-    public PropertyViewHolder onCreateViewHolder(ViewGroup parent,
-                                                             int viewType) {
+    public PropertyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         // create a new view
         View itemLayoutView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.property_list_row, null);
@@ -72,7 +71,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, HouseImagesActivity.class);
-                intent.putExtra(HouseImagesActivity.EXTRA_NAME, mProperties.get(position).getId());
+                intent.putExtra(HouseImagesActivity.EXTRA_NAME, mProperties.get(position).getId().toString());
 
                 context.startActivity(intent);
             }

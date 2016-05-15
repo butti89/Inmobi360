@@ -179,8 +179,6 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         if (mIsCardboardTriggered) {
             mIsCardboardTriggered = false;
             resetTexture();
-
-
         }
     }
 
@@ -205,7 +203,6 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         /** Setting the projection Matrix for the view **/
         Matrix.perspectiveM(mProjectionMatrix2,0, 100, (float) width
                 / (float) height, 1f, 10f);
-
     }
 
     @Override
@@ -241,11 +238,13 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     public void onRendererShutdown() {
 
     }
+
     public void setTexture(Bitmap texture) {
         mTexture = texture;
         mTextureUpdate = true;
         return;
     }
+
     public void loadTexture(final Bitmap texture) {
 
         final Bitmap bitmap = texture;
@@ -270,11 +269,11 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         return;
     }
+
     private int getPhotoIndex() {
         return mResourceId[mCurrentPhotoPos++ % mResourceId.length];
-
-
     }
+
     private void resetTexture() {
         GLES20.glDeleteTextures(mTextures.length, mTextures, 0);
         final BitmapFactory.Options options = new BitmapFactory.Options();
@@ -282,10 +281,8 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
         mTexture = thumbnail;
         loadTexture(mTexture);
-
-
-
     }
+
     private int loadShader(int type, String shaderCode){
 
         int shader = GLES20.glCreateShader(type);
@@ -295,6 +292,4 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         return shader;
     }
-
-
 }
