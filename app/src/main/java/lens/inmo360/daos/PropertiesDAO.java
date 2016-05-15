@@ -25,4 +25,12 @@ public class PropertiesDAO {
 
         return res;
     }
+
+    public static Property getById(String id){
+        return ModelHelper.modelForDocument(cbManager.getDocument(id), Property.class);
+    }
+
+    public static Property getById(Integer id){
+        return getById(id.toString());
+    }
 }
