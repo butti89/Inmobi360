@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,12 +26,6 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-
-
-
-
-
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -69,15 +64,16 @@ public class MainActivity extends AppCompatActivity
     private SeekBar seekbar;
     private TextView seekBarValue;
     private LinearLayout province;
-    private LinearLayout region;
-    private LinearLayout property;
+    private LinearLayout location;
+    private LinearLayout category;
     private LinearLayout antiquity;
     private TextView province_filter;
-    private TextView region_filter;
-    private TextView property_filter;
+    private TextView location_filter;
+    private TextView category_filter;
     private TextView antiquity_filer;
     private Context context = this;
     private Filter filter = new Filter();
+    private Filter lastfilter = new Filter();
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,7 +87,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -141,12 +136,31 @@ public class MainActivity extends AppCompatActivity
         MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Filtro")
                 .customView(R.layout.dialog_filterview, true)
-                .positiveText("Aceptar")
-                .negativeText("Cancelar")
+                .positiveText(R.string.acceptButton)
+                .neutralText(R.string.clearButton)
+                .negativeText(R.string.cancelNegativeButton)
+                .autoDismiss(false)
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        showToast("Password: " );
+                        lastfilter.setValues(filter);
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        province_filter.setText(R.string.select_filter);
+                        location_filter.setText(R.string.select_filter);
+                        category_filter.setText(R.string.select_filter);
+                        seekbar.setProgress(0);
+                        filter.clearFilter();
                     }
                 })
                 .build();
@@ -155,13 +169,22 @@ public class MainActivity extends AppCompatActivity
         seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
         province = (LinearLayout) dialog.getCustomView().findViewById(R.id.province);
         province_filter = (TextView) dialog.getCustomView().findViewById(R.id.province_filter);
-        region = (LinearLayout)dialog.getCustomView().findViewById(R.id.region);
-        region_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
-        property = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
-        property_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
-        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
-        antiquity_filer = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
+        location = (LinearLayout)dialog.getCustomView().findViewById(R.id.region);
+        location_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
+        category = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
+        category_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
+//        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
+//        antiquity_filer = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
 
+        if(lastfilter.getProvince()!=null)province_filter.setText(lastfilter.getProvince());
+        if(lastfilter.getLocation()!=null) location_filter.setText(lastfilter.getLocation());
+        if(lastfilter.getCategory()!=null)category_filter.setText(lastfilter.getCategory());
+        if(lastfilter.getRooms()!=null){
+            Resources res = getResources();
+            String[] ambient = res.getStringArray(R.array.ambientes);
+            seekBarValue.setText(ambient[lastfilter.getRooms()]);
+            seekbar.setProgress(lastfilter.getRooms());
+        }
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
@@ -169,6 +192,7 @@ public class MainActivity extends AppCompatActivity
                 Resources res = getResources();
                 String[] ambient = res.getStringArray(R.array.ambientes);
                 seekBarValue.setText(ambient[progress]);
+                filter.setRooms(progress);
             }
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -183,40 +207,49 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onClick(View v) {
-
                 new MaterialDialog.Builder(context)
                         .title(getString(R.string.Province))
                         .items(R.array.Provinces)
-                        .itemsCallbackSingleChoice(2, new MaterialDialog.ListCallbackSingleChoice() {
+                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                showToast(text.toString());
+                                //showToast(text.toString());
                                 filter.setProvince(text.toString());
+                                province_filter.setText(text);
+                                if(text=="")province_filter.setText(R.string.select_filter);
                                 return true; // allow selection
                             }
                         })
-                        .positiveText(R.string.md_choose_label)
+                        .positiveText(R.string.choose)
                         .show();
             }
         });
 
-        region.setOnClickListener(new View.OnClickListener() {
+        location.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 new MaterialDialog.Builder(context)
                         .title("Localidad")
-                        .items(R.array.socialNetworks)
-                        .itemsCallbackMultiChoice(new Integer[]{1, 3}, new MaterialDialog.ListCallbackMultiChoice() {
+                        .items(R.array.location)
+                        .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
                             @Override
                             public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
                                 StringBuilder str = new StringBuilder();
                                 for (int i = 0; i < which.length; i++) {
-                                    if (i > 0) str.append('\n');
+                                    if (i > 0) str.append(", ");
                                     str.append(text[i]);
                                 }
-                                showToast(str.toString());
-                                filter.setRegions(text);
+                                //showToast(str.toString());
+                                String[] mEntriesString = new String[text.length];
+                                int i=0;
+                                for(CharSequence ch: text){
+                                    mEntriesString[i++] = ch.toString();
+                                }
+                                filter.setLocationArray(mEntriesString);
+                                filter.setLocation(str.toString());
+                                location_filter.setText(str.toString());
+                                if(text.length==0)location_filter.setText(R.string.select_filter);
                                 return true; // allow selection
                             }
                         })
@@ -227,36 +260,78 @@ public class MainActivity extends AppCompatActivity
                             }
                         })
                         .alwaysCallMultiChoiceCallback()
-                        .positiveText(R.string.md_choose_label)
+                        .positiveText(R.string.choose)
                         .autoDismiss(false)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
                         .neutralText(R.string.clear_selection)
                         .show();
             }
         });
 
-        property.setOnClickListener(new View.OnClickListener() {
+        category.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 new MaterialDialog.Builder(context)
-                        .content("hola")
-                        .positiveText("si")
-                        .negativeText("no")
+                        .title(R.string.category)
+                        .items(R.array.category)
+                        .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                StringBuilder str = new StringBuilder();
+                                for (int i = 0; i < which.length; i++) {
+                                    if (i > 0) str.append(", ");
+                                    str.append(text[i]);
+                                }
+                                //showToast(str.toString());
+                                String[] mEntriesString = new String[text.length];
+                                int i=0;
+                                for(CharSequence ch: text){
+                                    mEntriesString[i++] = ch.toString();
+                                }
+                                filter.setCategoryArray(mEntriesString);
+                                filter.setCategory(str.toString());
+                                category_filter.setText(str.toString());
+                                if(text.length==0)category_filter.setText(R.string.select_filter);
+                                return true; // allow selection
+                            }
+                        })
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.clearSelectedIndices();
+                            }
+                        })
+                        .alwaysCallMultiChoiceCallback()
+                        .positiveText(R.string.choose)
+                        .autoDismiss(false)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .neutralText(R.string.clear_selection)
                         .show();
             }
         });
 
-        antiquity.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                new MaterialDialog.Builder(context)
-                        .content("hola")
-                        .positiveText("si")
-                        .negativeText("no")
-                        .show();
-            }
-        });
+//        antiquity.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                new MaterialDialog.Builder(context)
+//                        .content("hola")
+//                        .positiveText("si")
+//                        .negativeText("no")
+//                        .show();
+//            }
+//        });
 
         dialog.show();
 
@@ -272,11 +347,11 @@ public class MainActivity extends AppCompatActivity
         switch(view.getId()) {
             case R.id.rental:
                 if (checked)
-                    // Pirates are the best
+                    filter.setOperation("Alquiler");
                     break;
             case R.id.sales:
                 if (checked)
-                    // Ninjas rule
+                    filter.setOperation("Venta");
                     break;
         }
     }

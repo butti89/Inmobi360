@@ -11,17 +11,54 @@
     <string-array
         name="ambientes">
         <item>Monoambiente</item>
-        <item>1 Ambiente</item>
-        <item>2 Ambientes</item>
-        <item>3 Ambientes</item>
-        <item>4 o mas Ambientes</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4 o más</item>
     </string-array>
-    <string-array name="socialNetworks">
-    <item>Localidad</item>
-    <item>Operación</item>
-    <item>Tipo de inmueble</item>
-    <item>Habitaciones</item>
-</string-array>
+    <string-array name="location">
+        <item>Alvear</item>
+        <item>Arroyo Seco</item>
+        <item>Cap Bermudez</item>
+        <item>Carcaraña</item>
+        <item>Casilda</item>
+        <item>Fray Luis Beltrán</item>
+        <item>Funes</item>
+        <item>Gdro Baigorria</item>
+        <item>Gral Lagos</item>
+        <item>Perez</item>
+        <item>Pueblo Esther</item>
+        <item>Roldán</item>
+        <item>Rosario</item>
+        <item>San Lorenzo</item>
+        <item>San Nicolás</item>
+        <item>Victoria</item>
+        <item>Villa Constitución</item>
+        <item>Villa Gdor Galvez</item>
+        <item>Zavalla</item>
+    </string-array>
+    <string-array name="category">
+        <item>Barrios privados</item>
+        <item>Bungallows</item>
+        <item>Cabañas</item>
+        <item>Campos</item>
+        <item>Casas</item>
+        <item>Casaquinta</item>
+        <item>Chacras</item>
+        <item>Chalets</item>
+        <item>Cocheras</item>
+        <item>Condominios</item>
+        <item>Countries</item>
+        <item>Departamentos</item>
+        <item>Edificios</item>
+        <item>Fraccion</item>
+        <item>Galpones</item>
+        <item>Loteos</item>
+        <item>Oficinas</item>
+        <item>PH</item>
+        <item>Quintas</item>
+        <item>Terrenos</item>
+    </string-array>
     <string-array name="Provinces">
         <item>Buenos Aires</item>
         <item>Buenos Aires-GBA</item>
@@ -56,6 +93,8 @@
     <string name="deleteConfirmationPositiveButton">ELIMINAR</string>
     <string name="downloadConfirmationPositiveButton">DESCARGAR</string>
     <string name="cancelNegativeButton">CANCELAR</string>
+    <string name="acceptButton">ACEPTAR</string>
+    <string name="clearButton">BORRAR</string>
     <string name="clear_selection">Clear</string>
     <string name="loadingMessage">Cargando&#8230;</string>
     <string name="please_wait">Por favor espere&#8230;</string>
@@ -66,13 +105,13 @@
     <string name="incorrect_password">Debe contener entre 4 y 10 caracteres</string>
     <string name="Province">Provincia</string>
     <string name="Region">Localidad</string>
-    <string name="property">Tipo de Inmueble</string>
+    <string name="category">Tipo de Inmueble</string>
     <string name="ambient">Ambientes</string>
     <string name="antiquity">Antiguedad</string>
     <string name="operation">Operación</string>
     <string name="select_filter">Seleccionar filtro</string>
     <string name="rental">Alquiler</string>
     <string name="sales">Venta</string>
-
+    <string name="choose">Seleccionar</string>
     <string name="title_activity_house">HouseActivity</string>
 </resources>
