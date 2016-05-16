@@ -1,5 +1,6 @@
 package lens.inmo360.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -37,9 +38,13 @@ public class HouseImagesActivity extends AppCompatActivity {
         // use a linear layout manager
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        ArrayList<Property> properties = PropertiesDAO.GetAll();
-        ArrayList<PropertyImage> images = properties.get(0).getImages();
-        getSupportActionBar().setTitle(properties.get(0).getTitle());
+
+        Intent intent = getIntent();
+        String id = intent.getStringExtra(EXTRA_NAME);
+
+        Property propertie = PropertiesDAO.getById(id);
+        ArrayList<PropertyImage> images = propertie.getImages();
+        getSupportActionBar().setTitle(propertie.getTitle());
 
         // create an Object for Adapter
         mAdapter = new PropertyImagesAdapter(getApplicationContext(),images);
