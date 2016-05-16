@@ -40,6 +40,5 @@ public class ModelHelper {
         Map<String, Object> props = document.getProperties();
 
         return m.convertValue(props, aClass);
-
     }
 }

@@ -28,18 +28,24 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".views.CardboardViewActivity"
             android:label="@string/title_activity_cardboard"
             android:screenOrientation="landscape">
-
             <intent-filter>
                 <category android:name="com.google.intent.category.CARDBOARD"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".views.LoginActivity" android:theme="@style/AppTheme.Dark" />
+        <activity
+            android:name=".views.LoginActivity"
+            android:theme="@style/AppTheme.Dark"/>
+        <activity
+            android:name=".views.HouseImagesActivity"
+            android:label="@string/title_activity_house"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data android:name="android.support.PARENT_ACTIVITY"
+                   android:value=".MainActivity" />
+        </activity>
     </application>
 
 </manifest>

@@ -99,37 +99,35 @@ public class LoginActivity extends AppCompatActivity {
                 int statusCode = response.code();
                 User properties = response.body();
 
-                if (statusCode==200){
+                if (statusCode == 200) {
                     new android.os.Handler().postDelayed(
                             new Runnable() {
                                 public void run() {
                                     // On complete call either onLoginSuccess or onLoginFailed
                                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
-                                    editor.putString("Email",email);
-                                    editor.putString("Password",password);
+                                    editor.putString("Email", email);
+                                    editor.putString("Password", password);
                                     editor.commit();
                                     onLoginSuccess();
                                     // onLoginFailed();
                                     progressDialog.dismiss();
                                 }
                             }, 3000);
-                                    }
-
-
-                else {
+                } else {
 
                     new android.os.Handler().postDelayed(
-                        new Runnable() {
-                            public void run() {
-                                // On complete call either onLoginSuccess or onLoginFailed
-                                onLoginFailed();
-                                progressDialog.dismiss();
-                            }
-                        }, 3000);
+                            new Runnable() {
+                                public void run() {
+                                    // On complete call either onLoginSuccess or onLoginFailed
+                                    onLoginFailed();
+                                    progressDialog.dismiss();
+                                }
+                            }, 3000);
                 }
 
             }
+
             @Override
             public void onFailure(Call<User> call, Throwable t) {
                 // Log error here since request failed
@@ -161,7 +159,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(),getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
 
         _loginButton.setEnabled(true);
     }

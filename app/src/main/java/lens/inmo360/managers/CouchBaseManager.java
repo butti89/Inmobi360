@@ -141,7 +141,8 @@ public class CouchBaseManager {
     }
 
     public void deleteDocument(String id){
-        deleteDocument(database.getExistingDocument(id));
+        Document doc = database.getExistingDocument(id);
+        deleteDocument(doc);
     }
 
     public void deleteDocument(Document doc){

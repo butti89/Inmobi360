@@ -8,7 +8,7 @@ import lens.inmo360.managers.CouchBaseManager;
  */
 public class PersistentObject {
 
-    private CouchBaseManager couchBaseManager;
+    private CouchBaseManager couchBaseManager = new CouchBaseManager();
 
     public void save(){
         ModelHelper.save(couchBaseManager.getDataBase(),this);
