@@ -96,6 +96,11 @@ public class CouchBaseManager {
         return writeDocument(database.getExistingDocument(docId),properties);
     }
 
+    public Document getDocument(String docId){
+        Document doc = database.getExistingDocument(docId);
+        return doc;
+    }
+
     //Debug usage
     public static void seeAllDocs(){
         Query query = database.createAllDocumentsQuery();
