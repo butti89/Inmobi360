@@ -3,12 +3,12 @@
     <color name="colorPrimary">#388e3c</color>
     <color name="colorPrimaryDark">#1b5e20</color>
     <color name="colorPrimaryMiddle">#1b5F20</color>
-    <color name="colorAccent">#1e88e5</color>
+    <!--<color name="colorAccent">#1e88e5</color>-->
+    <color name="colorAccent">#388e3c</color>
     <color name="primary">#FFECB2</color>
     <color name="primary_dark">#E12929</color>
     <color name="primary_darker">#CC1D1D</color>
     <color name="accent">#FFFFFF</color>
-
     <color name="colorSecondary">#38474F</color>
 
     <color name="black">#000000</color>

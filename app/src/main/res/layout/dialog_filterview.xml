@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation = "vertical"
-    android:paddingLeft="0dp"
+
     >
 
-    <!--android:entries="@array/Entries"-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,17 +14,15 @@
         android:id="@+id/province"
         android:background="@drawable/ripple_effect"
         android:clickable="true"
-    >
+        >
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:paddingTop="20dp"
             android:text="@string/Province"
             android:textColor="#000000"
             android:textSize="16sp"
-
             />
 
         <TextView
@@ -36,6 +33,7 @@
             android:id="@+id/province_filter"
             android:textColor="#80000000"
             android:textSize="14sp" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -69,7 +67,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-
         >
         <TextView
             android:layout_width="wrap_content"
@@ -78,25 +75,77 @@
             android:text="@string/operation"
             android:textColor="#000000"
             android:textSize="16sp" />
+
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="20dp"
-
-            android:paddingBottom="20dp">
+            android:id="@+id/radioGroup">
             <RadioButton android:id="@+id/rental"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/rental"
                 android:paddingRight="6dp"
+                android:paddingLeft="0dp"
                 android:onClick="onRadioButtonClicked"/>
             <RadioButton android:id="@+id/sales"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/sales"
+
                 android:onClick="onRadioButtonClicked"/>
         </RadioGroup>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="40dp"
+            android:text="@string/price"
+            android:textColor="#000000"
+            android:textSize="16sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/since"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="6"
+                android:id="@+id/editText1" />
+        </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/until"
+                android:textColor="#000000"
+                android:textSize="12sp" />
+            <EditText
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:ems="6"
+                android:id="@+id/editText2" />
+            </LinearLayout>
+
     </LinearLayout>
 
     <LinearLayout

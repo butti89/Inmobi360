@@ -26,9 +26,11 @@ import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,6 +76,11 @@ public class MainActivity extends AppCompatActivity
     private Context context = this;
     private Filter filter = new Filter();
     private Filter lastfilter = new Filter();
+    private RadioGroup radioGroup;
+    private RadioButton sales;
+    private RadioButton rental;
+    private EditText since;
+    private EditText until;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -160,6 +167,7 @@ public class MainActivity extends AppCompatActivity
                         location_filter.setText(R.string.select_filter);
                         category_filter.setText(R.string.select_filter);
                         seekbar.setProgress(0);
+                        radioGroup.clearCheck();
                         filter.clearFilter();
                     }
                 })
@@ -173,6 +181,11 @@ public class MainActivity extends AppCompatActivity
         location_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
         category = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
         category_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
+        radioGroup = (RadioGroup)dialog.getCustomView().findViewById(R.id.radioGroup);
+        sales = (RadioButton)dialog.getCustomView().findViewById(R.id.sales);
+        rental = (RadioButton)dialog.getCustomView().findViewById(R.id.rental);
+        since = (EditText) dialog.getCustomView().findViewById(R.id.editText1);
+        until = (EditText) dialog.getCustomView().findViewById(R.id.editText2);
 //        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
 //        antiquity_filer = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
 
@@ -185,6 +198,12 @@ public class MainActivity extends AppCompatActivity
             seekBarValue.setText(ambient[lastfilter.getRooms()]);
             seekbar.setProgress(lastfilter.getRooms());
         }
+        if(lastfilter.getOperation()!=null){
+            if(lastfilter.getOperation()=="Alquiler")rental.setChecked(true);
+            if(lastfilter.getOperation()=="Venta")sales.setChecked(true);
+        }
+        if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice());}
+        if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice());}
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override

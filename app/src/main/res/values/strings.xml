@@ -114,4 +114,7 @@
     <string name="sales">Venta</string>
     <string name="choose">Seleccionar</string>
     <string name="title_activity_house">HouseActivity</string>
+    <string name="price">Precio</string>
+    <string name="since">Desde</string>
+    <string name="until">Hasta</string>
 </resources>

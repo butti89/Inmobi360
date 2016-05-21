@@ -12,6 +12,8 @@ public class Filter {
     private String category=null;
     private String location=null;
     private Integer rooms=null;
+    private Integer minprice = null;
+    private Integer maxprice = null;
     private String antiquity=null;
     private String[] filter = {this.antiquity,this.operation};
 
@@ -36,6 +38,10 @@ public class Filter {
     }
 
     public void setRooms(Integer rooms) {this.rooms = rooms;}
+
+    public void setMinprice(Integer minprice){this.minprice = minprice;}
+
+    public void setMaxprice(Integer maxprice){this.maxprice = maxprice;}
 
     public void setAntiquity(String antiquity) {
         this.antiquity = antiquity;
@@ -62,6 +68,10 @@ public class Filter {
 
     public String getAntiquity(){return this.antiquity;}
 
+    public Integer getMaxprice(){return this.maxprice;}
+
+    public Integer getMinprice(){return this.minprice;}
+
     public void clearFilter(){
         this.operation = null;
         this.categoryArray = null;
@@ -71,6 +81,8 @@ public class Filter {
         this.antiquity = null;
         this.category = null;
         this.location = null;
+        this.minprice = null;
+        this.maxprice = null;
     }
 
     public void setValues(Filter filtro)
@@ -83,5 +95,7 @@ public class Filter {
         this.antiquity = filtro.antiquity;
         this.category = filtro.category;
         this.location = filtro.location;
+        this.minprice = filtro.minprice;
+        this.maxprice = filtro.maxprice;
     }
 }
