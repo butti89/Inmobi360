@@ -109,6 +109,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
+        // Highlight the selected item has been done by NavigationView
+        item.setChecked(true);
+
         // Create a new fragment and specify the fragment to show based on nav item clicked
         Fragment fragment = null;
         Class fragmentClass;
@@ -133,8 +136,6 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.fragmentsContainer, fragment).commit();
 
-        // Highlight the selected item has been done by NavigationView
-        item.setChecked(true);
         // Set action bar title
         setTitle(item.getTitle());
         // Close the navigation drawer

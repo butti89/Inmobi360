@@ -18,6 +18,7 @@ import android.widget.Toast;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import lens.inmo360.R;
+import lens.inmo360.helpers.DialogHelper;
 import lens.inmo360.managers.HttpManager;
 import lens.inmo360.model.PropertyAPIInterface;
 import lens.inmo360.model.User;
@@ -97,7 +98,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<User> call, Response<User> response) {
                 int statusCode = response.code();
-                User properties = response.body();
+                final User user = response.body();
 
                 if (statusCode == 200) {
                     new android.os.Handler().postDelayed(
@@ -108,6 +109,7 @@ public class LoginActivity extends AppCompatActivity {
                                     SharedPreferences.Editor editor = sharedPreferences.edit();
                                     editor.putString("Email", email);
                                     editor.putString("Password", password);
+                                    editor.putString("CompanyID",user.getCompanyId().toString());
                                     editor.commit();
                                     onLoginSuccess();
                                     // onLoginFailed();
@@ -132,6 +134,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<User> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
+                DialogHelper.showNoConnectionDialog(getApplicationContext());
             }
         });
     }
