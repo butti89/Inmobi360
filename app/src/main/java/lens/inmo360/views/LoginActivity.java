@@ -134,7 +134,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<User> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
-                DialogHelper.showNoConnectionDialog(getApplicationContext());
+                onLoginFailed();
+                progressDialog.dismiss();
             }
         });
     }
@@ -160,7 +161,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), getString(R.string.login_failed), Toast.LENGTH_LONG).show();
+        DialogHelper.showNoConnectionDialog(getApplicationContext());
 
         _loginButton.setEnabled(true);
     }

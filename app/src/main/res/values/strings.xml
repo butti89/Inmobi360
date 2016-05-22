@@ -8,7 +8,84 @@
     <string name="title_activity_cardboard">CardboardActivity</string>
 
     <string name="db_name">inmobidb</string>
-
+    <string-array
+        name="ambientes">
+        <item>Monoambiente</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4 o más</item>
+    </string-array>
+    <string-array name="location">
+        <item>Alvear</item>
+        <item>Arroyo Seco</item>
+        <item>Cap Bermudez</item>
+        <item>Carcaraña</item>
+        <item>Casilda</item>
+        <item>Fray Luis Beltrán</item>
+        <item>Funes</item>
+        <item>Gdro Baigorria</item>
+        <item>Gral Lagos</item>
+        <item>Perez</item>
+        <item>Pueblo Esther</item>
+        <item>Roldán</item>
+        <item>Rosario</item>
+        <item>San Lorenzo</item>
+        <item>San Nicolás</item>
+        <item>Victoria</item>
+        <item>Villa Constitución</item>
+        <item>Villa Gdor Galvez</item>
+        <item>Zavalla</item>
+    </string-array>
+    <string-array name="category">
+        <item>Barrios privados</item>
+        <item>Bungallows</item>
+        <item>Cabañas</item>
+        <item>Campos</item>
+        <item>Casas</item>
+        <item>Casaquinta</item>
+        <item>Chacras</item>
+        <item>Chalets</item>
+        <item>Cocheras</item>
+        <item>Condominios</item>
+        <item>Countries</item>
+        <item>Departamentos</item>
+        <item>Edificios</item>
+        <item>Fraccion</item>
+        <item>Galpones</item>
+        <item>Loteos</item>
+        <item>Oficinas</item>
+        <item>PH</item>
+        <item>Quintas</item>
+        <item>Terrenos</item>
+    </string-array>
+    <string-array name="Provinces">
+        <item>Buenos Aires</item>
+        <item>Buenos Aires-GBA</item>
+        <item>Capital Federal</item>
+        <item>Catamarca</item>
+        <item>Chaco</item>
+        <item>Chubut</item>
+        <item>Córdoba</item>
+        <item>Corrientes</item>
+        <item>Entre Ríos</item>
+        <item>Formosa</item>
+        <item>Jujuy</item>
+        <item>La Pampa</item>
+        <item>La Rioja</item>
+        <item>Mendoza</item>
+        <item>Misiones</item>
+        <item>Neuquén</item>
+        <item>Río Negro</item>
+        <item>Salta</item>
+        <item>San Juan</item>
+        <item>San Luis</item>
+        <item>Santa Cruz</item>
+        <item>Santa Fe</item>
+        <item>Santiago del Estero</item>
+        <item>Tierra del Fuego</item>
+        <item>Tucumán</item>
+    </string-array>
     <!--DIALOGS-->
     <string name="syncDialogTitle">Sincronización</string>
     <string name="downloadConfirmationContent">Esta seguro que desea descargar ahora las propiedades seleccionadas?</string>
@@ -21,7 +98,9 @@
     <string name="deleteConfirmationPositiveButton">ELIMINAR</string>
     <string name="downloadConfirmationPositiveButton">DESCARGAR</string>
     <string name="cancelNegativeButton">CANCELAR</string>
-
+    <string name="acceptButton">ACEPTAR</string>
+    <string name="clearButton">BORRAR</string>
+    <string name="clear_selection">Clear</string>
     <string name="loadingMessage">Cargando&#8230;</string>
     <string name="please_wait">Por favor espere&#8230;</string>
     <string name="downloading">Descargando&#8230;</string>
@@ -29,5 +108,18 @@
     <string name="login_failed">Error de logueo</string>
     <string name="enter_valid_address">Ingrese una dirección electrónica válida</string>
     <string name="incorrect_password">Debe contener entre 4 y 10 caracteres</string>
+    <string name="Province">Provincia</string>
+    <string name="Region">Localidad</string>
+    <string name="category">Tipo de Inmueble</string>
+    <string name="ambient">Ambientes</string>
+    <string name="antiquity">Antiguedad</string>
+    <string name="operation">Operación</string>
+    <string name="select_filter">Seleccionar filtro</string>
+    <string name="rental">Alquiler</string>
+    <string name="sales">Venta</string>
+    <string name="choose">Seleccionar</string>
     <string name="title_activity_house">HouseActivity</string>
+    <string name="price">Precio</string>
+    <string name="since">Desde</string>
+    <string name="until">Hasta</string>
 </resources>

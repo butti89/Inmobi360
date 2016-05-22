@@ -56,11 +56,11 @@ public class CardboardOverlayView extends LinearLayout {
 
     // Set some reasonable defaults.
     setDepthOffset(0.01f);
-    setColor(Color.rgb(150, 255, 180));
+    setColor(Color.rgb(255, 255, 255));
     setVisibility(View.VISIBLE);
 
     textFadeAnimation = new AlphaAnimation(1.0f, 0.0f);
-    textFadeAnimation.setDuration(5000);
+    textFadeAnimation.setDuration(6000);
   }
 
   public void show3DToast(String message) {
@@ -161,7 +161,7 @@ public class CardboardOverlayView extends LinearLayout {
       final float verticalImageOffset = -0.07f;
 
       // Vertical position of the text, specified in fractions of this ViewGroup's height.
-      final float verticalTextPos = 0.52f;
+      final float verticalTextPos = 0.60f;
 
       // Layout ImageView
       float adjustedOffset = offset;
