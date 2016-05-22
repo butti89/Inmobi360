@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity
     private TextView province_filter;
     private TextView location_filter;
     private TextView category_filter;
-    private TextView antiquity_filer;
+    private TextView antiquity_filter;
     private Context context = this;
     private Filter filter = new Filter();
     private Filter lastfilter = new Filter();
@@ -171,6 +171,7 @@ public class MainActivity extends AppCompatActivity
                         province_filter.setText(R.string.select_filter);
                         location_filter.setText(R.string.select_filter);
                         category_filter.setText(R.string.select_filter);
+                        antiquity_filter.setText(R.string.select_filter);
                         seekbar.setProgress(0);
                         radioGroup.clearCheck();
                         until.setText(null, TextView.BufferType.EDITABLE);
@@ -193,8 +194,8 @@ public class MainActivity extends AppCompatActivity
         rental = (RadioButton)dialog.getCustomView().findViewById(R.id.rental);
         since = (EditText) dialog.getCustomView().findViewById(R.id.editText1);
         until = (EditText) dialog.getCustomView().findViewById(R.id.editText2);
-//        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
-//        antiquity_filer = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
+        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
+        antiquity_filter = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
 
         if(lastfilter.getProvince()!=null)province_filter.setText(lastfilter.getProvince());
         if(lastfilter.getLocation()!=null) location_filter.setText(lastfilter.getLocation());
@@ -211,6 +212,7 @@ public class MainActivity extends AppCompatActivity
         }
         if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice().toString(), TextView.BufferType.EDITABLE);}
         if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice().toString(), TextView.BufferType.EDITABLE);}
+        if(lastfilter.getAntiquity()!=null){antiquity_filter.setText(lastfilter.getAntiquity());}
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
@@ -347,17 +349,27 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//        antiquity.setOnClickListener(new View.OnClickListener() {
-//
-//            @Override
-//            public void onClick(View v) {
-//                new MaterialDialog.Builder(context)
-//                        .content("hola")
-//                        .positiveText("si")
-//                        .negativeText("no")
-//                        .show();
-//            }
-//        });
+        antiquity.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .title(getString(R.string.antiquity))
+                        .items(R.array.antiguedad)
+                        .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                //showToast(text.toString());
+                                filter.setAntiquity(text.toString());
+                                antiquity_filter.setText(text);
+                                if(text=="")antiquity_filter.setText(R.string.select_filter);
+                                return true; // allow selection
+                            }
+                        })
+                        .positiveText(R.string.choose)
+                        .show();
+            }
+        });
 
         dialog.show();
 
