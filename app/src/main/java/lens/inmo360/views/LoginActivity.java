@@ -132,6 +132,8 @@ public class LoginActivity extends AppCompatActivity {
             public void onFailure(Call<User> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
+                onLoginFailed();
+                progressDialog.dismiss();
             }
         });
     }

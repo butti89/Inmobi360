@@ -1,26 +1,52 @@
 package lens.inmo360;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntegerRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import android.text.method.PasswordTransformationMethod;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.SeekBar;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.internal.MDTintHelper;
+import com.afollestad.materialdialogs.internal.ThemeSingleton;
 
 import com.couchbase.lite.android.AndroidContext;
 
 import java.util.ArrayList;
-
+import lens.inmo360.adapters.ButtonItemAdapter;
 import lens.inmo360.managers.CouchBaseManager;
+import lens.inmo360.model.Filter;
 import lens.inmo360.model.House;
 import lens.inmo360.model.Property;
 import lens.inmo360.views.LoginActivity;
@@ -35,8 +61,27 @@ public class MainActivity extends AppCompatActivity
         SyncServerDataFragment.ServerFragmentUpdateListener{
 
     private DrawerLayout mDrawer;
+    private Toast mToast;
+    private ListView mainListView ;
     private CouchBaseManager CBLManager = new CouchBaseManager();
-
+    private SeekBar seekbar;
+    private TextView seekBarValue;
+    private LinearLayout province;
+    private LinearLayout location;
+    private LinearLayout category;
+    private LinearLayout antiquity;
+    private TextView province_filter;
+    private TextView location_filter;
+    private TextView category_filter;
+    private TextView antiquity_filer;
+    private Context context = this;
+    private Filter filter = new Filter();
+    private Filter lastfilter = new Filter();
+    private RadioGroup radioGroup;
+    private RadioButton sales;
+    private RadioButton rental;
+    private EditText since;
+    private EditText until;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +95,6 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -97,12 +141,245 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        MaterialDialog dialog = new MaterialDialog.Builder(this)
+                .title("Filtro")
+                .customView(R.layout.dialog_filterview, true)
+                .positiveText(R.string.acceptButton)
+                .neutralText(R.string.clearButton)
+                .negativeText(R.string.cancelNegativeButton)
+                .autoDismiss(false)
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        try{filter.setMinprice(Integer.parseInt(since.getText().toString()));}
+                        catch(Exception e) {filter.setMinprice(null);}
+                        try{filter.setMaxprice(Integer.parseInt(until.getText().toString()));}
+                        catch(Exception e) {filter.setMaxprice(null);}
+                        lastfilter.setValues(filter);
+                        dialog.dismiss();
+                    }
+                })
+                .onNegative(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        dialog.dismiss();
+                    }
+                })
+                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                    @Override
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        province_filter.setText(R.string.select_filter);
+                        location_filter.setText(R.string.select_filter);
+                        category_filter.setText(R.string.select_filter);
+                        seekbar.setProgress(0);
+                        radioGroup.clearCheck();
+                        until.setText(null, TextView.BufferType.EDITABLE);
+                        since.setText(null, TextView.BufferType.EDITABLE);
+                        filter.clearFilter();
+                    }
+                })
+                .build();
+
+        seekbar = (SeekBar)dialog.getCustomView().findViewById(R.id.seekbar);
+        seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
+        province = (LinearLayout) dialog.getCustomView().findViewById(R.id.province);
+        province_filter = (TextView) dialog.getCustomView().findViewById(R.id.province_filter);
+        location = (LinearLayout)dialog.getCustomView().findViewById(R.id.region);
+        location_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
+        category = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
+        category_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
+        radioGroup = (RadioGroup)dialog.getCustomView().findViewById(R.id.radioGroup);
+        sales = (RadioButton)dialog.getCustomView().findViewById(R.id.sales);
+        rental = (RadioButton)dialog.getCustomView().findViewById(R.id.rental);
+        since = (EditText) dialog.getCustomView().findViewById(R.id.editText1);
+        until = (EditText) dialog.getCustomView().findViewById(R.id.editText2);
+//        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
+//        antiquity_filer = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
+
+        if(lastfilter.getProvince()!=null)province_filter.setText(lastfilter.getProvince());
+        if(lastfilter.getLocation()!=null) location_filter.setText(lastfilter.getLocation());
+        if(lastfilter.getCategory()!=null)category_filter.setText(lastfilter.getCategory());
+        if(lastfilter.getRooms()!=null){
+            Resources res = getResources();
+            String[] ambient = res.getStringArray(R.array.ambientes);
+            seekBarValue.setText(ambient[lastfilter.getRooms()]);
+            seekbar.setProgress(lastfilter.getRooms());
         }
+        if(lastfilter.getOperation()!=null){
+            if(lastfilter.getOperation()=="Alquiler")rental.setChecked(true);
+            if(lastfilter.getOperation()=="Venta")sales.setChecked(true);
+        }
+        if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice().toString(), TextView.BufferType.EDITABLE);}
+        if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice().toString(), TextView.BufferType.EDITABLE);}
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                Resources res = getResources();
+                String[] ambient = res.getStringArray(R.array.ambientes);
+                seekBarValue.setText(ambient[progress]);
+                filter.setRooms(progress);
+            }
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+
+        province.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .title(getString(R.string.Province))
+                        .items(R.array.Provinces)
+                        .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                //showToast(text.toString());
+                                filter.setProvince(text.toString());
+                                province_filter.setText(text);
+                                if(text=="")province_filter.setText(R.string.select_filter);
+                                return true; // allow selection
+                            }
+                        })
+                        .positiveText(R.string.choose)
+                        .show();
+            }
+        });
+
+        location.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .title("Localidad")
+                        .items(R.array.location)
+                        .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                StringBuilder str = new StringBuilder();
+                                for (int i = 0; i < which.length; i++) {
+                                    if (i > 0) str.append(", ");
+                                    str.append(text[i]);
+                                }
+                                //showToast(str.toString());
+                                String[] mEntriesString = new String[text.length];
+                                int i=0;
+                                for(CharSequence ch: text){
+                                    mEntriesString[i++] = ch.toString();
+                                }
+                                filter.setLocationArray(mEntriesString);
+                                filter.setLocation(str.toString());
+                                location_filter.setText(str.toString());
+                                if(text.length==0)location_filter.setText(R.string.select_filter);
+                                return true; // allow selection
+                            }
+                        })
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.clearSelectedIndices();
+                            }
+                        })
+                        .alwaysCallMultiChoiceCallback()
+                        .positiveText(R.string.choose)
+                        .autoDismiss(false)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .neutralText(R.string.clear_selection)
+                        .show();
+            }
+        });
+
+        category.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                new MaterialDialog.Builder(context)
+                        .title(R.string.category)
+                        .items(R.array.category)
+                        .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                StringBuilder str = new StringBuilder();
+                                for (int i = 0; i < which.length; i++) {
+                                    if (i > 0) str.append(", ");
+                                    str.append(text[i]);
+                                }
+                                //showToast(str.toString());
+                                String[] mEntriesString = new String[text.length];
+                                int i=0;
+                                for(CharSequence ch: text){
+                                    mEntriesString[i++] = ch.toString();
+                                }
+                                filter.setCategoryArray(mEntriesString);
+                                filter.setCategory(str.toString());
+                                category_filter.setText(str.toString());
+                                if(text.length==0)category_filter.setText(R.string.select_filter);
+                                return true; // allow selection
+                            }
+                        })
+                        .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.clearSelectedIndices();
+                            }
+                        })
+                        .alwaysCallMultiChoiceCallback()
+                        .positiveText(R.string.choose)
+                        .autoDismiss(false)
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .neutralText(R.string.clear_selection)
+                        .show();
+            }
+        });
+
+//        antiquity.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                new MaterialDialog.Builder(context)
+//                        .content("hola")
+//                        .positiveText("si")
+//                        .negativeText("no")
+//                        .show();
+//            }
+//        });
+
+        dialog.show();
+
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void onRadioButtonClicked(View view) {
+        // Is the button now checked?
+        boolean checked = ((RadioButton) view).isChecked();
+
+        // Check which radio button was clicked
+        switch(view.getId()) {
+            case R.id.rental:
+                if (checked)
+                    filter.setOperation("Alquiler");
+                    break;
+            case R.id.sales:
+                if (checked)
+                    filter.setOperation("Venta");
+                    break;
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -142,6 +419,14 @@ public class MainActivity extends AppCompatActivity
         drawer.closeDrawer(GravityCompat.START);
 
         return true;
+    }
+    private void showToast(String message) {
+        if (mToast != null) {
+            mToast.cancel();
+            mToast = null;
+        }
+        mToast = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+        mToast.show();
     }
 
     @Override
