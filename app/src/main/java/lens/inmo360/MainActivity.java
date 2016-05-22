@@ -7,6 +7,7 @@ import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.IntegerRes;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -150,6 +151,10 @@ public class MainActivity extends AppCompatActivity
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                        try{filter.setMinprice(Integer.parseInt(since.getText().toString()));}
+                        catch(Exception e) {filter.setMinprice(null);}
+                        try{filter.setMaxprice(Integer.parseInt(until.getText().toString()));}
+                        catch(Exception e) {filter.setMaxprice(null);}
                         lastfilter.setValues(filter);
                         dialog.dismiss();
                     }
@@ -168,6 +173,8 @@ public class MainActivity extends AppCompatActivity
                         category_filter.setText(R.string.select_filter);
                         seekbar.setProgress(0);
                         radioGroup.clearCheck();
+                        until.setText(null, TextView.BufferType.EDITABLE);
+                        since.setText(null, TextView.BufferType.EDITABLE);
                         filter.clearFilter();
                     }
                 })
@@ -202,8 +209,8 @@ public class MainActivity extends AppCompatActivity
             if(lastfilter.getOperation()=="Alquiler")rental.setChecked(true);
             if(lastfilter.getOperation()=="Venta")sales.setChecked(true);
         }
-        if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice());}
-        if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice());}
+        if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice().toString(), TextView.BufferType.EDITABLE);}
+        if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice().toString(), TextView.BufferType.EDITABLE);}
         seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
             @Override
