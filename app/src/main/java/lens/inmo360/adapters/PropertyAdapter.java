@@ -31,8 +31,9 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
 
     @Override
     public void onViewRecycled(PropertyViewHolder holder) {
+        Glide.clear(holder.getPropertyImage());
         super.onViewRecycled(holder);
-        Glide.clear(viewHolder.getPropertyImage());
+
     }
 
     // Create new views

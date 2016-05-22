@@ -130,7 +130,9 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        MaterialDialog dialog = new MaterialDialog.Builder(this)
+        if (id == R.id.action_filter_houses) {
+
+            MaterialDialog dialog = new MaterialDialog.Builder(this)
                 .title("Filtro")
                 .customView(R.layout.dialog_filterview, true)
                 .positiveText(R.string.acceptButton)
@@ -170,70 +172,188 @@ public class MainActivity extends AppCompatActivity
                 })
                 .build();
 
-        seekbar = (SeekBar)dialog.getCustomView().findViewById(R.id.seekbar);
-        seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
-        province = (LinearLayout) dialog.getCustomView().findViewById(R.id.province);
-        province_filter = (TextView) dialog.getCustomView().findViewById(R.id.province_filter);
-        location = (LinearLayout)dialog.getCustomView().findViewById(R.id.region);
-        location_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
-        category = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
-        category_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
-        radioGroup = (RadioGroup)dialog.getCustomView().findViewById(R.id.radioGroup);
-        sales = (RadioButton)dialog.getCustomView().findViewById(R.id.sales);
-        rental = (RadioButton)dialog.getCustomView().findViewById(R.id.rental);
-        since = (EditText) dialog.getCustomView().findViewById(R.id.editText1);
-        until = (EditText) dialog.getCustomView().findViewById(R.id.editText2);
-        antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
-        antiquity_filter = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
+            seekbar = (SeekBar)dialog.getCustomView().findViewById(R.id.seekbar);
+            seekBarValue = (TextView)dialog.getCustomView().findViewById(R.id.seekbarvalue);
+            province = (LinearLayout) dialog.getCustomView().findViewById(R.id.province);
+            province_filter = (TextView) dialog.getCustomView().findViewById(R.id.province_filter);
+            location = (LinearLayout)dialog.getCustomView().findViewById(R.id.region);
+            location_filter = (TextView) dialog.getCustomView().findViewById(R.id.region_filter);
+            category = (LinearLayout)dialog.getCustomView().findViewById(R.id.property);
+            category_filter = (TextView) dialog.getCustomView().findViewById(R.id.property_filter);
+            radioGroup = (RadioGroup)dialog.getCustomView().findViewById(R.id.radioGroup);
+            sales = (RadioButton)dialog.getCustomView().findViewById(R.id.sales);
+            rental = (RadioButton)dialog.getCustomView().findViewById(R.id.rental);
+            since = (EditText) dialog.getCustomView().findViewById(R.id.editText1);
+            until = (EditText) dialog.getCustomView().findViewById(R.id.editText2);
+            antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
+            antiquity_filter = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
 
-        if(lastfilter.getProvince()!=null)province_filter.setText(lastfilter.getProvince());
-        if(lastfilter.getLocation()!=null) location_filter.setText(lastfilter.getLocation());
-        if(lastfilter.getCategory()!=null)category_filter.setText(lastfilter.getCategory());
-        if(lastfilter.getRooms()!=null){
-            Resources res = getResources();
-            String[] ambient = res.getStringArray(R.array.ambientes);
-            seekBarValue.setText(ambient[lastfilter.getRooms()]);
-            seekbar.setProgress(lastfilter.getRooms());
-        }
-        if(lastfilter.getOperation()!=null){
-            if(lastfilter.getOperation()=="Alquiler")rental.setChecked(true);
-            if(lastfilter.getOperation()=="Venta")sales.setChecked(true);
-        }
-        if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice().toString(), TextView.BufferType.EDITABLE);}
-        if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice().toString(), TextView.BufferType.EDITABLE);}
-        if(lastfilter.getAntiquity()!=null){antiquity_filter.setText(lastfilter.getAntiquity());}
-        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+            if(lastfilter.getProvince()!=null)province_filter.setText(lastfilter.getProvince());
+            if(lastfilter.getLocation()!=null) location_filter.setText(lastfilter.getLocation());
+            if(lastfilter.getCategory()!=null)category_filter.setText(lastfilter.getCategory());
+            if(lastfilter.getRooms()!=null){
+                Resources res = getResources();
+                String[] ambient = res.getStringArray(R.array.ambientes);
+                seekBarValue.setText(ambient[lastfilter.getRooms()]);
+                seekbar.setProgress(lastfilter.getRooms());
+            }
+            if(lastfilter.getOperation()!=null){
+                if(lastfilter.getOperation()=="Alquiler")rental.setChecked(true);
+                if(lastfilter.getOperation()=="Venta")sales.setChecked(true);
+            }
+            if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice().toString(), TextView.BufferType.EDITABLE);}
+            if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice().toString(), TextView.BufferType.EDITABLE);}
+            if(lastfilter.getAntiquity()!=null){antiquity_filter.setText(lastfilter.getAntiquity());}
+            seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
-                @Override
-                public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                    Resources res = getResources();
-                    String[] ambient = res.getStringArray(R.array.ambientes);
-                    seekBarValue.setText(ambient[progress]);
-                    filter.setRooms(progress);
-                }
-                @Override
-                public void onStartTrackingTouch(SeekBar seekBar) {
-                }
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        Resources res = getResources();
+                        String[] ambient = res.getStringArray(R.array.ambientes);
+                        seekBarValue.setText(ambient[progress]);
+                        filter.setRooms(progress);
+                    }
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
 
-                @Override
-                public void onStopTrackingTouch(SeekBar seekBar) {
-                }
-            });
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
 
-            province.setOnClickListener(new View.OnClickListener() {
+                province.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        new MaterialDialog.Builder(context)
+                                .title(getString(R.string.Province))
+                                .items(R.array.Provinces)
+                                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                        //showToast(text.toString());
+                                        filter.setProvince(text.toString());
+                                        province_filter.setText(text);
+                                        if(text=="")province_filter.setText(R.string.select_filter);
+                                        return true; // allow selection
+                                    }
+                                })
+                                .positiveText(R.string.choose)
+                                .show();
+                    }
+                });
+
+                location.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        new MaterialDialog.Builder(context)
+                                .title(getString(R.string.Region))
+                                .items(R.array.location)
+                                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = 0; i < which.length; i++) {
+                                            if (i > 0) str.append(", ");
+                                            str.append(text[i]);
+                                        }
+                                        //showToast(str.toString());
+                                        String[] mEntriesString = new String[text.length];
+                                        int i=0;
+                                        for(CharSequence ch: text){
+                                            mEntriesString[i++] = ch.toString();
+                                        }
+                                        filter.setLocationArray(mEntriesString);
+                                        filter.setLocation(str.toString());
+                                        location_filter.setText(str.toString());
+                                        if(text.length==0)location_filter.setText(R.string.select_filter);
+                                        return true; // allow selection
+                                    }
+                                })
+                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.clearSelectedIndices();
+                                    }
+                                })
+                                .alwaysCallMultiChoiceCallback()
+                                .positiveText(R.string.choose)
+                                .autoDismiss(false)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .neutralText(R.string.clear_selection)
+                                .show();
+                    }
+                });
+
+                category.setOnClickListener(new View.OnClickListener() {
+
+                    @Override
+                    public void onClick(View v) {
+                        new MaterialDialog.Builder(context)
+                                .title(R.string.category)
+                                .items(R.array.category)
+                                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = 0; i < which.length; i++) {
+                                            if (i > 0) str.append(", ");
+                                            str.append(text[i]);
+                                        }
+                                        //showToast(str.toString());
+                                        String[] mEntriesString = new String[text.length];
+                                        int i=0;
+                                        for(CharSequence ch: text){
+                                            mEntriesString[i++] = ch.toString();
+                                        }
+                                        filter.setCategoryArray(mEntriesString);
+                                        filter.setCategory(str.toString());
+                                        category_filter.setText(str.toString());
+                                        if(text.length==0)category_filter.setText(R.string.select_filter);
+                                        return true; // allow selection
+                                    }
+                                })
+                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.clearSelectedIndices();
+                                    }
+                                })
+                                .alwaysCallMultiChoiceCallback()
+                                .positiveText(R.string.choose)
+                                .autoDismiss(false)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .neutralText(R.string.clear_selection)
+                                .show();
+                    }
+                });
+
+            antiquity.setOnClickListener(new View.OnClickListener() {
 
                 @Override
                 public void onClick(View v) {
                     new MaterialDialog.Builder(context)
-                            .title(getString(R.string.Province))
-                            .items(R.array.Provinces)
-                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                            .title(getString(R.string.antiquity))
+                            .items(R.array.antiguedad)
+                            .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
                                 @Override
                                 public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                     //showToast(text.toString());
-                                    filter.setProvince(text.toString());
-                                    province_filter.setText(text);
-                                    if(text=="")province_filter.setText(R.string.select_filter);
+                                    filter.setAntiquity(text.toString());
+                                    antiquity_filter.setText(text);
+                                    if(text=="")antiquity_filter.setText(R.string.select_filter);
                                     return true; // allow selection
                                 }
                             })
@@ -241,124 +361,6 @@ public class MainActivity extends AppCompatActivity
                             .show();
                 }
             });
-
-            location.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    new MaterialDialog.Builder(context)
-                            .title(getString(R.string.Region))
-                            .items(R.array.location)
-                            .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                    StringBuilder str = new StringBuilder();
-                                    for (int i = 0; i < which.length; i++) {
-                                        if (i > 0) str.append(", ");
-                                        str.append(text[i]);
-                                    }
-                                    //showToast(str.toString());
-                                    String[] mEntriesString = new String[text.length];
-                                    int i=0;
-                                    for(CharSequence ch: text){
-                                        mEntriesString[i++] = ch.toString();
-                                    }
-                                    filter.setLocationArray(mEntriesString);
-                                    filter.setLocation(str.toString());
-                                    location_filter.setText(str.toString());
-                                    if(text.length==0)location_filter.setText(R.string.select_filter);
-                                    return true; // allow selection
-                                }
-                            })
-                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.clearSelectedIndices();
-                                }
-                            })
-                            .alwaysCallMultiChoiceCallback()
-                            .positiveText(R.string.choose)
-                            .autoDismiss(false)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .neutralText(R.string.clear_selection)
-                            .show();
-                }
-            });
-
-            category.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    new MaterialDialog.Builder(context)
-                            .title(R.string.category)
-                            .items(R.array.category)
-                            .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                    StringBuilder str = new StringBuilder();
-                                    for (int i = 0; i < which.length; i++) {
-                                        if (i > 0) str.append(", ");
-                                        str.append(text[i]);
-                                    }
-                                    //showToast(str.toString());
-                                    String[] mEntriesString = new String[text.length];
-                                    int i=0;
-                                    for(CharSequence ch: text){
-                                        mEntriesString[i++] = ch.toString();
-                                    }
-                                    filter.setCategoryArray(mEntriesString);
-                                    filter.setCategory(str.toString());
-                                    category_filter.setText(str.toString());
-                                    if(text.length==0)category_filter.setText(R.string.select_filter);
-                                    return true; // allow selection
-                                }
-                            })
-                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.clearSelectedIndices();
-                                }
-                            })
-                            .alwaysCallMultiChoiceCallback()
-                            .positiveText(R.string.choose)
-                            .autoDismiss(false)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .neutralText(R.string.clear_selection)
-                            .show();
-                }
-            });
-
-        antiquity.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                new MaterialDialog.Builder(context)
-                        .title(getString(R.string.antiquity))
-                        .items(R.array.antiguedad)
-                        .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
-                            @Override
-                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                //showToast(text.toString());
-                                filter.setAntiquity(text.toString());
-                                antiquity_filter.setText(text);
-                                if(text=="")antiquity_filter.setText(R.string.select_filter);
-                                return true; // allow selection
-                            }
-                        })
-                        .positiveText(R.string.choose)
-                        .show();
-            }
-        });
 
             dialog.show();
         }
