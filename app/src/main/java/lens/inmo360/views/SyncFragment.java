@@ -1,7 +1,6 @@
 package lens.inmo360.views;
 
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
@@ -52,8 +51,4 @@ public class SyncFragment extends android.support.v4.app.Fragment {
         super.onCreate(savedInstanceState);
     }
 
-    public boolean isExternalStorageWritable() {
-        String state = Environment.getExternalStorageState();
-        return Environment.MEDIA_MOUNTED.equals(state);
-    }
 }

@@ -1,6 +1,8 @@
 package lens.inmo360.views;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -24,6 +26,7 @@ import java.util.List;
 import lens.inmo360.R;
 import lens.inmo360.adapters.BasePropertyAdapter;
 import lens.inmo360.daos.PropertiesDAO;
+import lens.inmo360.helpers.DialogHelper;
 import lens.inmo360.managers.HttpManager;
 import lens.inmo360.managers.SyncManager;
 import lens.inmo360.model.Property;
@@ -43,6 +46,7 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
     MaterialDialog loadingDialog;
     SyncManager mSyncManager = new SyncManager();
     ArrayList<Property> mProperties;
+    String companyID;
 
     @Nullable
     @Override
@@ -67,7 +71,16 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
             .build();
         loadingDialog.show();
 
-        updateProperties();
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        companyID = sharedPreferences.getString("CompanyID", null);
+
+        if(companyID != null){
+            updateProperties();
+        }else{
+            loadingDialog.dismiss();
+            DialogHelper.showInvalidCompanyIDDialog(getActivity());
+        }
+
 
         downloadFloatingButton = (FloatingActionButton) view.findViewById(R.id.download_floating_button);
         downloadFloatingButton.setOnClickListener(new View.OnClickListener() {
@@ -122,31 +135,36 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
         PropertyAPIInterface apiService =
                 httpManager.getRetrofit().create(PropertyAPIInterface.class);
 
-        Call<List<Property>> call = apiService.getAllPropertiesForCompany("1");
+        Call<List<Property>> call = apiService.getAllPropertiesForCompany(companyID);
 
         call.enqueue(new Callback<List<Property>>() {
             @Override
             public void onResponse(Call<List<Property>> call, Response<List<Property>> response) {
                 int statusCode = response.code();
-                mProperties = (ArrayList<Property>) response.body();
 
-                ArrayList<Property> downloadedProperties = PropertiesDAO.GetAll();
+                if(statusCode == 200){
+                    mProperties = (ArrayList<Property>) response.body();
 
-                for (Iterator<Property> iterator = downloadedProperties.iterator(); iterator.hasNext();) {
-                    Property downloadedProperty = iterator.next();
-                    for (Iterator<Property> iterator2 = mProperties.iterator(); iterator2.hasNext();) {
-                        Property property = iterator2.next();
-                        if (downloadedProperty.getId().equals(property.getId())) {
-                            // Remove the current element from the iterator and the list.
-                            iterator2.remove();
+                    ArrayList<Property> downloadedProperties = PropertiesDAO.GetAll();
+
+                    for (Iterator<Property> iterator = downloadedProperties.iterator(); iterator.hasNext();) {
+                        Property downloadedProperty = iterator.next();
+                        for (Iterator<Property> iterator2 = mProperties.iterator(); iterator2.hasNext();) {
+                            Property property = iterator2.next();
+                            if (downloadedProperty.getId().equals(property.getId())) {
+                                // Remove the current element from the iterator and the list.
+                                iterator2.remove();
+                            }
                         }
                     }
+
+                    mAdapter = new BasePropertyAdapter(mProperties);
+
+                    // set the adapter object to the Recyclerview
+                    mRecyclerView.setAdapter(mAdapter);
+                }else{
+                    DialogHelper.showNoConnectionDialog(getActivity());
                 }
-
-                mAdapter = new BasePropertyAdapter(mProperties);
-
-                // set the adapter object to the Recyclerview
-                mRecyclerView.setAdapter(mAdapter);
 
                 loadingDialog.dismiss();
             }
@@ -155,6 +173,12 @@ public class SyncServerDataFragment extends android.support.v4.app.Fragment {
             public void onFailure(Call<List<Property>> call, Throwable t) {
                 // Log error here since request failed
                 Log.d("Error en call", call.toString());
+
+                if(t.getClass().equals(IllegalArgumentException.class)){
+                    DialogHelper.showInvalidCompanyIDDialog(getActivity());
+                }else{
+                    DialogHelper.showNoConnectionDialog(getActivity());
+                }
                 loadingDialog.dismiss();
             }
         });

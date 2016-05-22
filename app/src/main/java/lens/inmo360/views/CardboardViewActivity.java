@@ -1,6 +1,5 @@
 package lens.inmo360.views;
 
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.opengl.GLES20;
@@ -16,7 +15,7 @@ import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
 
 import java.util.ArrayList;
-import java.util.Random;
+
 import javax.microedition.khronos.egl.EGLConfig;
 
 import lens.inmo360.R;
@@ -75,8 +74,6 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     private int mUVHandle;
     private int mTexHandle;
     private int mModelMatrixHandle;
-    //private int[] mResourceId = {R.drawable.photo_sphere_1, R.drawable.photo_sphere_2, R.drawable.photo_sphere_3,R.drawable.foto4,R.drawable.foto5,R.drawable.foto6,R.drawable.foto7,R.drawable.foto8,R.drawable.foto9};
-    private int[] mResourceId;
     private final float[] mProjectionMatrix2 = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
@@ -100,22 +97,10 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;    // No pre-scaling
 
-        // Read in the resource
+        Bitmap thumbnail = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(0),1);
 
-        //Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(), options);
-
-        Bitmap thumbnail = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(0),4);
-/*
-        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos2);
-        byte[] thumbnailImage = baos2.toByteArray();
-        ByteArrayInputStream inputStreamThumbnail = new ByteArrayInputStream(thumbnailImage);
-        Drawable thumbnail2 = BitmapDrawable.createFromStream(inputStreamThumbnail, null);
-*/
         setTexture(thumbnail);
     }
-
-
 
     @Override
     public void onNewFrame(HeadTransform headTransform) {
@@ -210,7 +195,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         glViewport(0, 0, width, height);
         /** Setting the projection Matrix for the view **/
-        Matrix.perspectiveM(mProjectionMatrix2,0, 100, (float) width
+        Matrix.perspectiveM(mProjectionMatrix2,0, 120, (float) width
                 / (float) height, 1f, 10f);
     }
 
@@ -291,9 +276,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         GLES20.glDeleteTextures(mTextures.length, mTextures, 0);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        //Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
-        Bitmap thumbnail = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(getPhotoIndex()),4);
-        mTexture = thumbnail;
+        mTexture = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(getPhotoIndex()),1);
         loadTexture(mTexture);
     }
 

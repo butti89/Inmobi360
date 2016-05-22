@@ -90,6 +90,11 @@
     <string name="syncDialogTitle">Sincronización</string>
     <string name="downloadConfirmationContent">Esta seguro que desea descargar ahora las propiedades seleccionadas?</string>
     <string name="deleteConfirmationContent">Esta seguro que desea eliminar ahora las propiedades seleccionadas?</string>
+    <string name="no_connection_message">No es posible establecer la conexión con el servidor. Para utilizar esta sección es requerido contar con conexión a internet.</string>
+    <string name="no_connection_title">Error de conexión</string>
+    <string name="invalid_company_title">Error recuperando datos</string>
+    <string name="invalid_company_message">Hubo un error recuperando sus datos. Por favor reinicie la aplicación y vuelva a loguearse.</string>
+    <string name="ok_dialog_button_text">OK</string>
     <string name="deleteConfirmationPositiveButton">ELIMINAR</string>
     <string name="downloadConfirmationPositiveButton">DESCARGAR</string>
     <string name="cancelNegativeButton">CANCELAR</string>
