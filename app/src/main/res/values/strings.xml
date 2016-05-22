@@ -8,6 +8,7 @@
     <string name="title_activity_cardboard">CardboardActivity</string>
 
     <string name="db_name">inmobidb</string>
+    <string name="filter">Filtrar</string>
     <string-array
         name="ambientes">
         <item>Monoambiente</item>
