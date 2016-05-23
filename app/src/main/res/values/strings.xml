@@ -17,6 +17,14 @@
         <item>3</item>
         <item>4 o más</item>
     </string-array>
+    <string-array
+        name="antiguedad">
+        <item>A estrenar</item>
+        <item>En contruccion</item>
+        <item>Entre 5 y 10 años</item>
+        <item>Entre 10 y 20 años</item>
+        <item>Entre 20 y 50 años</item>
+    </string-array>
     <string-array name="location">
         <item>Alvear</item>
         <item>Arroyo Seco</item>
