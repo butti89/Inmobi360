@@ -227,20 +227,20 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
-                                .title(getString(R.string.Province))
-                                .items(R.array.Provinces)
-                                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                        //showToast(text.toString());
-                                        filter.setProvince(text.toString());
-                                        province_filter.setText(text);
-                                        if(text=="")province_filter.setText(R.string.select_filter);
-                                        return true; // allow selection
-                                    }
-                                })
-                                .positiveText(R.string.choose)
-                                .show();
+                            .title(getString(R.string.Province))
+                            .items(R.array.Provinces)
+                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                    //showToast(text.toString());
+                                    filter.setProvince(text.toString());
+                                    province_filter.setText(text);
+                                    if(text=="")province_filter.setText(R.string.select_filter);
+                                    return true; // allow selection
+                                }
+                            })
+                            .positiveText(R.string.choose)
+                            .show();
                     }
                 });
 
@@ -249,46 +249,46 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
-                                .title(getString(R.string.Region))
-                                .items(R.array.location)
-                                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                        StringBuilder str = new StringBuilder();
-                                        for (int i = 0; i < which.length; i++) {
-                                            if (i > 0) str.append(", ");
-                                            str.append(text[i]);
-                                        }
-                                        //showToast(str.toString());
-                                        String[] mEntriesString = new String[text.length];
-                                        int i=0;
-                                        for(CharSequence ch: text){
-                                            mEntriesString[i++] = ch.toString();
-                                        }
-                                        filter.setLocationArray(mEntriesString);
-                                        filter.setLocation(str.toString());
-                                        location_filter.setText(str.toString());
-                                        if(text.length==0)location_filter.setText(R.string.select_filter);
-                                        return true; // allow selection
+                            .title(getString(R.string.Region))
+                            .items(R.array.location)
+                            .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                    StringBuilder str = new StringBuilder();
+                                    for (int i = 0; i < which.length; i++) {
+                                        if (i > 0) str.append(", ");
+                                        str.append(text[i]);
                                     }
-                                })
-                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.clearSelectedIndices();
+                                    //showToast(str.toString());
+                                    String[] mEntriesString = new String[text.length];
+                                    int i=0;
+                                    for(CharSequence ch: text){
+                                        mEntriesString[i++] = ch.toString();
                                     }
-                                })
-                                .alwaysCallMultiChoiceCallback()
-                                .positiveText(R.string.choose)
-                                .autoDismiss(false)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .neutralText(R.string.clear_selection)
-                                .show();
+                                    filter.setLocationArray(mEntriesString);
+                                    filter.setLocation(str.toString());
+                                    location_filter.setText(str.toString());
+                                    if(text.length==0)location_filter.setText(R.string.select_filter);
+                                    return true; // allow selection
+                                }
+                            })
+                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.clearSelectedIndices();
+                                }
+                            })
+                            .alwaysCallMultiChoiceCallback()
+                            .positiveText(R.string.choose)
+                            .autoDismiss(false)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .neutralText(R.string.clear_selection)
+                            .show();
                     }
                 });
 
@@ -297,46 +297,46 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
-                                .title(R.string.category)
-                                .items(R.array.category)
-                                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
-                                    @Override
-                                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                        StringBuilder str = new StringBuilder();
-                                        for (int i = 0; i < which.length; i++) {
-                                            if (i > 0) str.append(", ");
-                                            str.append(text[i]);
-                                        }
-                                        //showToast(str.toString());
-                                        String[] mEntriesString = new String[text.length];
-                                        int i=0;
-                                        for(CharSequence ch: text){
-                                            mEntriesString[i++] = ch.toString();
-                                        }
-                                        filter.setCategoryArray(mEntriesString);
-                                        filter.setCategory(str.toString());
-                                        category_filter.setText(str.toString());
-                                        if(text.length==0)category_filter.setText(R.string.select_filter);
-                                        return true; // allow selection
+                            .title(R.string.category)
+                            .items(R.array.category)
+                            .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                    StringBuilder str = new StringBuilder();
+                                    for (int i = 0; i < which.length; i++) {
+                                        if (i > 0) str.append(", ");
+                                        str.append(text[i]);
                                     }
-                                })
-                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.clearSelectedIndices();
+                                    //showToast(str.toString());
+                                    String[] mEntriesString = new String[text.length];
+                                    int i=0;
+                                    for(CharSequence ch: text){
+                                        mEntriesString[i++] = ch.toString();
                                     }
-                                })
-                                .alwaysCallMultiChoiceCallback()
-                                .positiveText(R.string.choose)
-                                .autoDismiss(false)
-                                .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                    @Override
-                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                        dialog.dismiss();
-                                    }
-                                })
-                                .neutralText(R.string.clear_selection)
-                                .show();
+                                    filter.setCategoryArray(mEntriesString);
+                                    filter.setCategory(str.toString());
+                                    category_filter.setText(str.toString());
+                                    if(text.length==0)category_filter.setText(R.string.select_filter);
+                                    return true; // allow selection
+                                }
+                            })
+                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.clearSelectedIndices();
+                                }
+                            })
+                            .alwaysCallMultiChoiceCallback()
+                            .positiveText(R.string.choose)
+                            .autoDismiss(false)
+                            .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                @Override
+                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .neutralText(R.string.clear_selection)
+                            .show();
                     }
                 });
 
@@ -345,20 +345,20 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     new MaterialDialog.Builder(context)
-                            .title(getString(R.string.antiquity))
-                            .items(R.array.antiguedad)
-                            .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                    //showToast(text.toString());
-                                    filter.setAntiquity(text.toString());
-                                    antiquity_filter.setText(text);
-                                    if(text=="")antiquity_filter.setText(R.string.select_filter);
-                                    return true; // allow selection
-                                }
-                            })
-                            .positiveText(R.string.choose)
-                            .show();
+                        .title(getString(R.string.antiquity))
+                        .items(R.array.antiguedad)
+                        .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
+                            @Override
+                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                //showToast(text.toString());
+                                filter.setAntiquity(text.toString());
+                                antiquity_filter.setText(text);
+                                if(text=="")antiquity_filter.setText(R.string.select_filter);
+                                return true; // allow selection
+                            }
+                        })
+                        .positiveText(R.string.choose)
+                        .show();
                 }
             });
 

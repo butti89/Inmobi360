@@ -2,8 +2,6 @@ package lens.inmo360.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,14 +9,12 @@ import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.util.ArrayList;
 
 import lens.inmo360.R;
 import lens.inmo360.model.PropertyImage;
 import lens.inmo360.views.CardboardViewActivity;
-import lens.inmo360.views.HouseImagesActivity;
 
 /**
  * Created by estebanbutti on 4/25/16.
@@ -36,7 +32,7 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
     @Override
     public void onViewRecycled(PropertyImageViewHolder holder) {
         super.onViewRecycled(holder);
-        Glide.clear(viewHolder.getImage());
+        Glide.clear(holder.getImage());
     }
 
     // Create new views
@@ -65,14 +61,14 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
     }
 
     @Override
-    public void onBindViewHolder(PropertyImageViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(final PropertyImageViewHolder viewHolder, final int position) {
 
-        viewHolder.imageTitle.setText(mImages.get(position).getTitle());
+        viewHolder.imageTitle.setText(mImages.get(viewHolder.getAdapterPosition()).getTitle());
 
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<String> imagesToShow =  reorderImagesList(position);
+                ArrayList<String> imagesToShow =  reorderImagesList(viewHolder.getAdapterPosition());
                 Context context = v.getContext();
                 Intent intent = new Intent(context, CardboardViewActivity.class);
                 intent.putExtra(CardboardViewActivity.EXTRA_IMAGES, imagesToShow);
@@ -80,8 +76,8 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
             }
         });
 
-        if(mImages.get(position).getLocalPath() != null){
-            String path = mImages.get(position).getLocalPath();
+        if(mImages.get(viewHolder.getAdapterPosition()).getLocalPath() != null){
+            String path = mImages.get(viewHolder.getAdapterPosition()).getLocalPath();
             File pathFile = new File(path);
 
             Glide.with(mContext)
@@ -97,15 +93,12 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
         ArrayList<PropertyImage> auxList = new ArrayList<>();
         ArrayList<String> pathsList = new ArrayList<>();
 
-        for (int i = 0; i < ix; i++){
-            auxList.add(newList.get(i));
-            newList.remove(i);
-        }
+        auxList.add(newList.get(ix));
+        newList.remove(newList.indexOf(newList.get(ix)));
+        auxList.addAll(newList);
 
-        newList.addAll(auxList);
-
-        for (int i = 0; i < newList.size(); i++){
-            pathsList.add(newList.get(i).getLocalPath());
+        for (int i = 0; i < auxList.size(); i++){
+            pathsList.add(auxList.get(i).getLocalPath());
         }
 
         return pathsList;
