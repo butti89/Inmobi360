@@ -17,15 +17,4 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/property_list_row"/>
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:scaleType="center"-->
-        <!--android:src="@drawable/ic_cardboard"-->
-        <!--android:tint="#ffffff"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--app:layout_anchor="@id/availablePropertiesList"-->
-        <!--app:layout_anchorGravity="bottom|right|end"/>-->
-
 </android.support.design.widget.CoordinatorLayout>

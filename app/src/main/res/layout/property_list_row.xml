@@ -3,14 +3,14 @@
 <android.support.v7.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/property_card_view"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
     card_view:cardUseCompatPadding="true"
     card_view:cardElevation="3dp"
-    card_view:cardCornerRadius="1dp"
-    >
+    card_view:cardCornerRadius="1dp">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -24,6 +24,23 @@
             android:scaleType="centerCrop"
             android:adjustViewBounds="true"/>
 
+        <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="210dp"
+        android:id="@+id/no_image_layout"
+        android:background="@color/iron"
+        android:visibility="invisible">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="@string/no_images_in_house"
+                android:id="@+id/no_image_text"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"/>
+        </RelativeLayout>
+
         <TextView
             android:id="@+id/property_title"
             android:layout_width="wrap_content"
@@ -31,7 +48,7 @@
             android:layout_below="@+id/property_image"
             android:maxLines="3"
             android:padding="8dp"
-            android:text="Great house"
+            tools:text="Great house"
             android:fontFamily="sans-serif"
             android:textColor="#333"
             android:textSize="24sp" />
@@ -42,7 +59,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/property_title"
             android:maxLines="3"
-            android:text="344 Collins Street"
+            tools:text="344 Collins Street"
             android:textColor="#666"
             android:textSize="14sp"
             android:paddingTop="0dp"
@@ -51,38 +68,4 @@
             android:paddingBottom="8dp"/>
     </RelativeLayout>
 
-
-    <!--<RelativeLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="60dp"-->
-        <!--android:layout_centerVertical="true"-->
-        <!--android:paddingLeft="16dp"-->
-        <!--android:layout_toStartOf="@+id/isDownloadedCheckBox">-->
-
-        <!--<RelativeLayout-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_centerVertical="true">-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/propertyTitle"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_alignParentTop="true"-->
-                <!--android:text="Random house"-->
-                <!--android:textColor="#050303"-->
-                <!--android:textSize="16sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/propertyAddress"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_below="@id/propertyTitle"-->
-                <!--android:text="Elmer Street 123"-->
-                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
-                <!--android:textColor="#757575"-->
-                <!--android:textSize="14sp"/>-->
-        <!--</RelativeLayout>-->
-
-    <!--</RelativeLayout>-->
 </android.support.v7.widget.CardView>
