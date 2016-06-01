@@ -47,7 +47,8 @@ import lens.inmo360.views.SyncServerDataFragment;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         SyncLocalDataFragment.FragmentUpdateListener,
-        SyncServerDataFragment.ServerFragmentUpdateListener{
+        SyncServerDataFragment.ServerFragmentUpdateListener,
+        MainFragment.OnSyncFragmentSelectedListener{
 
     private DrawerLayout mDrawer;
     private Toast mToast;
@@ -71,6 +72,11 @@ public class MainActivity extends AppCompatActivity
     private RadioButton rental;
     private EditText since;
     private EditText until;
+    NavigationView navigationView = null;
+
+    public NavigationView getNavDrawer(){
+        return navigationView;
+    }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +99,7 @@ public class MainActivity extends AppCompatActivity
         mDrawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         //Load the first Fragment
@@ -441,5 +447,10 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onPropertiesDeleted(ArrayList<Property> properties) {
 
+    }
+
+    @Override
+    public void onSyncFragmentSelected() {
+        navigationView.setCheckedItem(R.id.nav_sync);
     }
 }

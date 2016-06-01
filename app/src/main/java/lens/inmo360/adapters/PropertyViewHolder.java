@@ -7,6 +7,7 @@ package lens.inmo360.adapters;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import lens.inmo360.R;
@@ -18,6 +19,7 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
     protected ImageView propertyImage;
     protected TextView propertyAddress;
     protected View mView;
+    protected RelativeLayout noImageLayout;
 
     public PropertyViewHolder(View itemLayoutView) {
         super(itemLayoutView);
@@ -26,6 +28,7 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
         propertyTitle = (TextView) itemLayoutView.findViewById(R.id.property_title);
         propertyAddress = (TextView) itemLayoutView.findViewById(R.id.property_address);
         propertyImage = (ImageView) itemLayoutView.findViewById(R.id.property_image);
+        noImageLayout = (RelativeLayout) itemLayoutView.findViewById(R.id.no_image_layout);
     }
 
     public ImageView getPropertyImage() {
@@ -56,4 +59,11 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
         this.propertyAddress = propertyAddress;
     }
 
+    public RelativeLayout getNoImageLayout() {
+        return noImageLayout;
+    }
+
+    public void setNoImageLayout(RelativeLayout noImageLayout) {
+        this.noImageLayout = noImageLayout;
+    }
 }
