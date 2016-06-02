@@ -7,6 +7,7 @@ package lens.inmo360.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.File;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -24,6 +25,12 @@ public class Property extends PersistentObject{
     private String LastUpdate;
     private ArrayList<PropertyImage> Images;
     private boolean isDownloaded = false;
+    private String Location;
+    private String province;
+    private String Operation;
+    private String Category;
+    private Integer Rooms;
+    private Float Price;
     private Map<String, Object> additionalProperties;
 
     /**
@@ -150,6 +157,53 @@ public class Property extends PersistentObject{
      */
     public void setImages(ArrayList<PropertyImage> Images) {
         this.Images = Images;
+    }
+
+
+    public void setLocation(String location) {
+        this.Location = location;
+    }
+
+    public void setProvince(String province) {
+        this.province = province;
+    }
+
+    public void setOperation(String operation) {
+        this.Operation = operation;
+    }
+
+    public void setCategory(String category) {
+        this.Category = category;
+    }
+
+    public void setRooms(Integer rooms) {this.Rooms = rooms; }
+
+    public String getLocation() {
+        return Location;
+    }
+
+    public String getProvince() {
+        return province;
+    }
+
+    public String getOperation() {
+        return Operation;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public Integer getRooms() {
+        return Rooms;
+    }
+
+    public void setPrice(Float price) {
+        Price = price;
+    }
+
+    public Float getPrice() {
+        return Price;
     }
 
     public boolean isDownloaded() {
