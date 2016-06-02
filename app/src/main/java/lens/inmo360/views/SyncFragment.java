@@ -21,12 +21,18 @@ public class SyncFragment extends android.support.v4.app.Fragment {
     public static TabLayout tabLayout;
     public static ViewPager viewPager;
     public static SyncTabsAdapter mAdapter;
+    public static int selectedTabIndex;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sync_fragment, container, false);
 
+        Bundle bundle = getArguments();
+        if(bundle != null){
+            selectedTabIndex = getArguments().getInt("selectedTab",-1);
+        }
+        
         if(getActivity().getActionBar() != null){
             getActivity().getActionBar().setElevation(0);
         }
@@ -42,6 +48,13 @@ public class SyncFragment extends android.support.v4.app.Fragment {
             @Override
             public void run() {
                 tabLayout.setupWithViewPager(viewPager);
+
+                if(selectedTabIndex > -1){
+                    TabLayout.Tab tab = tabLayout.getTabAt(selectedTabIndex);
+                    if(tab != null){
+                        tab.select();
+                    }
+                }
             }
         });
 

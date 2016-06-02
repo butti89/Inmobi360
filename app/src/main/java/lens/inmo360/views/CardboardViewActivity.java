@@ -2,6 +2,8 @@ package lens.inmo360.views;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
@@ -185,6 +187,10 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     public void onCardboardTrigger() {
         /* Flag to sync with onDrawEye */
         mIsCardboardTriggered = true;
+
+        final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+        tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+
 //        Random randomGenerator = new Random();
 //        int randomInt = randomGenerator.nextInt(100);
 //        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");

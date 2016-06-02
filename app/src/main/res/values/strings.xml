@@ -110,6 +110,18 @@
     <string name="acceptButton">ACEPTAR</string>
     <string name="clearButton">BORRAR</string>
     <string name="clear_selection">Clear</string>
+
+    <!--No houses downloaded-->
+    <string name="no_houses_card_title">Comienzo</string>
+    <string name="no_houses_card_content">No se encontraron casas descargadas, podes hacerlo desde la sección de sincronización.</string>
+
+    <!--No images-->
+    <string name="no_images_in_house">No hay imágenes</string>
+
+    <!-- Nav Drawer -->
+    <string name="nav_houses">Propiedades</string>
+    <string name="nav_sync">Sync</string>
+
     <string name="loadingMessage">Cargando&#8230;</string>
     <string name="please_wait">Por favor espere&#8230;</string>
     <string name="downloading">Descargando&#8230;</string>

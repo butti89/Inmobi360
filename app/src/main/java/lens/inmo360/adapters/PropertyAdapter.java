@@ -86,6 +86,8 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
                     .skipMemoryCache(true)
                     .override(1024,576)
                     .into(viewHolder.propertyImage);
+        }else{
+            viewHolder.noImageLayout.setVisibility(View.VISIBLE);
         }
     }
 }

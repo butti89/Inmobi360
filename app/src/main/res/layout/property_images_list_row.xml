@@ -29,13 +29,13 @@
             android:id="@+id/property_image_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/image_card_image"
+            android:layout_alignBottom="@+id/image_card_image"
             android:maxLines="3"
-            android:padding="8dp"
+            android:padding="16dp"
             tools:text="Great house"
             android:fontFamily="sans-serif"
             android:ellipsize="end"
-            android:textColor="#333"
+            style="@style/ShadowOverlayText"
             android:textSize="24sp" />
     </RelativeLayout>
 
