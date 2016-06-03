@@ -105,4 +105,12 @@ public class MainFragment extends android.support.v4.app.Fragment{
     public interface OnSyncFragmentSelectedListener{
         public void onSyncFragmentSelected();
     }
+
+    public void UpdatePropertiesToShow(ArrayList<Property> props){
+        // create an Object for Adapter
+        mAdapter = new PropertyAdapter(getActivity().getApplicationContext(),props);
+
+        // set the adapter object to the Recyclerview
+        mRecyclerView.setAdapter(mAdapter);
+    }
 }

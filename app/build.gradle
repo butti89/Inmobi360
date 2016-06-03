@@ -38,15 +38,12 @@ dependencies {
     compile 'org.apache.directory.studio:org.apache.commons.io:2.4'
     provided 'org.glassfish:javax.annotation:10.0-b28'
     compile 'org.jdeferred:jdeferred-android-aar:1.2.3'
-
     // HTTP and WS calls
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.google.code.gson:gson:2.6.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
-
     // View Binding
     compile 'com.jakewharton:butterknife:7.0.1'
-
     // UI Components
     compile('com.github.afollestad.material-dialogs:core:0.8.5.8@aar') {
         transitive = true
@@ -56,10 +53,9 @@ dependencies {
         transitive = true
     }
     provided 'org.glassfish:javax.annotation:10.0-b28'
-
     // Image loading
     compile 'com.github.bumptech.glide:glide:3.7.0'
-
     // Local DB
     compile 'com.couchbase.lite:couchbase-lite-android:1.2.1'
+    compile files('libs/lambdaj-2.4-with-dependencies.jar')
 }

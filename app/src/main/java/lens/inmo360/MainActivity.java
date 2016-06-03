@@ -34,6 +34,8 @@ import com.couchbase.lite.android.AndroidContext;
 
 import java.util.ArrayList;
 
+import lens.inmo360.daos.PropertiesDAO;
+import lens.inmo360.dtos.PropertyDTO;
 import lens.inmo360.managers.CouchBaseManager;
 import lens.inmo360.model.Filter;
 import lens.inmo360.model.House;
@@ -65,8 +67,8 @@ public class MainActivity extends AppCompatActivity
     private TextView category_filter;
     private TextView antiquity_filter;
     private Context context = this;
-    private Filter filter = new Filter();
-    private Filter lastfilter = new Filter();
+    private PropertyDTO dto = new PropertyDTO();
+    private PropertyDTO finalDto = new PropertyDTO();
     private RadioGroup radioGroup;
     private RadioButton sales;
     private RadioButton rental;
@@ -109,7 +111,7 @@ public class MainActivity extends AppCompatActivity
         fragmentTransaction.commit();
 
         // MY CODE
-        ArrayList<House> houseArray = new ArrayList<>();
+       // ArrayList<House> houseArray = new ArrayList<>();
     }
 
     @Override
@@ -148,12 +150,18 @@ public class MainActivity extends AppCompatActivity
                 .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
                     public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                        try{filter.setMinprice(Integer.parseInt(since.getText().toString()));}
-                        catch(Exception e) {filter.setMinprice(null);}
-                        try{filter.setMaxprice(Integer.parseInt(until.getText().toString()));}
-                        catch(Exception e) {filter.setMaxprice(null);}
-                        lastfilter.setValues(filter);
+                        try{dto.setMinPrice(Integer.parseInt(since.getText().toString()));}
+                        catch(Exception e) {dto.setMinPrice(null);}
+                        try{dto.setMaxPrice(Integer.parseInt(until.getText().toString()));}
+                        catch(Exception e) {dto.setMaxPrice(null);}
+                        finalDto.clone(dto);
                         dialog.dismiss();
+
+                        // Insert the fragment by replacing any existing fragment
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        ((MainFragment)fragmentManager.getFragments().get(0)).UpdatePropertiesToShow(PropertiesDAO.getBy(finalDto));
+
+                        //ArrayList<Property> props = PropertiesDAO.getBy(finalDto);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
@@ -173,7 +181,7 @@ public class MainActivity extends AppCompatActivity
                         radioGroup.clearCheck();
                         until.setText(null, TextView.BufferType.EDITABLE);
                         since.setText(null, TextView.BufferType.EDITABLE);
-                        filter.clearFilter();
+                        dto.clear();
                     }
                 })
                 .build();
@@ -194,22 +202,22 @@ public class MainActivity extends AppCompatActivity
             antiquity = (LinearLayout)dialog.getCustomView().findViewById(R.id.antiquity);
             antiquity_filter = (TextView) dialog.getCustomView().findViewById(R.id.antiquity_filter);
 
-            if(lastfilter.getProvince()!=null)province_filter.setText(lastfilter.getProvince());
-            if(lastfilter.getLocation()!=null) location_filter.setText(lastfilter.getLocation());
-            if(lastfilter.getCategory()!=null)category_filter.setText(lastfilter.getCategory());
-            if(lastfilter.getRooms()!=null){
+            if(finalDto.getProvince()!=null)province_filter.setText(finalDto.getProvince());
+            if(finalDto.getLocationsString()!=null) location_filter.setText(finalDto.getLocationsString());
+            if(finalDto.getCategoriesString()!=null)category_filter.setText(finalDto.getLocationsString());
+            if(finalDto.getRooms()!=null){
                 Resources res = getResources();
                 String[] ambient = res.getStringArray(R.array.ambientes);
-                seekBarValue.setText(ambient[lastfilter.getRooms()]);
-                seekbar.setProgress(lastfilter.getRooms());
+                seekBarValue.setText(ambient[finalDto.getRooms()]);
+                seekbar.setProgress(finalDto.getRooms());
             }
-            if(lastfilter.getOperation()!=null){
-                if(lastfilter.getOperation()=="Alquiler")rental.setChecked(true);
-                if(lastfilter.getOperation()=="Venta")sales.setChecked(true);
+            if(finalDto.getOperation()!=null){
+                if(finalDto.getOperation()=="Alquiler")rental.setChecked(true);
+                if(finalDto.getOperation()=="Venta")sales.setChecked(true);
             }
-            if(lastfilter.getMinprice()!=null){since.setText(lastfilter.getMinprice().toString(), TextView.BufferType.EDITABLE);}
-            if(lastfilter.getMaxprice()!=null){until.setText(lastfilter.getMaxprice().toString(), TextView.BufferType.EDITABLE);}
-            if(lastfilter.getAntiquity()!=null){antiquity_filter.setText(lastfilter.getAntiquity());}
+            if(finalDto.getMinPrice()!=null){since.setText(finalDto.getMinPrice().toString(), TextView.BufferType.EDITABLE);}
+            if(finalDto.getMaxPrice()!=null){until.setText(finalDto.getMaxPrice().toString(), TextView.BufferType.EDITABLE);}
+            if(finalDto.getAntiquity()!=null){antiquity_filter.setText(finalDto.getAntiquity());}
             seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
 
                     @Override
@@ -217,7 +225,7 @@ public class MainActivity extends AppCompatActivity
                         Resources res = getResources();
                         String[] ambient = res.getStringArray(R.array.ambientes);
                         seekBarValue.setText(ambient[progress]);
-                        filter.setRooms(progress);
+                        dto.setRooms(progress);
                     }
                     @Override
                     public void onStartTrackingTouch(SeekBar seekBar) {
@@ -233,20 +241,20 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
-                            .title(getString(R.string.Province))
-                            .items(R.array.Provinces)
-                            .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                    //showToast(text.toString());
-                                    filter.setProvince(text.toString());
-                                    province_filter.setText(text);
-                                    if(text=="")province_filter.setText(R.string.select_filter);
-                                    return true; // allow selection
-                                }
-                            })
-                            .positiveText(R.string.choose)
-                            .show();
+                                .title(getString(R.string.Province))
+                                .items(R.array.Provinces)
+                                .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                        //showToast(text.toString());
+                                        dto.setProvince(text.toString());
+                                        province_filter.setText(text);
+                                        if(text=="")province_filter.setText(R.string.select_filter);
+                                        return true; // allow selection
+                                    }
+                                })
+                                .positiveText(R.string.choose)
+                                .show();
                     }
                 });
 
@@ -255,46 +263,46 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
-                            .title(getString(R.string.Region))
-                            .items(R.array.location)
-                            .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                    StringBuilder str = new StringBuilder();
-                                    for (int i = 0; i < which.length; i++) {
-                                        if (i > 0) str.append(", ");
-                                        str.append(text[i]);
+                                .title(getString(R.string.Region))
+                                .items(R.array.location)
+                                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = 0; i < which.length; i++) {
+                                            if (i > 0) str.append(", ");
+                                            str.append(text[i]);
+                                        }
+                                        //showToast(str.toString());
+                                        String[] mEntriesString = new String[text.length];
+                                        int i=0;
+                                        for(CharSequence ch: text){
+                                            mEntriesString[i++] = ch.toString();
+                                        }
+                                        dto.setLocation(mEntriesString);
+                                        dto.setLocationsString(str.toString());
+                                        location_filter.setText(str.toString());
+                                        if(text.length==0)location_filter.setText(R.string.select_filter);
+                                        return true; // allow selection
                                     }
-                                    //showToast(str.toString());
-                                    String[] mEntriesString = new String[text.length];
-                                    int i=0;
-                                    for(CharSequence ch: text){
-                                        mEntriesString[i++] = ch.toString();
+                                })
+                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.clearSelectedIndices();
                                     }
-                                    filter.setLocationArray(mEntriesString);
-                                    filter.setLocation(str.toString());
-                                    location_filter.setText(str.toString());
-                                    if(text.length==0)location_filter.setText(R.string.select_filter);
-                                    return true; // allow selection
-                                }
-                            })
-                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.clearSelectedIndices();
-                                }
-                            })
-                            .alwaysCallMultiChoiceCallback()
-                            .positiveText(R.string.choose)
-                            .autoDismiss(false)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .neutralText(R.string.clear_selection)
-                            .show();
+                                })
+                                .alwaysCallMultiChoiceCallback()
+                                .positiveText(R.string.choose)
+                                .autoDismiss(false)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .neutralText(R.string.clear_selection)
+                                .show();
                     }
                 });
 
@@ -303,46 +311,46 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
-                            .title(R.string.category)
-                            .items(R.array.category)
-                            .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
-                                @Override
-                                public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
-                                    StringBuilder str = new StringBuilder();
-                                    for (int i = 0; i < which.length; i++) {
-                                        if (i > 0) str.append(", ");
-                                        str.append(text[i]);
+                                .title(R.string.category)
+                                .items(R.array.category)
+                                .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
+                                    @Override
+                                    public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {
+                                        StringBuilder str = new StringBuilder();
+                                        for (int i = 0; i < which.length; i++) {
+                                            if (i > 0) str.append(", ");
+                                            str.append(text[i]);
+                                        }
+                                        //showToast(str.toString());
+                                        String[] mEntriesString = new String[text.length];
+                                        int i=0;
+                                        for(CharSequence ch: text){
+                                            mEntriesString[i++] = ch.toString();
+                                        }
+                                        dto.setCategory(mEntriesString);
+                                        dto.setCategoriesString(str.toString());
+                                        category_filter.setText(str.toString());
+                                        if(text.length==0)category_filter.setText(R.string.select_filter);
+                                        return true; // allow selection
                                     }
-                                    //showToast(str.toString());
-                                    String[] mEntriesString = new String[text.length];
-                                    int i=0;
-                                    for(CharSequence ch: text){
-                                        mEntriesString[i++] = ch.toString();
+                                })
+                                .onNeutral(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.clearSelectedIndices();
                                     }
-                                    filter.setCategoryArray(mEntriesString);
-                                    filter.setCategory(str.toString());
-                                    category_filter.setText(str.toString());
-                                    if(text.length==0)category_filter.setText(R.string.select_filter);
-                                    return true; // allow selection
-                                }
-                            })
-                            .onNeutral(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.clearSelectedIndices();
-                                }
-                            })
-                            .alwaysCallMultiChoiceCallback()
-                            .positiveText(R.string.choose)
-                            .autoDismiss(false)
-                            .onPositive(new MaterialDialog.SingleButtonCallback() {
-                                @Override
-                                public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .neutralText(R.string.clear_selection)
-                            .show();
+                                })
+                                .alwaysCallMultiChoiceCallback()
+                                .positiveText(R.string.choose)
+                                .autoDismiss(false)
+                                .onPositive(new MaterialDialog.SingleButtonCallback() {
+                                    @Override
+                                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                        dialog.dismiss();
+                                    }
+                                })
+                                .neutralText(R.string.clear_selection)
+                                .show();
                     }
                 });
 
@@ -351,20 +359,20 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View v) {
                     new MaterialDialog.Builder(context)
-                        .title(getString(R.string.antiquity))
-                        .items(R.array.antiguedad)
-                        .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
-                            @Override
-                            public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
-                                //showToast(text.toString());
-                                filter.setAntiquity(text.toString());
-                                antiquity_filter.setText(text);
-                                if(text=="")antiquity_filter.setText(R.string.select_filter);
-                                return true; // allow selection
-                            }
-                        })
-                        .positiveText(R.string.choose)
-                        .show();
+                            .title(getString(R.string.antiquity))
+                            .items(R.array.antiguedad)
+                            .itemsCallbackSingleChoice(10, new MaterialDialog.ListCallbackSingleChoice() {
+                                @Override
+                                public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                                    //showToast(text.toString());
+                                    dto.setAntiquity(text.toString());
+                                    antiquity_filter.setText(text);
+                                    if(text=="")antiquity_filter.setText(R.string.select_filter);
+                                    return true; // allow selection
+                                }
+                            })
+                            .positiveText(R.string.choose)
+                            .show();
                 }
             });
 
@@ -382,11 +390,11 @@ public class MainActivity extends AppCompatActivity
         switch(view.getId()) {
             case R.id.rental:
                 if (checked)
-                    filter.setOperation(getString(R.string.rental));
+                    dto.setOperation(getString(R.string.rental));
                     break;
             case R.id.sales:
                 if (checked)
-                    filter.setOperation(getString(R.string.sales));
+                    dto.setOperation(getString(R.string.sales));
                     break;
         }
     }

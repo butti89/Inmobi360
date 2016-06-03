@@ -7,6 +7,7 @@ package lens.inmo360.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import java.io.File;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -24,7 +25,64 @@ public class Property extends PersistentObject{
     private String LastUpdate;
     private ArrayList<PropertyImage> Images;
     private boolean isDownloaded = false;
+    private String Location;
+    private String Operation;
+    private String Category;
+    private Integer Rooms;
+    private Float Price;
+    private Integer SquaredMeters;
+    private Boolean HasGarage;
+    private Province Province;
+    private City City;
+    private String Type;
     private Map<String, Object> additionalProperties;
+
+
+    public Integer getAntiquity() {
+        return Antiquity;
+    }
+
+    public lens.inmo360.model.Province getProvince() {
+        return Province;
+    }
+
+    public lens.inmo360.model.City getCity() {
+        return City;
+    }
+
+    public Boolean getHasGarage() {
+        return HasGarage;
+    }
+
+    public Integer getSquaredMeters() {
+        return SquaredMeters;
+    }
+
+    private Integer Antiquity;
+
+    public void setHasGarage(Boolean hasGarage) {
+        HasGarage = hasGarage;
+    }
+
+    public void setAntiquity(Integer antiquity) {
+        Antiquity = antiquity;
+    }
+
+    public void setSquaredMeters(Integer squaredMeters) {
+        SquaredMeters = squaredMeters;
+    }
+
+
+    public void setCity(lens.inmo360.model.City city) {
+        City = city;
+    }
+
+
+    public void setProvince(lens.inmo360.model.Province province) {
+        Province = province;
+    }
+
+
 
     /**
      *
@@ -150,6 +208,53 @@ public class Property extends PersistentObject{
      */
     public void setImages(ArrayList<PropertyImage> Images) {
         this.Images = Images;
+    }
+
+
+    public void setLocation(String location) {
+        this.Location = location;
+    }
+
+    public void setOperation(String operation) {
+        this.Operation = operation;
+    }
+
+    public void setCategory(String category) {
+        this.Category = category;
+    }
+
+    public void setRooms(Integer rooms) {this.Rooms = rooms; }
+
+    public String getLocation() {
+        return Location;
+    }
+
+    public String getOperation() {
+        return Operation;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    public Integer getRooms() {
+        return Rooms;
+    }
+
+    public void setPrice(Float price) {
+        Price = price;
+    }
+
+    public Float getPrice() {
+        return Price;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     public boolean isDownloaded() {
