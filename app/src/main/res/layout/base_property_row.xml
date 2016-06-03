@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_centerVertical="true"
+        android:paddingLeft="16dp"
+        android:layout_toStartOf="@+id/isDownloadedCheckBox">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true">
+
+            <TextView
+                android:id="@+id/propertyTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="Random house"
+                android:textColor="#050303"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/propertyAddress"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/propertyTitle"
+                android:text="Elmer Street 123"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="#757575"
+                android:textSize="14sp"/>
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <CheckBox
+        android:id="@+id/isDownloadedCheckBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="14dp"
+        android:layout_marginLeft="14dp"
+        android:padding="0dp"/>
+</RelativeLayout>

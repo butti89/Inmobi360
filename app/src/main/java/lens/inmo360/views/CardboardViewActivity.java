@@ -1,7 +1,9 @@
-package lens.inmo360;
+package lens.inmo360.views;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.AudioManager;
+import android.media.ToneGenerator;
 import android.opengl.GLES20;
 import android.opengl.GLUtils;
 import android.opengl.Matrix;
@@ -14,11 +16,14 @@ import com.google.vrtoolkit.cardboard.Eye;
 import com.google.vrtoolkit.cardboard.HeadTransform;
 import com.google.vrtoolkit.cardboard.Viewport;
 
-import java.util.Random;
+import java.util.ArrayList;
+
 import javax.microedition.khronos.egl.EGLConfig;
 
+import lens.inmo360.R;
 import lens.inmo360.cardboard.CardboardOverlayView;
 import lens.inmo360.cardboard.UVSphere;
+import lens.inmo360.helpers.ImageHelper;
 
 import static android.opengl.GLES20.glViewport;
 
@@ -28,6 +33,7 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     final int TEXTURE_SHELL_RADIUS = 2;
     /** Number of sphere polygon partitions for photo, which must be an even number */
     final int SHELL_DIVIDES = 60;
+    public static final String EXTRA_IMAGES = "images_paths";
     private CardboardView mCardboardView;
     private final String VSHADER_SRC =
             "attribute vec4 aPosition;\n" +
@@ -70,17 +76,19 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     private int mUVHandle;
     private int mTexHandle;
     private int mModelMatrixHandle;
-    private int[] mResourceId = {R.drawable.photo_sphere_1, R.drawable.photo_sphere_2, R.drawable.photo_sphere_3,R.drawable.foto4,R.drawable.foto5,R.drawable.foto6,R.drawable.foto7,R.drawable.foto8,R.drawable.foto9};
     private final float[] mProjectionMatrix2 = new float[16];
     private final float[] mViewMatrix = new float[16];
     private final float[] mModelMatrix = new float[16];
     private boolean mIsCardboardTriggered;
     private int mCurrentPhotoPos = 0;
+    private ArrayList<String> imagesPaths = new ArrayList<>();
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        imagesPaths = getIntent().getStringArrayListExtra(EXTRA_IMAGES);
 
         setContentView(R.layout.activity_cardboard);
         mCardboardView = (CardboardView) findViewById(R.id.cardboard_view);
@@ -91,21 +99,10 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;    // No pre-scaling
 
-        // Read in the resource
+        Bitmap thumbnail = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(0),1);
 
-        Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(), options);
-/*
-        ByteArrayOutputStream baos2 = new ByteArrayOutputStream();
-        thumbnail.compress(Bitmap.CompressFormat.JPEG, 100, baos2);
-        byte[] thumbnailImage = baos2.toByteArray();
-        ByteArrayInputStream inputStreamThumbnail = new ByteArrayInputStream(thumbnailImage);
-        Drawable thumbnail2 = BitmapDrawable.createFromStream(inputStreamThumbnail, null);
-*/
         setTexture(thumbnail);
-
     }
-
-
 
     @Override
     public void onNewFrame(HeadTransform headTransform) {
@@ -178,8 +175,6 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
         if (mIsCardboardTriggered) {
             mIsCardboardTriggered = false;
             resetTexture();
-
-
         }
     }
 
@@ -192,9 +187,13 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     public void onCardboardTrigger() {
         /* Flag to sync with onDrawEye */
         mIsCardboardTriggered = true;
-        Random randomGenerator = new Random();
-        int randomInt = randomGenerator.nextInt(100);
-        overlayView.show3DToast("Dimensiones: " + randomInt + " "+"mm2");
+
+        final ToneGenerator tg = new ToneGenerator(AudioManager.STREAM_NOTIFICATION, 100);
+        tg.startTone(ToneGenerator.TONE_PROP_BEEP);
+
+//        Random randomGenerator = new Random();
+//        int randomInt = randomGenerator.nextInt(100);
+//        overlayView.show3DToast("Dimensiones: " + randomInt + " " + "mm2");
     }
 
     @Override
@@ -202,9 +201,8 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         glViewport(0, 0, width, height);
         /** Setting the projection Matrix for the view **/
-        Matrix.perspectiveM(mProjectionMatrix2,0, 90, (float) width
+        Matrix.perspectiveM(mProjectionMatrix2,0, 110, (float) width
                 / (float) height, 1f, 10f);
-
     }
 
     @Override
@@ -240,11 +238,13 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
     public void onRendererShutdown() {
 
     }
+
     public void setTexture(Bitmap texture) {
         mTexture = texture;
         mTextureUpdate = true;
         return;
     }
+
     public void loadTexture(final Bitmap texture) {
 
         final Bitmap bitmap = texture;
@@ -269,21 +269,23 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         return;
     }
+
     private int getPhotoIndex() {
-        return mResourceId[mCurrentPhotoPos++ % mResourceId.length];
-
-
+        mCurrentPhotoPos++;
+        if (mCurrentPhotoPos >= imagesPaths.size()){
+            mCurrentPhotoPos = 0;
+        }
+        return mCurrentPhotoPos;
     }
+
     private void resetTexture() {
         GLES20.glDeleteTextures(mTextures.length, mTextures, 0);
         final BitmapFactory.Options options = new BitmapFactory.Options();
         options.inScaled = false;
-        Bitmap thumbnail = BitmapFactory.decodeResource(this.getResources(), getPhotoIndex(),options);
-        mTexture = thumbnail;
+        mTexture = ImageHelper.getBitmapFromLocalPath(imagesPaths.get(getPhotoIndex()),1);
         loadTexture(mTexture);
-
-
     }
+
     private int loadShader(int type, String shaderCode){
 
         int shader = GLES20.glCreateShader(type);
@@ -293,6 +295,4 @@ public class CardboardViewActivity extends CardboardActivity implements Cardboar
 
         return shader;
     }
-
-
 }
