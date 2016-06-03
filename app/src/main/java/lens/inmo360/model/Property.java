@@ -26,12 +26,63 @@ public class Property extends PersistentObject{
     private ArrayList<PropertyImage> Images;
     private boolean isDownloaded = false;
     private String Location;
-    private String province;
     private String Operation;
     private String Category;
     private Integer Rooms;
     private Float Price;
+    private Integer SquaredMeters;
+    private Boolean HasGarage;
+    private Province Province;
+    private City City;
+    private String Type;
     private Map<String, Object> additionalProperties;
+
+
+    public Integer getAntiquity() {
+        return Antiquity;
+    }
+
+    public lens.inmo360.model.Province getProvince() {
+        return Province;
+    }
+
+    public lens.inmo360.model.City getCity() {
+        return City;
+    }
+
+    public Boolean getHasGarage() {
+        return HasGarage;
+    }
+
+    public Integer getSquaredMeters() {
+        return SquaredMeters;
+    }
+
+    private Integer Antiquity;
+
+    public void setHasGarage(Boolean hasGarage) {
+        HasGarage = hasGarage;
+    }
+
+    public void setAntiquity(Integer antiquity) {
+        Antiquity = antiquity;
+    }
+
+    public void setSquaredMeters(Integer squaredMeters) {
+        SquaredMeters = squaredMeters;
+    }
+
+
+    public void setCity(lens.inmo360.model.City city) {
+        City = city;
+    }
+
+
+    public void setProvince(lens.inmo360.model.Province province) {
+        Province = province;
+    }
+
+
 
     /**
      *
@@ -164,10 +215,6 @@ public class Property extends PersistentObject{
         this.Location = location;
     }
 
-    public void setProvince(String province) {
-        this.province = province;
-    }
-
     public void setOperation(String operation) {
         this.Operation = operation;
     }
@@ -180,10 +227,6 @@ public class Property extends PersistentObject{
 
     public String getLocation() {
         return Location;
-    }
-
-    public String getProvince() {
-        return province;
     }
 
     public String getOperation() {
@@ -204,6 +247,14 @@ public class Property extends PersistentObject{
 
     public Float getPrice() {
         return Price;
+    }
+
+    public String getType() {
+        return Type;
+    }
+
+    public void setType(String type) {
+        Type = type;
     }
 
     public boolean isDownloaded() {

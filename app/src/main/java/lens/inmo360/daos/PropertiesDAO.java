@@ -57,12 +57,12 @@ public class PropertiesDAO {
         for(Iterator<Property> it = filteredProps.iterator(); it.hasNext();){
             Property prop = it.next();
             //Province filter
-            if(parameters.getProvince() != null && prop.getProvince() != parameters.getProvince()){
-                //filteredProps.remove(prop);
-                it.remove();
-            }
+//            if(parameters.getProvince() != null && prop.getProvince() != parameters.getProvince()){
+//                //filteredProps.remove(prop);
+//                it.remove();
+//            }
             //Operation filter
-            else if(parameters.getOperation() != null && !prop.getOperation().equals(parameters.getOperation())){
+            if(parameters.getOperation() != null && !prop.getOperation().equals(parameters.getOperation())){
                // filteredProps.remove(prop);
                 it.remove();
             }

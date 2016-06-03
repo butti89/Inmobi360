@@ -156,7 +156,12 @@ public class MainActivity extends AppCompatActivity
                         catch(Exception e) {dto.setMaxPrice(null);}
                         finalDto.clone(dto);
                         dialog.dismiss();
-                        ArrayList<Property> props = PropertiesDAO.getBy(finalDto);
+
+                        // Insert the fragment by replacing any existing fragment
+                        FragmentManager fragmentManager = getSupportFragmentManager();
+                        ((MainFragment)fragmentManager.getFragments().get(0)).UpdatePropertiesToShow(PropertiesDAO.getBy(finalDto));
+
+                        //ArrayList<Property> props = PropertiesDAO.getBy(finalDto);
                     }
                 })
                 .onNegative(new MaterialDialog.SingleButtonCallback() {
