@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Objects;
 import java.util.regex.Matcher;
 
 import lens.inmo360.dtos.PropertyDTO;
@@ -57,10 +58,10 @@ public class PropertiesDAO {
         for(Iterator<Property> it = filteredProps.iterator(); it.hasNext();){
             Property prop = it.next();
             //Province filter
-//            if(parameters.getProvince() != null && prop.getProvince() != parameters.getProvince()){
-//                //filteredProps.remove(prop);
-//                it.remove();
-//            }
+            if(parameters.getProvince() != null && !Objects.equals(prop.getProvince().getName(), parameters.getProvince())){
+                //filteredProps.remove(prop);
+                it.remove();
+            }
             //Operation filter
             if(parameters.getOperation() != null && !prop.getOperation().equals(parameters.getOperation())){
                // filteredProps.remove(prop);
@@ -84,7 +85,7 @@ public class PropertiesDAO {
             //Location filter
             else if(parameters.getLocation() != null && parameters.getLocation().length > 0){
                 ArrayList<String> locs = new ArrayList<>(Arrays.asList(parameters.getLocation()));
-                if(!locs.contains(prop.getLocation())){
+                if(!locs.contains(prop.getCity().getName())){
                     //filteredProps.remove(prop);
                     it.remove();
                 }
