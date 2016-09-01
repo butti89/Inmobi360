@@ -27,7 +27,6 @@ import static ch.lambdaj.Lambda.*;
  */
 public class PropertiesDAO {
     private static CouchBaseManager cbManager = new CouchBaseManager();
-
     public static ArrayList<Property> GetAll(){
 
         ArrayList<Property> res = new ArrayList<>();
@@ -63,7 +62,7 @@ public class PropertiesDAO {
                 it.remove();
             }
             //Operation filter
-            if(parameters.getOperation() != null && !prop.getOperation().equals(parameters.getOperation())){
+            else if(parameters.getOperation() != null && !prop.getOperation().equals(parameters.getOperation())){
                // filteredProps.remove(prop);
                 it.remove();
             }
