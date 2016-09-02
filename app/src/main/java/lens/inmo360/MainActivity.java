@@ -253,6 +253,10 @@ public class MainActivity extends AppCompatActivity
                                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                         //showToast(text.toString());
                                         dto.setProvince(text.toString());
+                                        if(province_filter.getText() != text){
+                                            location_filter.setText(R.string.select_filter);
+                                            dto.setLocation(null);
+                                        }
                                         province_filter.setText(text);
                                         cities = ((MainFragment)fragmentManager.getFragments().get(0)).getPropertiesCitiesByProvince(dto.getProvince());
                                         if(text=="")province_filter.setText(R.string.select_filter);
