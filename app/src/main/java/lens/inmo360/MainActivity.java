@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity
     private EditText since;
     private EditText until;
     NavigationView navigationView = null;
+    private ArrayList<String> cities = new ArrayList<String>();
 
     public NavigationView getNavDrawer(){
         return navigationView;
@@ -236,19 +237,28 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
 
+            // Insert the fragment by replacing any existing fragment
+            final FragmentManager fragmentManager = getSupportFragmentManager();
+            final ArrayList<String> provinces = ((MainFragment)fragmentManager.getFragments().get(0)).getPropertiesProvince();
+
                 province.setOnClickListener(new View.OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
                                 .title(getString(R.string.Province))
-                                .items(R.array.Provinces)
+                                .items(provinces)
                                 .itemsCallbackSingleChoice(0, new MaterialDialog.ListCallbackSingleChoice() {
                                     @Override
                                     public boolean onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
                                         //showToast(text.toString());
                                         dto.setProvince(text.toString());
+                                        if(province_filter.getText() != text){
+                                            location_filter.setText(R.string.select_filter);
+                                            dto.setLocation(null);
+                                        }
                                         province_filter.setText(text);
+                                        cities = ((MainFragment)fragmentManager.getFragments().get(0)).getPropertiesCitiesByProvince(dto.getProvince());
                                         if(text=="")province_filter.setText(R.string.select_filter);
                                         return true; // allow selection
                                     }
@@ -264,7 +274,7 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(View v) {
                         new MaterialDialog.Builder(context)
                                 .title(getString(R.string.Region))
-                                .items(R.array.location)
+                                .items(cities)
                                 .itemsCallbackMultiChoice(new Integer[]{}, new MaterialDialog.ListCallbackMultiChoice() {
                                     @Override
                                     public boolean onSelection(MaterialDialog dialog, Integer[] which, CharSequence[] text) {

@@ -93,10 +93,17 @@ public class PropertyImagesAdapter extends RecyclerView.Adapter<PropertyImageVie
         ArrayList<PropertyImage> auxList = new ArrayList<>();
         ArrayList<String> pathsList = new ArrayList<>();
 
-        auxList.add(newList.get(ix));
-        newList.remove(newList.indexOf(newList.get(ix)));
-        auxList.addAll(newList);
+        //auxList.add(mImages.get(ix));
+        int index = ix;
 
+        for (int i = 0; i < mImages.size(); i++){
+
+            auxList.add(mImages.get(index));
+
+            index++;
+            if(index == mImages.size())
+                index = 0;
+        }
         for (int i = 0; i < auxList.size(); i++){
             pathsList.add(auxList.get(i).getLocalPath());
         }
