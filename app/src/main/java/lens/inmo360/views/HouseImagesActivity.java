@@ -17,7 +17,7 @@ import lens.inmo360.model.PropertyImage;
 
 public class HouseImagesActivity extends AppCompatActivity {
 
-    public static final String EXTRA_NAME = "house_id";
+    public static final String HOUSE_ID_EXTRA = "house_id";
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
 
@@ -27,8 +27,10 @@ public class HouseImagesActivity extends AppCompatActivity {
         setContentView(R.layout.activity_house_images);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        if(getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+//        }
 
         mRecyclerView = (RecyclerView) findViewById(R.id.houseImagesList);
 
@@ -40,11 +42,18 @@ public class HouseImagesActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String id = intent.getStringExtra(EXTRA_NAME);
+        String id = intent.getStringExtra(HOUSE_ID_EXTRA);
 
-        Property propertie = PropertiesDAO.getById(id);
-        ArrayList<PropertyImage> images = propertie.getImages();
-        getSupportActionBar().setTitle(propertie.getTitle());
+        Property property = PropertiesDAO.getById(id);
+        ArrayList<PropertyImage> images = property.getImages();
+        getSupportActionBar().setTitle(property.getTitle());
+
+//        if(images.size() <= 0){
+//            RelativeLayout card = (RelativeLayout)findViewById(R.id.no_images_in_card_layout);
+//            if(card != null){
+//                card.setVisibility(View.VISIBLE);
+//            }
+//        }
 
         // create an Object for Adapter
         mAdapter = new PropertyImagesAdapter(getApplicationContext(),images);

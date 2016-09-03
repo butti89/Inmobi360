@@ -1,15 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#388e3c</color>
-    <color name="colorPrimaryDark">#1b5e20</color>
-    <color name="colorPrimaryMiddle">#236E2E</color>
-    <!--<color name="colorAccent">#1e88e5</color>-->
-    <color name="colorAccent">#388e3c</color>
-    <color name="primary">#FFECB2</color>
-    <color name="primary_dark">#E12929</color>
-    <color name="primary_darker">#CC1D1D</color>
-    <color name="accent">#FFFFFF</color>
-    <color name="colorSecondary">#38474F</color>
+    <!-- PropView -->
+    <color name="primary">#82CFD4</color>
+    <color name="primary_dark">#67A6AB</color>
+    <color name="primary_middle">#76BDC1</color>
+
+    <color name="bg_login">#EBEBEB</color>
+
+    <color name="btn_disabled">#C8C8C8</color>
+
+    <color name="colorAccent">#82CFD4</color>
+
+
+    <!-- Other -->
+    <!--<color name="primary">#FFECB2</color>-->
+    <!--<color name="primary_dark">#E12929</color>-->
+    <!--<color name="primary_darker">#CC1D1D</color>-->
+    <!--<color name="accent">#FFFFFF</color>-->
+    <!--<color name="colorSecondary">#38474F</color>-->
 
     <color name="black">#000000</color>
     <color name="jet">#222222</color>

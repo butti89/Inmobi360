@@ -72,7 +72,7 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
             public void onClick(View v) {
                 Context context = v.getContext();
                 Intent intent = new Intent(context, HouseImagesActivity.class);
-                intent.putExtra(HouseImagesActivity.EXTRA_NAME, mProperties.get(position).getId().toString());
+                intent.putExtra(HouseImagesActivity.HOUSE_ID_EXTRA, mProperties.get(position).getId().toString());
                 context.startActivity(intent);
             }
         });
