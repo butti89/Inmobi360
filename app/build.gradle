@@ -57,5 +57,4 @@ dependencies {
     compile 'com.github.bumptech.glide:glide:3.7.0'
     // Local DB
     compile 'com.couchbase.lite:couchbase-lite-android:1.2.1'
-    compile files('libs/lambdaj-2.4-with-dependencies.jar')
 }

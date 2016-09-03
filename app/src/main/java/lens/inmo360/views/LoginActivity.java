@@ -5,15 +5,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -31,10 +31,14 @@ public class LoginActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
     private static final int REQUEST_SIGNUP = 0;
 
-    @Bind(R.id.input_email)
-    EditText _emailText;
-    @Bind(R.id.input_password)
-    EditText _passwordText;
+    @Bind(R.id.login_email_field_layout)
+    TextInputLayout emailTextInputLayout;
+    @Bind(R.id.login_email_field)
+    TextInputEditText _emailText;
+    @Bind(R.id.login_password_field_layout)
+    TextInputLayout passwordTextInputLayout;
+    @Bind(R.id.login_password_field)
+    TextInputEditText _passwordText;
     @Bind(R.id.btn_login)
     Button _loginButton;
 
@@ -69,18 +73,18 @@ public class LoginActivity extends AppCompatActivity {
         Log.d(TAG, "Login");
 
         if (!validate()) {
-            onLoginFailed();
             return;
         }
 
         _loginButton.setEnabled(false);
 
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
-                R.style.AppTheme_Dark_Dialog);
+                R.style.AppTheme);
         progressDialog.setIndeterminate(true);
         progressDialog.setMessage(getString(R.string.authenticating));
         progressDialog.setCancelable(false);
         progressDialog.show();
+
         final String email = _emailText.getText().toString();
         final String password = _passwordText.getText().toString();
 
@@ -115,7 +119,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // onLoginFailed();
                                     progressDialog.dismiss();
                                 }
-                            }, 3000);
+                            }, 1000);
                 } else {
 
                     new android.os.Handler().postDelayed(
@@ -125,7 +129,7 @@ public class LoginActivity extends AppCompatActivity {
                                     onLoginFailed();
                                     progressDialog.dismiss();
                                 }
-                            }, 3000);
+                            }, 1000);
                 }
 
             }
@@ -161,7 +165,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void onLoginFailed() {
-        DialogHelper.showNoConnectionDialog(getApplicationContext());
+        DialogHelper.showNoConnectionDialog(this);
 
         _loginButton.setEnabled(true);
     }
@@ -173,17 +177,19 @@ public class LoginActivity extends AppCompatActivity {
         String password = _passwordText.getText().toString();
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            _emailText.setError(getString(R.string.enter_valid_address));
+            emailTextInputLayout.setError(getString(R.string.enter_valid_address));
             valid = false;
         } else {
-            _emailText.setError(null);
+            emailTextInputLayout.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
-            _passwordText.setError(getString(R.string.incorrect_password));
+        if (password.isEmpty()) {
+//          || password.length() < 4 || password.length() > 10
+
+            passwordTextInputLayout.setError(getString(R.string.incorrect_password));
             valid = false;
         } else {
-            _passwordText.setError(null);
+            passwordTextInputLayout.setError(null);
         }
 
         return valid;

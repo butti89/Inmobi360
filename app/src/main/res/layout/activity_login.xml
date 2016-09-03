@@ -2,64 +2,74 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    android:fillViewport="false">
+    android:fillViewport="false"
+    android:fitsSystemWindows="true">
 
     <LinearLayout
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-        <ImageView android:src="@drawable/borsatto"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:layout_gravity="center_horizontal" />
+        <ImageView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="30dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/icon_main_white"/>
 
         <!--  Email Label -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_email_field_layout"
+            android:theme="@style/PrimaryAsAccentOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
-            <EditText android:id="@+id/input_email"
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/login_email_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textEmailAddress"
                 android:hint="Email"
-                android:textColor="@color/abc_input_method_navigation_guard" />
+                android:inputType="textEmailAddress"
+                android:textColor="@color/abc_input_method_navigation_guard"/>
+
         </android.support.design.widget.TextInputLayout>
 
         <!--  Password Label -->
         <android.support.design.widget.TextInputLayout
+            android:id="@+id/login_password_field_layout"
+            android:theme="@style/PrimaryAsAccentOverlay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:paddingLeft="24dp"
             android:paddingRight="24dp">
-            <EditText android:id="@+id/input_password"
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/login_password_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword"
                 android:hint="Password"
-                android:textColor="@color/abc_input_method_navigation_guard" />
+                android:inputType="textPassword"
+                android:textColor="@color/abc_input_method_navigation_guard"/>
+
         </android.support.design.widget.TextInputLayout>
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/btn_login"
-            android:layout_width="fill_parent"
+            style="@style/PrimaryButton"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_marginTop="24dp"
-            android:text="Login"
-            android:paddingLeft="24dp"
-            android:paddingRight="24dp"
-            android:layout_marginRight="24dp"
-            android:layout_marginLeft="24dp" />
-
-
+            android:background="@drawable/bg_main_button"
+            android:textAllCaps="false"
+            android:text="Login"/>
 
     </LinearLayout>
 </ScrollView>
