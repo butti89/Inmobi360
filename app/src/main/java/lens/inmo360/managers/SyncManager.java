@@ -120,11 +120,6 @@ public class SyncManager {
     public boolean deletePropertyImage(final PropertyImage image, String propertyAddress){
         boolean success = true;
 
-        HttpManager httpManager = HttpManager.getInstance();
-
-        PropertyAPIInterface apiService =
-                httpManager.getRetrofit().create(PropertyAPIInterface.class);
-
         String fileDirectory = propertyAddress.replace(" ","_").toLowerCase();
 
         File directory = getAlbumStorageDir(externalFilesDir,fileDirectory);

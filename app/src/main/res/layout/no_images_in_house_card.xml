@@ -2,13 +2,14 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/no_images_in_card_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
         android:id="@+id/property_card_view"
         android:layout_width="match_parent"
-        android:layout_height="310dp"
+        android:layout_height="270dp"
         android:layout_margin="8dp"
         card_view:cardUseCompatPadding="true"
         card_view:cardElevation="3dp"
@@ -25,9 +26,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="90dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 android:layout_alignParentTop="true"
                 android:scaleType="fitCenter"
-                android:src="@drawable/ic_house_white"
+                android:src="@drawable/ic_camera_rear_white_24dp"
                 android:adjustViewBounds="true"/>
 
             <TextView
@@ -38,7 +40,7 @@
                 android:layout_marginStart="10dp"
                 android:maxLines="3"
                 android:padding="8dp"
-                android:text="@string/no_houses_card_title"
+                android:text="@string/no_images_in_house_card_title"
                 android:textColor="#FFFFFF"
                 android:fontFamily="sans-serif-medium"
                 android:textSize="24sp" />
@@ -51,27 +53,13 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginEnd="30dp"
                 android:maxLines="3"
-                android:text="@string/no_houses_card_content"
+                android:text="@string/no_images_in_house_card_content"
                 android:textColor="#FFFFFF"
                 android:textSize="18sp"
                 android:paddingTop="0dp"
                 android:paddingLeft="8dp"
                 android:paddingRight="8dp"
                 android:paddingBottom="8dp"/>
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="16dp"
-                android:padding="8dp"
-                android:text="@string/syncDialogTitle"
-                android:id="@+id/noHousesSyncButton"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:textColor="@color/white"
-                android:textSize="18dp"
-                android:background="@color/primary_dark"/>
-
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>

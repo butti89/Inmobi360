@@ -10,7 +10,7 @@
         android:id="@+id/sync_tabs"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        android:background="@color/colorPrimary"
+        android:background="@color/primary"
         app:tabIndicatorColor="@color/white"
         app:tabSelectedTextColor="@color/white"
         app:tabTextColor="#60ffffff"

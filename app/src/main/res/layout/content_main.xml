@@ -17,4 +17,14 @@
         android:scrollbars="vertical"
         tools:listitem="@layout/property_list_row"/>
 
+    <TextView
+        android:id="@+id/no_houses_filter_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:textAlignment="center"
+        android:textAppearance="@android:style/TextAppearance.Medium"
+        android:text="@string/no_houses_filter_message"
+        android:visibility="gone"/>
+
 </android.support.design.widget.CoordinatorLayout>

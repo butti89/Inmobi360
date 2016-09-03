@@ -95,6 +95,7 @@
         <item>Tierra del Fuego</item>
         <item>Tucumán</item>
     </string-array>
+
     <!--DIALOGS-->
     <string name="syncDialogTitle">Sincronización</string>
     <string name="downloadConfirmationContent">Esta seguro que desea descargar ahora las propiedades seleccionadas?</string>
@@ -115,8 +116,13 @@
     <string name="no_houses_card_title">Comienzo</string>
     <string name="no_houses_card_content">No se encontraron casas descargadas, podes hacerlo desde la sección de sincronización.</string>
 
+    <!--No houses filter-->
+    <string name="no_houses_filter_message">No se encontraron propiedades usando los filtros seleccionados.</string>
+
     <!--No images-->
     <string name="no_images_in_house">No hay imágenes</string>
+    <string name="no_images_in_house_card_title">No hay imágenes</string>
+    <string name="no_images_in_house_card_content">Aquí se visualizarán las imágenes 360~ que se asocien a esta propiedad en el back-end.</string>
 
     <!-- Nav Drawer -->
     <string name="nav_houses">Propiedades</string>
@@ -127,8 +133,8 @@
     <string name="downloading">Descargando&#8230;</string>
     <string name="authenticating">Autenticando&#8230;</string>
     <string name="login_failed">Error de logueo</string>
-    <string name="enter_valid_address">Ingrese una dirección electrónica válida</string>
-    <string name="incorrect_password">Debe contener entre 4 y 10 caracteres</string>
+    <string name="enter_valid_address">Ingrese un email válido</string>
+    <string name="incorrect_password">Por favor ingrese una contraseña</string>
     <string name="Province">Provincia</string>
     <string name="Region">Localidad</string>
     <string name="category">Tipo de Inmueble</string>
