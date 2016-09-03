@@ -29,6 +29,7 @@ public class MainFragment extends android.support.v4.app.Fragment{
     private RecyclerView.Adapter mAdapter;
     private View view;
     private Activity activity;
+    private ArrayList<Property> properties = new ArrayList<>();
 
     @Override
     public void onAttach(Activity activity)
@@ -41,7 +42,7 @@ public class MainFragment extends android.support.v4.app.Fragment{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        ArrayList<Property> properties = PropertiesDAO.GetAll();
+        properties = PropertiesDAO.GetAll();
 
         if(properties.size() > 0){
             view = inflater.inflate(R.layout.content_main, container, false);
@@ -112,5 +113,44 @@ public class MainFragment extends android.support.v4.app.Fragment{
 
         // set the adapter object to the Recyclerview
         mRecyclerView.setAdapter(mAdapter);
+    }
+
+    public ArrayList<Property> getProperties() {
+        return properties;
+    }
+    
+    public ArrayList<String> getPropertiesProvince(){
+        ArrayList<String> locations = new ArrayList<>();
+
+        for (Property p: properties){
+            if(p.getProvince() != null && !locations.contains(p.getProvince().getName())){
+                locations.add(p.getProvince().getName());
+            }
+        }
+        return locations;
+    }
+
+    public ArrayList<String> getPropertiesCities(){
+        ArrayList<String> locations = new ArrayList<>();
+
+        for (Property p: properties){
+            if(p.getCity() != null && !locations.contains(p.getCity().getName())){
+                locations.add(p.getCity().getName());
+            }
+        }
+        return locations;
+    }
+
+    public ArrayList<String> getPropertiesCitiesByProvince(String prov){
+        ArrayList<String> locations = new ArrayList<>();
+
+        for (Property p: properties){
+            if(p.getProvince() != null && p.getProvince().getName().equals(prov)){
+                if(p.getCity() != null && !locations.contains(p.getCity().getName())){
+                    locations.add(p.getCity().getName());
+                }
+            }
+        }
+        return locations;
     }
 }
