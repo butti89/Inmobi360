@@ -28,4 +28,7 @@
     <color name="base">#AAAAAA</color>
     <color name="iron">#CCCCCC</color>
     <color name="white">#FFFFFF</color>
+
+    <color name="propFont">#78C5CB</color>
+    <color name="propIron">#F1F1F1</color>
 </resources>
