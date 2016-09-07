@@ -49,9 +49,9 @@ public class SyncTabsAdapter extends FragmentPagerAdapter {
 
         switch (position){
             case 0 :
-                return "Downloaded";
+                return "Descargadas";
             case 1 :
-                return "Not downloaded";
+                return "No descargadas";
         }
         return null;
     }

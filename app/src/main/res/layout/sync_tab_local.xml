@@ -27,7 +27,7 @@
         android:tint="#ffffff"
         android:layout_margin="@dimen/fab_margin"
         app:layout_anchor="@id/local_property_base_recycler_view"
-        app:layout_anchorGravity="bottom|right|end"
+        app:layout_anchorGravity="bottom|center_horizontal|"
         />
 
 </android.support.design.widget.CoordinatorLayout>
