@@ -16,10 +16,16 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.view.animation.Transformation;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -32,10 +38,14 @@ import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.couchbase.lite.android.AndroidContext;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import lens.inmo360.daos.PropertiesDAO;
 import lens.inmo360.dtos.PropertyDTO;
+import lens.inmo360.helpers.ExpandAndCollapseViewUtil;
 import lens.inmo360.managers.CouchBaseManager;
 import lens.inmo360.model.Filter;
 import lens.inmo360.model.House;
@@ -77,15 +87,27 @@ public class MainActivity extends AppCompatActivity
     NavigationView navigationView = null;
     private ArrayList<String> cities = new ArrayList<String>();
 
+//    @Bind(R.id.textViewInfo)
+//    TextView textViewInfo;
+//    @Bind(R.id.imageViewExpand)
+//    ImageView imageViewExpand;
+
+
+
     public NavigationView getNavDrawer(){
         return navigationView;
     }
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //ButterKnife.bind(this);
+
         setContentView(R.layout.activity_main);
 
         CBLManager.initCBL(new AndroidContext(this));
+
+        //textViewInfo = (TextView) findViewById(R.id.textViewInfo);
+        //imageViewExpand = (ImageView) findViewById(R.id.imageViewExpand);
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         String  Email = sharedPreferences.getString("Email", "No Email") ;
@@ -471,4 +493,24 @@ public class MainActivity extends AppCompatActivity
     public void onSyncFragmentSelected() {
         navigationView.setCheckedItem(R.id.nav_sync);
     }
+
+//    public void toggleDetails(View view) {
+//        if (textViewInfo.getVisibility() == View.GONE) {
+//            ExpandAndCollapseViewUtil.expand(textViewInfo, DURATION);
+//            imageViewExpand.setImageResource(R.mipmap.ic_launcher);
+//            rotate(-180.0f);
+//        } else {
+//            ExpandAndCollapseViewUtil.collapse(textViewInfo, DURATION);
+//            imageViewExpand.setImageResource(R.mipmap.ic_launcher);
+//            rotate(180.0f);
+//        }
+//    }
+//
+//    private void rotate(float angle) {
+//        Animation animation = new RotateAnimation(0.0f, angle, Animation.RELATIVE_TO_SELF, 0.5f,
+//                Animation.RELATIVE_TO_SELF, 0.5f);
+//        animation.setFillAfter(true);
+//        animation.setDuration(DURATION);
+//        imageViewExpand.startAnimation(animation);
+//    }
 }
