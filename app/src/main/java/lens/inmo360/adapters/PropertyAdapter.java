@@ -8,11 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 
 import java.io.File;
 import java.util.ArrayList;
 
 import lens.inmo360.R;
+import lens.inmo360.helpers.ExpandAndCollapseViewUtil;
 import lens.inmo360.model.Property;
 import lens.inmo360.views.HouseImagesActivity;
 
@@ -61,7 +63,23 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(PropertyViewHolder viewHolder, final int position) {
+    public long getItemId(int position) {
+        int pos = position;
+        if(viewHolder != null){
+            pos = viewHolder.getAdapterPosition();
+        }
+        if(pos > mProperties.size() -1)
+            return 0;
+
+        return mProperties.get(pos).getId();
+    }
+
+
+
+    @Override
+    public void onBindViewHolder(final PropertyViewHolder viewHolder, final int position) {
+
+        viewHolder.setIsRecyclable(false);
 
         viewHolder.propertyTitle.setText(mProperties.get(position).getTitle());
 
@@ -151,6 +169,26 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
             viewHolder.detailsPrice.setVisibility(View.GONE);
         }
 
+//        {
+//            Property workingProp = null;
+//            for (Property prop : mProperties){
+//                if (prop.getId() == getItemId(viewHolder.getAdapterPosition())) {
+//                    workingProp = prop;
+//                }
+//            }
+//
+//            if(workingProp != null && workingProp.isDetailsOpened()){
+////                ExpandAndCollapseViewUtil.expand(viewHolder.moreDetailsLayout, 1);
+//                viewHolder.moreDetailsLayout.setVisibility(View.VISIBLE);
+//                viewHolder.rotate();
+//            }
+//        }
+
+        if(mProperties.get(position).isDetailsOpened()){
+            viewHolder.moreDetailsLayout.setVisibility(View.VISIBLE);
+            viewHolder.rotate();
+        }
+
         viewHolder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -158,6 +196,18 @@ public class PropertyAdapter extends RecyclerView.Adapter<PropertyViewHolder> {
                 Intent intent = new Intent(context, HouseImagesActivity.class);
                 intent.putExtra(HouseImagesActivity.HOUSE_ID_EXTRA, mProperties.get(position).getId().toString());
                 context.startActivity(intent);
+            }
+        });
+
+        viewHolder.detailsLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                viewHolder.toogleDetails();
+                if (mProperties.get(position).isDetailsOpened()) {
+                    mProperties.get(position).setDetailsOpened(false);
+                } else {
+                    mProperties.get(position).setDetailsOpened(true);
+                }
             }
         });
 

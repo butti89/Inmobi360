@@ -52,7 +52,7 @@ public class MainFragment extends android.support.v4.app.Fragment{
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
-            mRecyclerView.setHasFixedSize(true);
+            mRecyclerView.setHasFixedSize(false);
 
             // use a linear layout manager
             mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));

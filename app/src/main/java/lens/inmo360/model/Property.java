@@ -37,6 +37,17 @@ public class Property extends PersistentObject{
     private String Type;
     private Map<String, Object> additionalProperties;
 
+    private boolean detailsOpened = false;
+
+    public boolean isDetailsOpened() {
+        return detailsOpened;
+    }
+
+    public void setDetailsOpened(boolean detailsOpened) {
+        this.detailsOpened = detailsOpened;
+    }
+
+
 
     public Integer getAntiquity() {
         return Antiquity;
