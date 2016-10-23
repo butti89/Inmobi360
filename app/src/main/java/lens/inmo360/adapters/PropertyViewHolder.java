@@ -37,6 +37,7 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
     RelativeLayout noImageLayout;
     @Bind(R.id.property_details)
     RelativeLayout detailsLayout;
+
     @Bind(R.id.property_more_details)
     LinearLayout moreDetailsLayout;
     @Bind(R.id.property_details_img)
@@ -113,7 +114,7 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
         }
     }
 
-    private void rotate() {
+    public void rotate() {
         ObjectAnimator anim = ObjectAnimator.ofFloat(propertyDetailsImage, "Rotation", rotationAngle, rotationAngle +180);
         anim.setDuration(DURATION);
         anim.start();
@@ -127,10 +128,10 @@ public class PropertyViewHolder extends RecyclerView.ViewHolder
 //        propertyDetailsImage.startAnimation(animation);
     }
 
-    @OnClick(R.id.property_details)
-    public  void onDetailsClick(){
-        toogleDetails();
-    }
+//    @OnClick(R.id.property_details)
+//    public  void onDetailsClick(){
+//        toogleDetails();
+//    }
 
     public RelativeLayout getNoImageLayout() {
         return noImageLayout;
