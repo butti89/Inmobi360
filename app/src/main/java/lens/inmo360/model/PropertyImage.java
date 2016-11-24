@@ -8,6 +8,7 @@ public class PropertyImage {
     String LastUpdate;
     String URL;
     String LocalPath;
+    Integer Id;
 
     public PropertyImage() {
     }
@@ -42,5 +43,13 @@ public class PropertyImage {
 
     public void setLastUpdate(String lastUpdate) {
         LastUpdate = lastUpdate;
+    }
+
+    public Integer getId() {
+        return Id;
+    }
+
+    public void setId(Integer id) {
+        Id = id;
     }
 }

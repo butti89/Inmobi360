@@ -1,7 +1,10 @@
 package lens.inmo360.managers;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.util.Log;
 
@@ -32,6 +35,7 @@ public class SyncManager {
     private File externalFilesDir;
     private CouchBaseManager couchBaseManager;
     private Deferred mDeferred;
+    private Context context;
 
     public boolean downloadProperty(Context ctx, Property property){
         boolean success = true;
@@ -50,6 +54,8 @@ public class SyncManager {
     public Promise downloadProperties(Context ctx, ArrayList<Property> properties){
         mDeferred = new DeferredObject();
         Promise promise = mDeferred.promise();
+
+        context = ctx;
 
         loadingDialog = getLoadingDialog(ctx);
         loadingDialog.setCancelable(false);
@@ -78,6 +84,22 @@ public class SyncManager {
     }
 
     public PropertyImage downloadPropertyImage( PropertyImage image, String propertyAddress){
+
+//        String url = image.getURL();
+//        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+//        request.setDescription("Some descrition");
+//        request.setTitle("Some title");
+//        // in order for this if to run, you must use the android 3.2 to compile your app
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+//            request.allowScanningByMediaScanner();
+//            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+//        }
+//        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_PICTURES,  propertyAddress.replace(" ","_").toLowerCase()+".jpg");
+//
+//        // get download service and enqueue file
+//        DownloadManager manager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+//        manager.enqueue(request);
+
         boolean success;
 
         HttpManager httpManager = HttpManager.getInstance();
@@ -85,7 +107,8 @@ public class SyncManager {
         PropertyAPIInterface apiService =
                 httpManager.getRetrofit().create(PropertyAPIInterface.class);
 
-        Call<ResponseBody> call = apiService.downloadImage(image.getURL());
+        Call<ResponseBody>
+                call = apiService.downloadImage(image.getURL());
 
         String fileDirectory = propertyAddress.replace(" ","_").toLowerCase();
 
@@ -97,7 +120,7 @@ public class SyncManager {
 
         try {
             ResponseBody imageBody = call.execute().body();
-            File file = new File(directory, image.getTitle().toLowerCase()+".jpg");
+            File file = new File(directory, image.getId().toString().toLowerCase()+".jpg");
             FileOutputStream fileOutputStream = new FileOutputStream(file);
             IOUtils.write(imageBody.bytes(), fileOutputStream);
 
@@ -156,8 +179,7 @@ public class SyncManager {
                 .build();
     }
 
-    private class DownloadPropertiesTask extends AsyncTask<ArrayList<Property>, Void,
-            Boolean> {
+    private class DownloadPropertiesTask extends AsyncTask<ArrayList<Property>, Void, Boolean> {
         SyncManager syncManager;
 
         @Override
@@ -177,7 +199,7 @@ public class SyncManager {
                 ArrayList<PropertyImage> images = property.getImages();
 
                 for (int j = 0; j < images.size(); j++) {
-                    PropertyImage result = downloadPropertyImage(images.get(j), property.getAddress());
+                    PropertyImage result = downloadPropertyImage(images.get(j), property.getId().toString());
                     pImages.add(result);
 
                     success = success && (result != null);
@@ -201,8 +223,7 @@ public class SyncManager {
         }
     }
 
-    private class DeletePropertiesTask extends AsyncTask<ArrayList<Property>, Void,
-            Boolean> {
+    private class DeletePropertiesTask extends AsyncTask<ArrayList<Property>, Void, Boolean> {
         SyncManager syncManager;
 
         @Override
